@@ -1,0 +1,8 @@
+{
+  "jupyter.lab.shortcuts": [],
+  "title": "@datalayer/jupyter-rtc-test",
+  "description": "@datalayer/jupyter-rtc-test settings.",
+  "type": "object",
+  "properties": {},
+  "additionalProperties": false
+}
