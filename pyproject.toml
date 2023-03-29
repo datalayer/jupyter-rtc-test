@@ -33,7 +33,8 @@ test = [
     "pytest-cov",
     "pytest-tornasync",
     "pytest-jupyter",
-    "ypy-websocket"
+    "ypy-websocket",
+    "websockets
 ]
 
 [tool.hatch.version]
