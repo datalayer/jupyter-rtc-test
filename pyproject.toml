@@ -1,5 +1,5 @@
 [build-system]
-requires = ["hatchling>=1.4.0", "jupyterlab==4.0.0a37", "hatch-nodejs-version"]
+requires = ["hatchling>=1.4.0", "jupyterlab==4.0.0b0", "hatch-nodejs-version"]
 build-backend = "hatchling.build"
 
 [project]
@@ -34,7 +34,7 @@ test = [
     "pytest-tornasync",
     "pytest-jupyter",
     "ypy-websocket",
-    "websockets
+    "websockets"
 ]
 
 [tool.hatch.version]
