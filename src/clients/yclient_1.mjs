@@ -1,6 +1,6 @@
 import * as Y from 'yjs';
-const ws = require('ws');
-const WebsocketProvider = require('y-websocket').WebsocketProvider;
+import { WebsocketProvider } from 'y-websocket';
+import ws from "ws";
 
 const ydoc = new Y.Doc();
 const ytest = ydoc.getMap('_test');
@@ -8,7 +8,7 @@ const ycells = ydoc.getArray("cells");
 const ystate = ydoc.getMap("state");
 
 const wsProvider = new WebsocketProvider(
-  'ws://127.0.0.1:1234', 'my-roomname',
+  'ws://localhost:1234', 'my-roomname',
   ydoc,
   { WebSocketPolyfill: ws }
 );

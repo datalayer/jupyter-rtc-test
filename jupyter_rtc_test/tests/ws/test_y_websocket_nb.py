@@ -15,7 +15,7 @@ from jupyter_ydoc import YNotebook
 from jupyter_ydoc.utils import cast_all
 
 
-files_dir = Path(__file__).parent / "files"
+files_dir = Path(__file__).parent / "_files"
 
 
 def stringify_source(nb: dict) -> dict:
@@ -49,18 +49,57 @@ class YTest:
         return cast_all(self.ytest["source"], float, int)
 
 
-# @pytest.mark.asyncio
+@pytest.mark.asyncio
+@pytest.mark.parametrize("yjs_client", "0", indirect=True)
+async def test_ypy_yjs_0(yws_server, yjs_client):
+    ydoc = Y.YDoc()
+    ytest = YTest(ydoc)
+    websocket = await connect("ws://localhost:1234/my-roomname")
+    WebsocketProvider(ydoc, websocket)
+    ymap = ydoc.get_map("map")
+    # set a value in "in"
+    for v_in in range(10):
+        with ydoc.begin_transaction() as t:
+            ymap.set(t, "in", float(v_in))
+        ytest.run_clock()
+        await ytest.clock_run()
+        v_out = ymap["out"]
+        assert v_out == v_in + 1.0
+
+
+@pytest.mark.asyncio
+@pytest.mark.parametrize("yjs_client", "1", indirect=True)
+async def test_ypy_yjs_1(yws_server, yjs_client):
+    # wait for the JS client to connect
+    tt, dt = 0, 0.1
+    while True:
+        await asyncio.sleep(dt)
+        if "/my-roomname" in yws_server.rooms:
+            break
+        tt += dt
+        if tt >= 1:
+            raise RuntimeError("Timeout waiting for client to connect")
+    ydoc = yws_server.rooms["/my-roomname"].ydoc
+    ytest = YTest(ydoc)
+    ytest.run_clock()
+    await ytest.clock_run()
+    ycells = ydoc.get_array("cells")
+    ystate = ydoc.get_map("state")
+    assert json.loads(ycells.to_json()) == [{"metadata": {"foo": "bar"}, "source": "1 + 2"}]
+    assert json.loads(ystate.to_json()) == {"state": {"dirty": False}}
+    
+
+@pytest.mark.asyncio
 @pytest.mark.parametrize("yjs_client", "notebook", indirect=True)
 async def test_ypy_yjs_0(yws_server, yjs_client):
-    yield yws_server
     ydoc = Y.YDoc()
     ynotebook = YNotebook(ydoc)
-    websocket = await connect("ws://localhost:1234/my-roomname")
+    websocket = connect("ws://localhost:1234/my-roomname")
     WebsocketProvider(ydoc, websocket)
     nb = stringify_source(json.loads((files_dir / "nb0.ipynb").read_text()))
     ynotebook.source = nb
     ytest = YTest(ydoc)
-    await ytest.change()
+    ytest.change()
     assert ytest.source == nb
 
 

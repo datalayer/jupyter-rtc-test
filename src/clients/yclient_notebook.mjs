@@ -1,7 +1,6 @@
 import { YNotebook } from '@jupyter/ydoc';
-import ws from 'ws';
-
-const WebsocketProvider = require('y-websocket').WebsocketProvider;
+import { WebsocketProvider } from 'y-websocket';
+import ws from "ws";
 
 const notebook = new YNotebook();
 const ytest = notebook.ydoc.getMap('_test');

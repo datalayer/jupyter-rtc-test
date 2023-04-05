@@ -1,8 +1,8 @@
 import { useEffect, useState, useRef } from 'react';
 // import { io } from "socket.io-client";
 
-const ENDPOINT = 'ws://127.0.0.1:8899';
-// const ENDPOINT = "ws://127.0.0.1:3001";
+const ENDPOINT = 'ws://localhost:8899';
+// const ENDPOINT = "ws://localhost:3001";
 // const ENDPOINT = "ws://localhost:8686/api/jupyter/api/yjs/notebook:tmp.ipynb";
 
 function App() {

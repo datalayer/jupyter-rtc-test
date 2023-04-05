@@ -1,4 +1,4 @@
-from .helpers import exchange_updates
+from ..helpers import exchange_updates
 
 import y_py as Y
 from y_py import YText, YTextEvent

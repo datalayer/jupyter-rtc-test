@@ -1,4 +1,4 @@
-from .helpers import exchange_updates
+from ..helpers import exchange_updates
 import pytest
 
 from y_py import YDoc, YArray, YArrayEvent

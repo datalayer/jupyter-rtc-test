@@ -1,5 +1,6 @@
 import subprocess
 import pytest
+import json
 
 from pathlib import Path
 from websockets import serve
@@ -12,6 +13,19 @@ pytest_plugins = ("jupyter_server.pytest_plugin", )
 
 
 here = Path(__file__).parent
+
+
+def update_json_file(path: Path, d: dict):
+    with open(path, "rb") as f:
+        package_json = json.load(f)
+    package_json.update(d)
+    with open(path, "w") as f:
+        json.dump(package_json, f, indent=2)
+
+
+here = Path(__file__).parent
+d = {"type": "module"}
+# update_json_file(here.parent / "node_modules/y-websocket/package.json", d)
 
 
 @pytest.fixture
@@ -27,7 +41,7 @@ async def yws_server(request):
         kwargs = {}
     websocket_server = WebsocketServer(**kwargs)
     async with serve(websocket_server.serve, "localhost", 1234):
-        yield websocket_server
+        websocket_server
 
 
 @pytest.fixture
@@ -37,7 +51,7 @@ def yjs_client(request):
         [
             "node",
 #            "--experimental-specifier-resolution=node",
-            f"{here / './../../src/yjs/__tests__/clients/yclient_'}{client_id}.mjs",
+            f"{here / './src/clients/yclient_'}{client_id}.mjs",
         ]
     )
     yield p

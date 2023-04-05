@@ -3,7 +3,7 @@ import json
 
 import pytest
 import y_py as Y
-from websockets import connect  # type: ignore
+from websockets import connect
 
 from ypy_websocket import WebsocketProvider
 
@@ -34,10 +34,10 @@ class YTest:
         await asyncio.wait_for(change.wait(), timeout=self.timeout)
         self.ytest.unobserve(subscription_id)
 
-# @pytest.mark.asyncio
+@pytest.mark.asyncio
 @pytest.mark.parametrize("yjs_client", "0", indirect=True)
-async def test_ypy_yjs_0(yws_server, yjs_client):
-    yield yws_server
+# async def test_ypy_yjs_0(yws_server, yjs_client):
+async def test_ypy_yjs_0(yjs_client):
     ydoc = Y.YDoc()
     ytest = YTest(ydoc)
     websocket = await connect("ws://localhost:1234/my-roomname")
@@ -49,13 +49,13 @@ async def test_ypy_yjs_0(yws_server, yjs_client):
             ymap.set(t, "in", float(v_in))
         ytest.run_clock()
         await ytest.clock_run()
+        print(ymap)
         v_out = ymap["out"]
         assert v_out == v_in + 1.0
 
-# @pytest.mark.asyncio
+@pytest.mark.asyncio
 @pytest.mark.parametrize("yjs_client", "1", indirect=True)
 async def test_ypy_yjs_1(yws_server, yjs_client):
-    yield yws_server
     # wait for the JS client to connect
     tt, dt = 0, 0.1
     while True:

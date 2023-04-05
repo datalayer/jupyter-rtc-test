@@ -7,6 +7,7 @@ async def test_get_example(jp_fetch):
     # Then
     assert response.code == 200
     payload = json.loads(response.body)
+    print(payload)
     assert payload == {
         "data": "This is /jupyter_rtc_test/get_example endpoint!"
     }
