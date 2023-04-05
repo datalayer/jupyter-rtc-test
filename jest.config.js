@@ -2,7 +2,7 @@
  * Copyright (c) Jupyter Development Team.
  * Distributed under the terms of the Modified BSD License.
  */
-const path = require("path");
+const path = require('path');
 
 const func = require('@jupyterlab/testutils/lib/jest-config');
 const jlabConfig = func(__dirname);
@@ -32,7 +32,7 @@ const {
 } = jlabConfig;
 */
 module.exports = {
-/*
+  /*
   ...jlabConfig,
   moduleFileExtensions,
   moduleNameMapper,
@@ -43,12 +43,12 @@ module.exports = {
   transform,
   automock: false,
 */
-//  collectCoverageFrom: [
-//    'src/**/*.{ts,tsx}',
-//    '!src/**/*.d.ts',
-//    '!src/**/.ipynb_checkpoints/*'
-//  ],
-/*
+  //  collectCoverageFrom: [
+  //    'src/**/*.{ts,tsx}',
+  //    '!src/**/*.d.ts',
+  //    '!src/**/.ipynb_checkpoints/*'
+  //  ],
+  /*
   coverageDirectory: 'coverage',
   coverageReporters: ['lcov', 'text'],
   globals: {
@@ -57,17 +57,12 @@ module.exports = {
     }
   },
 */
-  testRegex: "(/__tests__/.*(test|spec))\\.[jt]sx?$",
-  testPathIgnorePatterns: [
-    "/node_modules/",
-    "lib",
-  ],
-  transformIgnorePatterns: [
-    `/node_modules/(?!${esModules}).+`
-  ],
+  testRegex: '(/__tests__/.*(test|spec))\\.[jt]sx?$',
+  testPathIgnorePatterns: ['/node_modules/', 'lib'],
+  transformIgnorePatterns: [`/node_modules/(?!${esModules}).+`],
   transform: {
-    "^.+\\.(ts)$": "ts-jest",
-    '^.+\\.[jt]sx?$': ['babel-jest'],
+    '^.+\\.(ts)$': 'ts-jest',
+    '^.+\\.[jt]sx?$': ['babel-jest']
   },
-  preset: "jest-playwright-preset",
-}
+  preset: 'jest-playwright-preset'
+};

@@ -1,16 +1,16 @@
 import { useEffect, useState, useRef } from 'react';
 // import { io } from "socket.io-client";
 
-const ENDPOINT = "ws://127.0.0.1:8899";
+const ENDPOINT = 'ws://127.0.0.1:8899';
 // const ENDPOINT = "ws://127.0.0.1:3001";
 // const ENDPOINT = "ws://localhost:8686/api/jupyter/api/yjs/notebook:tmp.ipynb";
 
 function App() {
   const ws = useRef<WebSocket>();
   const [isPaused, setPause] = useState(false);
-  const [response, setResponse] = useState("");
+  const [response, setResponse] = useState('');
   useEffect(() => {
-/*
+    /*
     const socket = io(ENDPOINT, {
       transports: ["websocket"],
       withCredentials: false,
@@ -35,13 +35,13 @@ function App() {
 */
     ws.current = new WebSocket(ENDPOINT);
     const wsCurrent = ws.current;
-    wsCurrent.onerror = (e) => {
+    wsCurrent.onerror = e => {
       alert(e);
     };
-    wsCurrent.onopen = (e) => {
+    wsCurrent.onopen = e => {
       const array = new Float32Array(5);
       console.log('🚀 Websocket connected');
-      for (var i = 0; i < array.length; ++i) {
+      for (let i = 0; i < array.length; ++i) {
         array[i] = i / 2;
       }
       wsCurrent.send(array);
@@ -51,17 +51,17 @@ function App() {
     };
   }, []);
   useEffect(() => {
-    ws.current!.onmessage = (e) => {
+    ws.current!.onmessage = e => {
       console.log('Received websocket message', e);
       if (!isPaused) {
         setResponse(JSON.parse(e.data));
-      };
+      }
     };
   }, [isPaused]);
   return (
     <>
       <button onClick={() => setPause(!isPaused)}>
-        {isPaused ? "Resume" : "Pause"}
+        {isPaused ? 'Resume' : 'Pause'}
       </button>
       {JSON.stringify(response)}
     </>

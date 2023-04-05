@@ -4,6 +4,6 @@
     https://jupyterlab.readthedocs.io/en/stable/developer/css.html
 */
 
-.dla-Container {
-    overflow-y: visible;
+.jupyterrtctest-container {
+  overflow-y: visible;
 }

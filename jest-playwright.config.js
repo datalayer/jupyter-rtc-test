@@ -10,9 +10,9 @@ module.exports = {
     }
   },
   browsers: [
-    "chromium",
-//   "firefox",
-//   "webkit"
+    'chromium'
+    //   "firefox",
+    //   "webkit"
   ],
   devices: []
-}
+};

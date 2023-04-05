@@ -2,7 +2,7 @@
 
 # Jupyter RTC Test
 
-WIP The goal of this repository is to run unit, integration and stress tests for the Realtime Collaboration (RTC) feature of Jupyter (Lab and Server).
+The goal of this repository is to stress test the Realtime Collaboration (RTC) feature of Jupyter (Lab and Server).
 
 ```bash
 yarn install
@@ -22,8 +22,9 @@ yarn jupyterlab
 
 This repository contains souce code taken from the following repositories under BSD-3 or MIT license.
 
-- https://github.com/jupyterlab/jupyter_collaboration
-- https://github.com/jupyter-server/jupyter_ydoc
-- https://github.com/y-crdt/ypy-websocket
-- https://github.com/y-crdt/ypy
-- https://github.com/y-crdt/y-crdt
+- https://github.com/jupyterlab/jupyter_collaboration - The JupyterLab extensions that delivers the RTC functionality to the end users.
+- https://github.com/jupyter-server/jupyter_ydoc - Jupyter document structures for collaborative editing using `Y.js` JavaScript and `ypy` Python.
+- https://github.com/y-crdt/ypy-websocket - WebSocket connector for `ypy`.
+- https://github.com/y-crdt/ypy - Python bindings to `y-crdt`.
+- https://github.com/y-crdt/y-crdt - Rust port of Y.js with WASM javascript artificats.
+- https://github.com/yjs/yjs - JavaScript shared data types for building collaborative software
