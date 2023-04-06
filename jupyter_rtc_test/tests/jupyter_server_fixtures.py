@@ -352,7 +352,7 @@ def jp_ws_fetch(jp_serverapp, http_server_client, jp_auth_header, jp_http_port, 
         # Handle URL strings
         path_url = url_escape(url_path_join(*parts), plus=False)
         base_path_url = url_path_join(jp_base_url, path_url)
-        urlparts = urllib.parse.urlparse(f"ws://localhost:{jp_http_port}")
+        urlparts = urllib.parse.urlparse(f"ws://127.0.0.1:{jp_http_port}")
         urlparts = urlparts._replace(path=base_path_url, query=urllib.parse.urlencode(params))
         url = urlparts.geturl()
         # Add auth keys to header, if not overridden

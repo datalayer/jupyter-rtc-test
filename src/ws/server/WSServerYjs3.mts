@@ -108,7 +108,7 @@ const setupWS = provider => {
  * Creates a websocket connection to sync the shared document.
  * The document name is attached to the provided url.
  * 
- * I.e. the following example creates a websocket connection to http://localhost:1234/my-document-name
+ * I.e. the following example creates a websocket connection to http://127.0.0.1:1234/my-document-name
  */
 export default class WebsocketProvider extends Observable { 
   private broadcastChannel: any;

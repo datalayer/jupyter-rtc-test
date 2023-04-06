@@ -9,11 +9,10 @@ import y_py as Y
 from ypy_websocket import WebsocketServer
 
 
-# pytest_plugins = ("jupyter_server.pytest_plugin", )
-
-pytest_plugins = [
-    "jupyter_rtc_test.tests.jupyter_server_fixtures",
-]
+# pytest_plugins = [
+#    "jupyter_server.pytest_plugin",
+#    "jupyter_rtc_test.tests.jupyter_server_fixtures",
+# ]
 
 here = Path(__file__).parent
 
@@ -43,20 +42,14 @@ async def yws_server(request):
     except Exception:
         kwargs = {}
     websocket_server = WebsocketServer(**kwargs)
-    async with serve(websocket_server.serve, "localhost", 1234):
+    async with serve(websocket_server.serve, "127.0.0.1", 1234):
         yield websocket_server
 
 
 @pytest.fixture
 def yjs_client(request):
     client_id = request.param
-    p = subprocess.Popen(
-        [
-            "node",
-#            "--experimental-specifier-resolution=node",
-            f"{here / './src/clients/yclient_'}{client_id}.mjs",
-        ]
-    )
+    p = subprocess.Popen(["node", f"{here / './src/clients/yclient_'}{client_id}.mjs"])
     yield p
     p.kill()
 

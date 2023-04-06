@@ -6,7 +6,7 @@ const notebook = new YNotebook();
 const ytest = notebook.ydoc.getMap('_test');
 
 const wsProvider = new WebsocketProvider(
-  'ws://localhost:1234', 'my-roomname',
+  'ws://127.0.0.1:1234', 'my-roomname',
   notebook.ydoc,
   { WebSocketPolyfill: ws }
 );

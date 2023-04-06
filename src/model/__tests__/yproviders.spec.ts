@@ -24,7 +24,7 @@ describe('Y.js Providers', () => {
       'webrtc-test-room',
       ydoc,
       {
-        signaling: ['ws://localhost:4444'],
+        signaling: ['ws://127.0.0.1:4444'],
         password: undefined,
         awareness: undefined,
         maxConns: 20,
@@ -38,7 +38,7 @@ describe('Y.js Providers', () => {
     */
     // Sync clients with the y-websocket provider.
     const websocketProvider = new WebsocketProvider(
-      'ws://localhost:1234',
+      'ws://127.0.0.1:1234',
       'ws-test-room',
       ydoc,
       { WebSocketPolyfill: require('ws') }

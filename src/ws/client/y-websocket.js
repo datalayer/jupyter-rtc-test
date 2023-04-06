@@ -231,13 +231,13 @@ const broadcastMessage = (provider, buf) => {
 /**
  * Websocket Provider for Yjs. Creates a websocket connection to sync the shared document.
  * The document name is attached to the provided url. I.e. the following example
- * creates a websocket connection to http://localhost:1234/my-document-name
+ * creates a websocket connection to http://127.0.0.1:1234/my-document-name
  *
  * @example
  *   import * as Y from 'yjs'
  *   import { WebsocketProvider } from 'y-websocket'
  *   const doc = new Y.Doc()
- *   const provider = new WebsocketProvider('http://localhost:1234', 'my-document-name', doc)
+ *   const provider = new WebsocketProvider('http://127.0.0.1:1234', 'my-document-name', doc)
  *
  * @extends {Observable<string>}
  */

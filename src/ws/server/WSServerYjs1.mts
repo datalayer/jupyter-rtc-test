@@ -16,7 +16,7 @@ import debounce from 'lodash.debounce';
 
 const wss = new WebSocketServer({ noServer: true });
 
-const host = process.env.HOST || 'localhost';
+const host = process.env.HOST || '127.0.0.1';
 const port = parseInt(process.env.PORT || "1234");
 
 const server = http.createServer((request, response) => {

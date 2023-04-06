@@ -148,4 +148,4 @@ server.on('upgrade', (request, socket, head) => {
 
 server.listen(port);
 
-console.log('WebRTC Signaling server running on localhost:', port);
+console.log('WebRTC Signaling server running on 127.0.0.1:', port);
