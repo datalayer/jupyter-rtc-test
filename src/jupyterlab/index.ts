@@ -48,7 +48,7 @@ const plugin: JupyterFrontEndPlugin<void> = {
     if (launcher) {
       launcher.add({
         command,
-        category: 'Jupyter RCT',
+        category: 'Jupyter RTC',
         rank: -1
       });
     }

@@ -9,7 +9,7 @@ import y_py as Y
 from ypy_websocket import WebsocketServer
 
 
-pytest_plugins = ("jupyter_server.pytest_plugin", )
+# pytest_plugins = ("jupyter_server.pytest_plugin", )
 
 
 here = Path(__file__).parent
@@ -22,10 +22,10 @@ def update_json_file(path: Path, d: dict):
     with open(path, "w") as f:
         json.dump(package_json, f, indent=2)
 
-
+# workaround until https://github.com/yjs/y-websocket/pull/104 is merged and released.
 here = Path(__file__).parent
 d = {"type": "module"}
-# update_json_file(here.parent / "node_modules/y-websocket/package.json", d)
+update_json_file(here / "node_modules/y-websocket/package.json", d)
 
 
 @pytest.fixture
@@ -41,7 +41,7 @@ async def yws_server(request):
         kwargs = {}
     websocket_server = WebsocketServer(**kwargs)
     async with serve(websocket_server.serve, "localhost", 1234):
-        websocket_server
+        yield websocket_server
 
 
 @pytest.fixture

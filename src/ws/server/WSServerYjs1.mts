@@ -388,5 +388,5 @@ server.on('upgrade', (request, socket, head) => {
 });
 
 server.listen(port, host, 0, () => {
-  console.log(`running at '${host}':`, port);
+  console.log(`Running at '${host}':`, port);
 });
