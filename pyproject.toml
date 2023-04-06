@@ -77,6 +77,3 @@ build_dir = "jupyter_rtc_test/labextension"
 
 [tool.jupyter-releaser.options]
 version_cmd = "hatch version"
-
-[tool.pytest.ini_options]
-asyncio_mode = "auto"

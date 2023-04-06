@@ -11,6 +11,9 @@ from ypy_websocket import WebsocketServer
 
 # pytest_plugins = ("jupyter_server.pytest_plugin", )
 
+pytest_plugins = [
+    "jupyter_rtc_test.tests.jupyter_server_fixtures",
+]
 
 here = Path(__file__).parent
 

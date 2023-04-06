@@ -49,8 +49,8 @@ class YTestNb:
 
 
 @pytest.mark.asyncio
-@pytest.mark.parametrize("yjs_client", "nb", indirect=True)
-async def test_ypy_yjs_nb(yws_server, yjs_client):
+@pytest.mark.parametrize("yjs_client", "2", indirect=True)
+async def test_ypy_yjs_2(yws_server, yjs_client):
     ydoc = Y.YDoc()
     ynotebook = YNotebook(ydoc)
     websocket = await connect("ws://localhost:1234/my-roomname")
