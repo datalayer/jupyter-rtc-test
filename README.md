@@ -1,5 +1,7 @@
 [![Datalayer](https://assets.datalayer.design/datalayer-25.svg)](https://datalayer.io)
 
+[![Become a Sponsor](https://img.shields.io/static/v1?label=Become%20a%20Sponsor&message=%E2%9D%A4&logo=GitHub&style=flat&color=1ABC9C)](https://github.com/sponsors/datalayer)
+
 # Jupyter RTC Test
 
 The goal of this repository is to stress test the Realtime Collaboration (RTC) feature of Jupyter (Lab and Server).
