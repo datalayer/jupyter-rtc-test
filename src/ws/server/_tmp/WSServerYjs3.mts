@@ -263,5 +263,4 @@ export default class WebsocketProvider extends Observable {
     this.doc.off('update', this._updateHandler)
     super.destroy()
   }
-
 }

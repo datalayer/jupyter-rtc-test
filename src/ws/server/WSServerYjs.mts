@@ -16,14 +16,13 @@ import debounce from 'lodash.debounce';
 
 const wss = new WebSocketServer({ noServer: true });
 
-const host = process.env.HOST || '127.0.0.1';
+const host = process.env.HOST || 'localhost';
 const port = parseInt(process.env.PORT || "1234");
 
 const server = http.createServer((request, response) => {
   response.writeHead(200, { 'Content-Type': 'text/plain' })
   response.end('okay')
 });
-
 
 const CALLBACK_URL = process.env.CALLBACK_URL ? new URL(process.env.CALLBACK_URL) : null
 const CALLBACK_TIMEOUT = process.env.CALLBACK_TIMEOUT || 5000
@@ -388,5 +387,5 @@ server.on('upgrade', (request, socket, head) => {
 });
 
 server.listen(port, host, 0, () => {
-  console.log(`Running at '${host}':`, port);
+  console.log(`Running at ${host}:`, port);
 });
