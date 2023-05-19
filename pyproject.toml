@@ -25,6 +25,9 @@ dependencies = [
 ]
 dynamic = ["version", "description", "authors", "urls", "keywords"]
 
+[project.scripts]
+jupyter-rtc-test = "jupyter_rtc_test.__main__:main"
+
 [project.optional-dependencies]
 test = [
     "coverage",
@@ -39,6 +42,14 @@ test = [
 
 [tool.hatch.version]
 source = "nodejs"
+
+[tool.hatch.build]
+artifacts = [
+  "jupyter_rtc_test/static",
+  "jupyter_rtc_test/templates"
+]
+
+[tool.hatch.build.hooks.custom]
 
 [tool.hatch.metadata.hooks.nodejs]
 fields = ["description", "authors", "urls"]

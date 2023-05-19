@@ -1,21 +1,12 @@
 # Copyright (c) Datalayer, Inc. https://datalayer.io
 # Distributed under the terms of the MIT License.
 
-FROM python:3.10.4
+FROM python:3.11
 
-RUN mkdir /opt/datalayer
+COPY . .
 
-WORKDIR /opt/datalayer
+RUN pip install -e .
 
-RUN pip install kazoo
+EXPOSE 8888
 
-COPY backplane /opt/datalayer/backplane
-RUN pip install -e ./backplane
-
-COPY frontplane/dist.html /opt/datalayer/index.html
-
-WORKDIR /opt/datalayer/editor
-
-EXPOSE 9300
-
-CMD ["python", "jupyter_rtc_test/main.py"]
+CMD ["jupyter", "rtc-test"]
