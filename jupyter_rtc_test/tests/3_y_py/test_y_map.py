@@ -4,14 +4,13 @@ from copy import deepcopy
 
 import pytest
 
-import y_py as Y
-from y_py import YMapEvent
+from y_py import YDoc, YMap, YMapEvent
 
 
 def test_get():
     import y_py as Y
 
-    d = Y.YDoc()
+    d = YDoc()
     m = d.get_map("map")
 
     # Put user info into the map.
@@ -31,7 +30,7 @@ def test_get():
 
 
 def test_set():
-    d1 = Y.YDoc()
+    d1 = YDoc()
     x = d1.get_map("test")
 
     value = x.get("key")
@@ -51,8 +50,8 @@ def test_to_json():
         {"icon":"👍", "description": "thumbs up", "positive":True},
         {"icon":"👎", "description": "thumbs down", "positive":False},
         ]}
-    doc = Y.YDoc()
-    prelim = Y.YMap(deepcopy(contents))
+    doc = YDoc()
+    prelim = YMap(deepcopy(contents))
     integrated = doc.get_map("map")
     with doc.begin_transaction() as txn:
         integrated.update(txn, contents)
@@ -61,7 +60,7 @@ def test_to_json():
 
 
 def test_update():
-    doc = Y.YDoc()
+    doc = YDoc()
     ymap = doc.get_map("dict")
     dict_vals = {"user_id": 1, "username": "Josh", "is_active": True}
     tuple_vals = ((k, v) for k, v in dict_vals.items())
@@ -89,19 +88,19 @@ def test_update():
 
 
 def test_set_nested():
-    d1 = Y.YDoc()
+    d1 = YDoc()
     x = d1.get_map("test")
-    nested = Y.YMap({"a": "A"})
+    nested = YMap({"a": "A"})
 
     d1.transact(lambda txn: x.set(txn, "key", nested))
     d1.transact(lambda txn: nested.set(txn, "b", "B"))
 
-    assert type(x["key"]) == Y.YMap
+    assert type(x["key"]) == YMap
     assert {k : dict(v) for k, v in x.items()} == {"key": {"a": "A", "b": "B"}}
 
 
 def test_pop():
-    d1 = Y.YDoc()
+    d1 = YDoc()
     x = d1.get_map("test")
 
     d1.transact(lambda txn: x.set(txn, "key", "value1"))
@@ -128,7 +127,7 @@ def test_pop():
 
 
 def test_items_view():
-    d = Y.YDoc()
+    d = YDoc()
     m = d.get_map("test")
 
     with d.begin_transaction() as txn:
@@ -152,7 +151,7 @@ def test_items_view():
 
 
 def test_keys_values():
-    d = Y.YDoc()
+    d = YDoc()
     m = d.get_map("test")
     expected_keys = list("abc")
     expected_values = list(range(1, 4))
@@ -191,7 +190,7 @@ def test_keys_values():
 
 
 def test_observer():
-    d1 = Y.YDoc()
+    d1 = YDoc()
     x = d1.get_map("test")
     target = None
     entries = None
@@ -244,9 +243,9 @@ def test_deep_observe():
     """
     Ensure that changes to elements inside the array trigger a callback.
     """
-    doc = Y.YDoc()
+    doc = YDoc()
     container = doc.get_map("container")
-    inner_map = Y.YMap({"key": "initial"})
+    inner_map = YMap({"key": "initial"})
     with doc.begin_transaction() as txn:
         container.set(txn, "inner", inner_map)
 
@@ -271,9 +270,9 @@ def test_deep_observe():
 
 
 def test_borrow_issue():
-    doc = Y.YDoc()
+    doc = YDoc()
     wrapper = doc.get_array("wrapper")
-    inner = Y.YMap({"Foo": "Bar"})
+    inner = YMap({"Foo": "Bar"})
 
     with doc.begin_transaction() as txn:
         wrapper.append(txn, inner)

@@ -128,6 +128,8 @@ dmypy.json
 # 
 data-server/
 
+jupyter_rtc_test/static/main.jupyterRtcTest.js
+
 # Include
 !**/.*ignore
 !**/.*cfg

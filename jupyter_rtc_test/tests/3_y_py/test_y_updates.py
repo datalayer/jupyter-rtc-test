@@ -1,5 +1,4 @@
-import y_py as Y
-from y_py import YText, YTextEvent
+from y_py import YDoc, YText, YTextEvent
 
 from jupyter_rtc_test.tests.utils import exchange_updates
 
@@ -7,7 +6,7 @@ from jupyter_rtc_test.tests.utils import exchange_updates
 def test_to_string():
     expected = "Hello World!"
     expected_json = '"Hello World!"'
-    d = Y.YDoc()
+    d = YDoc()
     prelim = YText(expected)
     integrated = d.get_text("test")
     with d.begin_transaction() as txn:
@@ -19,7 +18,7 @@ def test_to_string():
 
 
 def test_inserts():
-    d1 = Y.YDoc()
+    d1 = YDoc()
     x = d1.get_text("test")
     with d1.begin_transaction() as txn:
         x.extend(txn, "hello ")
@@ -28,7 +27,7 @@ def test_inserts():
     expected = "hello world!"
     assert value == expected
 
-    d2 = Y.YDoc(2)
+    d2 = YDoc(2)
     x = d2.get_text("test")
     exchange_updates([d1, d2])
     value = str(x)
@@ -37,7 +36,7 @@ def test_inserts():
 
 
 def test_deletes():
-    d1 = Y.YDoc()
+    d1 = YDoc()
     x = d1.get_text("test")
 
     d1.transact(lambda txn: x.extend(txn, "hello world!"))
@@ -55,7 +54,7 @@ def test_deletes():
     value = str(x)
     assert value == expected
 
-    d2 = Y.YDoc(2)
+    d2 = YDoc(2)
     x = d2.get_text("test")
 
     exchange_updates([d1, d2])
@@ -65,7 +64,7 @@ def test_deletes():
 
 
 def test_observer():
-    d1 = Y.YDoc()
+    d1 = YDoc()
 
     target = None
     delta = None
@@ -116,7 +115,7 @@ def test_observer():
 
 
 def test_drop_sub_id():
-    d = Y.YDoc()
+    d = YDoc()
     target = None
     delta = None
 
@@ -143,7 +142,7 @@ def test_drop_sub_id():
 
 def test_delta_embed_attributes():
 
-    d1 = Y.YDoc()
+    d1 = YDoc()
     text = d1.get_text("test")
 
     delta = None
@@ -169,7 +168,7 @@ def test_delta_embed_attributes():
 
 
 def test_formatting():
-    d1 = Y.YDoc()
+    d1 = YDoc()
     text = d1.get_text("test")
 
     delta = None
@@ -201,7 +200,7 @@ def test_formatting():
 
 
 def test_deep_observe():
-    d = Y.YDoc()
+    d = YDoc()
     text = d.get_text("text")
     with d.begin_transaction() as txn:
         text.extend(txn, "Hello")

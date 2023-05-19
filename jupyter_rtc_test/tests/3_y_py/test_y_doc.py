@@ -1,7 +1,9 @@
 import pytest
 
-from y_py import YDoc, AfterTransactionEvent
-import y_py as Y
+from y_py import (
+    encode_state_vector, encode_state_as_update, apply_update,
+    YDoc, AfterTransactionEvent
+)
 
 
 def test_constructor_options():
@@ -38,9 +40,9 @@ def test_encoding():
     with doc.begin_transaction() as txn:
         array.insert_range(txn, 0, contents)
 
-    state_vec = Y.encode_state_vector(receiver)
-    update = Y.encode_state_as_update(doc, state_vec)
-    Y.apply_update(receiver, update)
+    state_vec = encode_state_vector(receiver)
+    update = encode_state_as_update(doc, state_vec)
+    apply_update(receiver, update)
     value = list(receiver.get_array("test"))
     assert value == contents
 
@@ -56,23 +58,23 @@ def test_boolean_encoding():
     with doc.begin_transaction() as txn:
         array.insert(txn, 0, True)
 
-    state_vec = Y.encode_state_vector(receiver)
-    update = Y.encode_state_as_update(doc, state_vec)
-    Y.apply_update(receiver, update)
+    state_vec = encode_state_vector(receiver)
+    update = encode_state_as_update(doc, state_vec)
+    apply_update(receiver, update)
     value = list(receiver.get_array("test"))
     assert type(value[0]) == type(True)
 
 
 def test_tutorial():
-    d1 = Y.YDoc()
+    d1 = YDoc()
     text = d1.get_text("test")
     with d1.begin_transaction() as txn:
         text.extend(txn, "hello world!")
 
-    d2 = Y.YDoc()
-    state_vector = Y.encode_state_vector(d2)
-    diff = Y.encode_state_as_update(d1, state_vector)
-    Y.apply_update(d2, diff)
+    d2 = YDoc()
+    state_vector = encode_state_vector(d2)
+    diff = encode_state_as_update(d1, state_vector)
+    apply_update(d2, diff)
 
     value = str(d2.get_text("test"))
 
@@ -80,7 +82,7 @@ def test_tutorial():
 
 
 def test_observe_after_transaction():
-    doc = Y.YDoc()
+    doc = YDoc()
     text = doc.get_text("test")
     before_state = None
     after_state = None
@@ -111,7 +113,7 @@ def test_get_update():
     """
     Ensures that developers can access the encoded update data in the `observe_after_transaction` event.
     """
-    d = Y.YDoc()
+    d = YDoc()
     m = d.get_map("foo")
     r = d.get_map("foo")
     update: bytes = None

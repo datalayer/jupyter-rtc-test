@@ -1,8 +1,8 @@
-import y_py as Y
+from y_py import YDoc
 
 
 def test_insert():
-    d1 = Y.YDoc()
+    d1 = YDoc()
     root = d1.get_xml_element("test")
     with d1.begin_transaction() as txn:
         b = root.push_xml_text(txn)
@@ -16,7 +16,7 @@ def test_insert():
 
 
 def test_attributes():
-    d1 = Y.YDoc()
+    d1 = YDoc()
     root = d1.get_xml_element("test")
     with d1.begin_transaction() as txn:
         root.set_attribute(txn, "key1", "value1")
@@ -37,7 +37,7 @@ def test_attributes():
 
 
 def test_siblings():
-    d1 = Y.YDoc()
+    d1 = YDoc()
     root = d1.get_xml_element("test")
     with d1.begin_transaction() as txn:
         b = root.push_xml_text(txn)
@@ -60,7 +60,7 @@ def test_siblings():
 
 
 def test_tree_walker():
-    d1 = Y.YDoc()
+    d1 = YDoc()
     root = d1.get_xml_element("test")
     with d1.begin_transaction() as txn:
         b = root.push_xml_text(txn)
@@ -75,7 +75,7 @@ def test_tree_walker():
 
 
 def test_xml_text_observer():
-    d1 = Y.YDoc()
+    d1 = YDoc()
 
     x = d1.get_xml_text("test")
     target = None
@@ -161,7 +161,7 @@ def test_xml_text_observer():
 
 
 def test_xml_element_observer():
-    d1 = Y.YDoc()
+    d1 = YDoc()
 
     x = d1.get_xml_element("test")
     target = None
@@ -253,7 +253,7 @@ def test_xml_element_observer():
 
 
 def test_deep_observe():
-    ydoc = Y.YDoc()
+    ydoc = YDoc()
     container = ydoc.get_xml_element("container")
     with ydoc.begin_transaction() as txn:
         text = container.insert_xml_text(txn, 0)
