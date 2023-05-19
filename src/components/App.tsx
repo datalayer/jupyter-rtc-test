@@ -1,10 +1,10 @@
 import { createRoot } from 'react-dom/client';
-import MockComponent from './mock/MockComponent';
+import Tester from './tester/Tester';
 
 const root = createRoot(document.getElementById('root') as HTMLElement);
 
-const Example = () => <>
-  <MockComponent />
+const App = () => <>
+  <Tester />
 </>
 
-root.render(<Example />);
+root.render(<App />);

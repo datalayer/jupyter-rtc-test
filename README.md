@@ -53,7 +53,7 @@ make env && \
 Install the JavaScript dependencies.
 
 ```bash
-yarn
+yarn install
 ```
 
 Build the JavaScript code.
@@ -93,13 +93,87 @@ jupyter server extension list
 #      jupyter_rtc_test 0.0.. OK
 ```
 
-## Run the tests
+## Architecture
+
+More information about the details of the implementation can be read on [this document](https://github.com/datalayer/jupyter-rtc-test/blob/main/docs/README.md).
+
+## Coverage
+
+This repository contains source code taken from the various repositories under `BSD-3` or `MIT` license. The following subsections highligh the various test that starting from the lower layers to the higher ones.
+
+PS: In case of doubt, kill any ghost process.
 
 ```bash
-yarn install
+yarn kill
+```
+
+### 1. Y.js
+
+- https://github.com/yjs/yjs
+
+JavaScript shared data types for building collaborative software.
+
+```bash
 yarn test
 yarn test:py
 ```
+
+### 2. Y-CRDT
+
+- https://github.com/y-crdt/y-crdt
+
+Rust port of Y.js with WASM javascript artificats.
+
+```bash
+yarn test
+yarn test:py
+```
+
+### 3. Y.py
+
+- https://github.com/y-crdt/ypy
+
+Python bindings to `y-crdt`.
+
+```bash
+yarn test
+yarn test:py
+```
+
+### 4. Y.py WebSocket
+
+- https://github.com/y-crdt/ypy-websocket
+
+WebSocket connector for `ypy`.
+
+```bash
+yarn test
+yarn test:py
+```
+
+### 5. Jupyter YDoc
+
+- https://github.com/jupyter-server/jupyter_ydoc
+
+Jupyter document structures for collaborative editing using `Y.js` JavaScript and `ypy` Python.
+
+```bash
+yarn test
+yarn test:py
+```
+
+### 6. Jupyter Collaboration
+
+- https://github.com/jupyterlab/jupyter_collaboration
+
+The JupyterLab extension that delivers the RTC functionality to the end-user.
+
+```bash
+yarn test
+yarn test:py
+```
+
+## User Interface
 
 You can also run the tests from a JupyterLab extension.
 
@@ -108,46 +182,9 @@ You can also run the tests from a JupyterLab extension.
 yarn jupyterlab
 ```
 
-## Architecture
+You can also run the tests from a Jupyter Server application.
 
-More information about the details of the implementation can be read on [this document](https://github.com/datalayer/jupyter-rtc-test/blob/main/docs/README.md).
-
-## Coverage
-
-This repository contains source code taken from the various repositories under `BSD-3` or `MIT` license.
-
-### 1. Jupyter Collaboration
-
-- https://github.com/jupyterlab/jupyter_collaboration
-
-The JupyterLab extension that delivers the RTC functionality to the end-user.
-
-### 2. Jupyter YDoc
-
-- https://github.com/jupyter-server/jupyter_ydoc
-
-Jupyter document structures for collaborative editing using `Y.js` JavaScript and `ypy` Python.
-
-### 3. Y.py WebSocket
-
-- https://github.com/y-crdt/ypy-websocket
-
-WebSocket connector for `ypy`.
-
-### 4. Y.py
-
-- https://github.com/y-crdt/ypy
-
-Python bindings to `y-crdt`.
-
-### 5. Y-CRDT
-
-- https://github.com/y-crdt/y-crdt
-
-Rust port of Y.js with WASM javascript artificats.
-
-### 6. Y.js
-
-- https://github.com/yjs/yjs
-
-JavaScript shared data types for building collaborative software.
+```bash
+# open http://localhost:8888/jupyter_rtc_test?token=142461e29e03250e569824cff00bc99941148a334ff258e5
+yarn jupyter-rtc-test
+```

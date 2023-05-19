@@ -1,5 +1,5 @@
 import { ReactWidget } from '@jupyterlab/apputils';
-import MockComponent from '../examples/mock/MockComponent';
+import Tester from '../components/tester/Tester';
 
 export class JupyterRTCTestWidget extends ReactWidget {
   constructor() {
@@ -8,6 +8,6 @@ export class JupyterRTCTestWidget extends ReactWidget {
   }
 
   render(): JSX.Element {
-    return <MockComponent />;
+    return <Tester />;
   }
 }

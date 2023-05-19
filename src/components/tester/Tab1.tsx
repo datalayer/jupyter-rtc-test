@@ -12,7 +12,7 @@ import {
   TensorFlowLogoIcon
 } from '@datalayer/icons';
 
-const MockTab1 = (): JSX.Element => {
+const Tab1 = (): JSX.Element => {
   return (
     <>
       <ActionMenu>
@@ -84,4 +84,4 @@ const MockTab1 = (): JSX.Element => {
   );
 };
 
-export default MockTab1;
+export default Tab1;

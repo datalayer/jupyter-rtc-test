@@ -49,6 +49,7 @@
     "hello": "ts-node src/hello.ts",
     "install:extension": "jlpm build",
     "jupyterlab": "run-p -c 'jupyterlab:*'",
+    "jupyter-rtc-test": "jupyter rtc-test",
     "jupyterlab:start": "jupyter lab --watch --config=./dev/config/jupyter_server_config.py",
     "jupyterlab:watch": "run-p -c watch:src watch:labextension",
     "kill": "make kill || true",

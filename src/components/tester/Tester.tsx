@@ -8,9 +8,9 @@ import {
   CommentDiscussionIcon
 } from '@primer/octicons-react';
 import { UnderlineNav } from '@primer/react/drafts';
-import MockTab1 from './MockTab1';
+import MockTab1 from './Tab1';
 
-const MockComponent = (): JSX.Element => {
+const Tester = (): JSX.Element => {
   const [tab, setTab] = useState(1);
   return (
     <>
@@ -79,4 +79,4 @@ const MockComponent = (): JSX.Element => {
   );
 };
 
-export default MockComponent;
+export default Tester;
