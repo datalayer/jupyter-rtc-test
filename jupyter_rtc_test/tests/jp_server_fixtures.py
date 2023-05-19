@@ -1,4 +1,5 @@
 """Fixtures for use with jupyter server and downstream."""
+
 # Copyright (c) Jupyter Development Team.
 # Distributed under the terms of the Modified BSD License.
 

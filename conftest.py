@@ -48,7 +48,7 @@ async def yws_server(request):
 @pytest.fixture
 def yjs_client(request):
     client_id = request.param
-    p = subprocess.Popen(["node", f"{here / './src/__tests__/4_ypy_websocket/clients/yclient_'}{client_id}.mjs"])
+    p = subprocess.Popen(["node", f"{here / './src/__tests__/4_y_py_websocket/clients/yclient_'}{client_id}.mjs"])
     yield p
     p.kill()
 

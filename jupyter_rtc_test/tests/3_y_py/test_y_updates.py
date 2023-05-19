@@ -1,7 +1,7 @@
 import y_py as Y
 from y_py import YText, YTextEvent
 
-from jupyter_rtc_test.tests.helpers import exchange_updates
+from jupyter_rtc_test.tests.utils import exchange_updates
 
 
 def test_to_string():

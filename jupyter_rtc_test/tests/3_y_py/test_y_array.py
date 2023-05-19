@@ -4,9 +4,9 @@ import pytest
 
 from copy import deepcopy
 
-from jupyter_rtc_test.tests.helpers import exchange_updates
-
 from y_py import YDoc, YArray, YArrayEvent
+
+from jupyter_rtc_test.tests.utils import exchange_updates
 
 
 def test_inserts():
