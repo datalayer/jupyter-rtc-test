@@ -1,9 +1,13 @@
-from ..helpers import exchange_updates
+import json
+
 import pytest
 
-from y_py import YDoc, YArray, YArrayEvent
 from copy import deepcopy
-import json
+
+from jupyter_rtc_test.tests.helpers import exchange_updates
+
+from y_py import YDoc, YArray, YArrayEvent
+
 
 def test_inserts():
     d1 = YDoc(1)

@@ -2,8 +2,9 @@ import asyncio
 import json
 
 import pytest
-import y_py as Y
 from websockets import connect
+
+import y_py as Y
 
 from ypy_websocket import WebsocketProvider
 
@@ -34,6 +35,7 @@ class YTest:
         await asyncio.wait_for(change.wait(), timeout=self.timeout)
         self.ytest.unobserve(subscription_id)
 
+
 @pytest.mark.asyncio
 @pytest.mark.parametrize("yjs_client", "0", indirect=True)
 async def test_ypy_yjs_0(yws_server, yjs_client):
@@ -50,6 +52,7 @@ async def test_ypy_yjs_0(yws_server, yjs_client):
         await ytest.clock_run()
         v_out = ymap["out"]
         assert v_out == v_in + 1.0
+
 
 @pytest.mark.asyncio
 @pytest.mark.parametrize("yjs_client", "1", indirect=True)

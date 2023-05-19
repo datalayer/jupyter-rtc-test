@@ -31,6 +31,6 @@ class ConfigHandler(ExtensionHandlerMixin, APIHandler):
     def get(self):
         """Returns the configurations of the server extensions."""
         res = json.dumps({
-            "data": "This is /jupyter_rtc_test/get_server_config endpoint.",
+            "data": "This is /jupyter_rtc_test/get_config endpoint.",
         })
         self.finish(res)

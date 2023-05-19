@@ -3,15 +3,20 @@
 
 import asyncio
 import json
+
 from pathlib import Path
 
 import pytest
-import y_py as Y
+
 from websockets import connect  # type: ignore
-from ypy_websocket import WebsocketProvider
+
+import y_py as Y
 
 from jupyter_ydoc import YNotebook
 from jupyter_ydoc.utils import cast_all
+
+from ypy_websocket import WebsocketProvider
+
 
 files_dir = Path(__file__).parent / "files"
 

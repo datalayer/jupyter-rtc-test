@@ -1,6 +1,9 @@
-from copy import deepcopy
 import json
+
+from copy import deepcopy
+
 import pytest
+
 import y_py as Y
 from y_py import YMapEvent
 
