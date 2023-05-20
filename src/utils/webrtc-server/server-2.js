@@ -1,11 +1,11 @@
 /* eslint-env browser */
 
 import * as Y from 'yjs';
-import { WebrtcProvider } from '../client/y-webrtc';
+import { WebrtcProvider } from '../webrtc-client/y-webrtc';
 
 const ydoc = new Y.Doc();
-const provider = new WebrtcProvider('prosemirror', ydoc);
-const yarray = ydoc.get('prosemirror', Y.XmlFragment);
+const provider = new WebrtcProvider('webrtc-test', ydoc);
+const yarray = ydoc.get('webrtc-test', Y.XmlFragment);
 
 provider.on('synced', synced => {
   // NOTE: This is only called when a different browser connects to this client

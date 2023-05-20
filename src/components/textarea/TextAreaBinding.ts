@@ -1,8 +1,8 @@
-import { TextAreaCursors } from './cursor';
-import { options } from './options';
-
 import * as Y from 'yjs';
 import diff from 'fast-diff';
+
+import { TextAreaCursors } from './cursor';
+import { options } from './options';
 
 export class TextAreaBinding {
   private _cursors?: TextAreaCursors;
