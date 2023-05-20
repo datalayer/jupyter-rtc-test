@@ -107,70 +107,52 @@ PS: In case of doubt, kill any ghost process.
 yarn kill
 ```
 
-### 1. Y.js
-
-- https://github.com/yjs/yjs
+### 1. Y.js - https://github.com/yjs/yjs
 
 JavaScript shared data types for building collaborative software.
 
 ```bash
-yarn test
-yarn test:py
+yarn test:py:1
 ```
 
-### 2. Y-CRDT
-
-- https://github.com/y-crdt/y-crdt
+### 2. Y-CRDT - https://github.com/y-crdt/y-crdt
 
 Rust port of Y.js with WASM javascript artificats.
 
 ```bash
-yarn test
-yarn test:py
+yarn test:py:2
 ```
 
-### 3. Y.py
-
-- https://github.com/y-crdt/ypy
+### 3. Y.py - https://github.com/y-crdt/ypy
 
 Python bindings to `y-crdt`.
 
 ```bash
-yarn test
-yarn test:py
+yarn test:py:3
 ```
 
-### 4. Y.py WebSocket
-
-- https://github.com/y-crdt/ypy-websocket
+### 4. Y.py WebSocket - https://github.com/y-crdt/ypy-websocket
 
 WebSocket connector for `ypy`.
 
 ```bash
-yarn test
-yarn test:py
+yarn test:py:4
 ```
 
-### 5. Jupyter YDoc
-
-- https://github.com/jupyter-server/jupyter_ydoc
+### 5. Jupyter YDoc - https://github.com/jupyter-server/jupyter_ydoc
 
 Jupyter document structures for collaborative editing using `Y.js` JavaScript and `ypy` Python.
 
 ```bash
-yarn test
-yarn test:py
+yarn test:py:5
 ```
 
-### 6. Jupyter Collaboration
-
-- https://github.com/jupyterlab/jupyter_collaboration
+### 6. Jupyter Collaboration - https://github.com/jupyterlab/jupyter_collaboration
 
 The JupyterLab extension that delivers the RTC functionality to the end-user.
 
 ```bash
-yarn test
-yarn test:py
+yarn test:py:6
 ```
 
 ## User Interface
