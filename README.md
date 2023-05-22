@@ -6,11 +6,13 @@
 
 > 💦 Stress tests for 🪐 Jupyter 🔌 Real Time Collaboration (RTC)
 
-The goal of this repository is to stress test the Real Time Collaboration (RTC) feature of JupyterLab and Jupyter Server, in a standalone and distributed (simulated and real) setups.
+The goal of this repository is to stress test the Real Time Collaboration (RTC) feature of JupyterLab and Jupyter Server.
+
+The tests aims to replicate the real life case, menaing that most of them are running in a distrbuted way. You car run the test on a standalone (local laptop or CI) machine, in which case the distributed behavior is simulated. You can also run the test in a real a distributed environment like Kubernetes, this however requires you to setup additional infrastructure and configuration. Please note you can also run the Kubernetes flavored tests on a local Minikube instance.
 
 ## Why do we need this?
 
-The dependencies for a functional RTC are spread in various repositories (at least 6).  This single repository ensures that the full stack is covered. Is also ships tools to measure the quality and perfomance of the RTC system, think to `You can not scale what you can not measure...`
+The dependencies for a functional RTC are spread in various repositories (at least 6). With this single repository, we strive to ensure that the full stack is covered. Is also ships tools to measure the quality and perfomance of the RTC system, think to `You can not scale what you can not measure...`
 
 Historically, there have been a few RTC failures reported, with low volumes cases, we need to make sure the system is robust enough at scale, and also identify their limits.
 
@@ -93,19 +95,21 @@ jupyter server extension list
 #      jupyter_rtc_test 0.0.. OK
 ```
 
-## Architecture
+## All Tests
 
-More information about the details of the implementation can be read on [this document](https://github.com/datalayer/jupyter-rtc-test/blob/main/docs/README.md).
-
-## Coverage
-
-This repository contains source code taken from the various repositories under `BSD-3` or `MIT` license. The following subsections highligh the various test that starting from the lower layers to the higher ones.
-
-PS: In case of doubt, kill any ghost process.
+Run the following command to run all the tests on a local machine.
 
 ```bash
-yarn kill
+yarn test:py
 ```
+
+PS: In case of doubt, kill any ghost process before running the tests.
+
+```bash
+yarn kill && yarn test:py
+```
+
+This repository contains source code taken from the various repositories under `BSD-3` or `MIT` license. The following subsections highligh the various test that starting from the lower layers to the higher ones.
 
 ### 1. Y.js - https://github.com/yjs/yjs
 
@@ -155,9 +159,14 @@ The JupyterLab extension that delivers the RTC functionality to the end-user.
 yarn test:py:6
 ```
 
-## User Interface
+## User Interfaces
 
 You can also run the tests from a JupyterLab extension.
+
+```bash
+# open http://localhost:3063/
+yarn start
+```
 
 ```bash
 # open http://localhost:8686/api/jupyter/lab?token=60c1661cc408f978c309d04157af55c9588ff9557c9380e4fb50785750703da6

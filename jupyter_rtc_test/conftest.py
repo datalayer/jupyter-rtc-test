@@ -26,31 +26,7 @@ def update_json_file(path: Path, d: dict):
 # workaround until https://github.com/yjs/y-websocket/pull/104 is merged and released.
 here = Path(__file__).parent
 d = {"type": "module"}
-update_json_file(here / "node_modules/y-websocket/package.json", d)
-
-
-@pytest.fixture
-def jp_server_config(jp_server_config):
-    return {"ServerApp": {"jpserver_extensions": {"jupyter_rtc_test": True}}}
-
-
-@pytest.fixture
-async def yws_server(request):
-    try:
-        kwargs = request.param
-    except Exception:
-        kwargs = {}
-    websocket_server = WebsocketServer(**kwargs)
-    async with serve(websocket_server.serve, "127.0.0.1", 1234):
-        yield websocket_server
-
-
-@pytest.fixture
-def yjs_client(request):
-    client_id = request.param
-    p = subprocess.Popen(["node", f"{here / './src/__tests__/4_y_py_websocket/clients/yclient_'}{client_id}.mjs"])
-    yield p
-    p.kill()
+update_json_file(here / ".." / "node_modules/y-websocket/package.json", d)
 
 
 class TestYDoc:
@@ -72,3 +48,27 @@ class TestYDoc:
 @pytest.fixture
 def test_ydoc():
     return TestYDoc()
+
+
+# @pytest.fixture
+# def jp_server_config(jp_server_config):
+#     return {"ServerApp": {"jpserver_extensions": {"jupyter_rtc_test": True}}}
+
+
+@pytest.fixture
+async def yws_server(request):
+    try:
+        kwargs = request.param
+    except Exception:
+        kwargs = {}
+    websocket_server = WebsocketServer(**kwargs)
+    async with serve(websocket_server.serve, "127.0.0.1", 1234):
+        yield websocket_server
+
+
+@pytest.fixture
+def yjs_client(request):
+    client_id = request.param
+    p = subprocess.Popen(["node", f"{here / '../src/__tests__/4_y_py_websocket/clients/yclient_'}{client_id}.mjs"])
+    yield p
+    p.kill()

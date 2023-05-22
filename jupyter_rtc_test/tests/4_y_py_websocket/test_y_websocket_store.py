@@ -1,15 +1,13 @@
+import asyncio
 import os
 import tempfile
 import time
 
-import asyncio
-
-import pytest
-
-import aiosqlite
-
 from pathlib import Path
 from unittest.mock import patch
+
+import aiosqlite
+import pytest
 
 from ypy_websocket.ystore import SQLiteYStore, TempFileYStore
 

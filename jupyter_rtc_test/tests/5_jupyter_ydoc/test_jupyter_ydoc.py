@@ -52,8 +52,18 @@ class YTestNb:
 
 
 @pytest.mark.asyncio
+async def test_plotly_renderer(yws_server):
+    """This test checks in particular that the type cast is not breaking the data."""
+    ydoc = YDoc()
+    ynotebook = YNotebook(ydoc)
+    nb = stringify_source(json.loads((files_dir / "plotly_renderer.ipynb").read_text()))
+    ynotebook.source = nb
+    assert ynotebook.source == nb
+
+
+@pytest.mark.asyncio
 @pytest.mark.parametrize("yjs_client", "2", indirect=True)
-async def test_ypy_yjs_2(yws_server, yjs_client):
+async def test_jupyter_ydoc(yws_server, yjs_client):
     ydoc = YDoc()
     ynotebook = YNotebook(ydoc)
     websocket = await connect("ws://127.0.0.1:1234/my-roomname")
@@ -63,13 +73,3 @@ async def test_ypy_yjs_2(yws_server, yjs_client):
     ytest = YTestNb(ydoc, 3.0)
     await ytest.change()
     assert ytest.source == nb
-
-
-@pytest.mark.asyncio
-async def test_plotly_renderer(yws_server):
-    """This test checks in particular that the type cast is not breaking the data."""
-    ydoc = YDoc()
-    ynotebook = YNotebook(ydoc)
-    nb = stringify_source(json.loads((files_dir / "plotly_renderer.ipynb").read_text()))
-    ynotebook.source = nb
-    assert ynotebook.source == nb
