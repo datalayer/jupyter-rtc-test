@@ -1,3 +1,9 @@
+"""
+Th YStore tests should not be part of y_py_websocket
+
+https://github.com/y-crdt/ypy-websocket/issues/19
+"""
+
 import asyncio
 import os
 import tempfile
@@ -10,6 +16,9 @@ import aiosqlite
 import pytest
 
 from ypy_websocket.ystore import SQLiteYStore, TempFileYStore
+
+
+MY_SQLITE_YSTORE_DB_PATH = str(Path(tempfile.mkdtemp(prefix="test_sql_")) / "ystore.db")
 
 
 class MetadataCallback:
@@ -25,9 +34,6 @@ class MetadataCallback:
 
 class MyTempFileYStore(TempFileYStore):
     prefix_dir = "test_temp_"
-
-
-MY_SQLITE_YSTORE_DB_PATH = str(Path(tempfile.mkdtemp(prefix="test_sql_")) / "ystore.db")
 
 
 class MySQLiteYStore(SQLiteYStore):

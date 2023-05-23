@@ -70,7 +70,7 @@
     "test": "run-s 'test:*'",
     "test-coverage": "jest --coverage",
     "test:py": "pytest jupyter_rtc_test/tests --ignore=jupyter_rtc_test/tests/0_handler --asyncio-mode=auto -vv",
-    "test:py:0": "pytest jupyter_rtc_test/tests/0_handler --asyncio-mode=strict -vv",
+    "test:py:0": "pytest jupyter_rtc_test/tests/0_handler -p jupyter_server.pytest_plugin --asyncio-mode=strict -vv",
     "test:py:1": "pytest jupyter_rtc_test/tests/1_y_js --asyncio-mode=auto -vv",
     "test:py:2": "pytest jupyter_rtc_test/tests/2_y_crdt --asyncio-mode=auto -vv",
     "test:py:3": "pytest jupyter_rtc_test/tests/3_y_py --asyncio-mode=auto -vv",

@@ -2,16 +2,17 @@ import json
 import subprocess
 
 import pytest
+import pytest_asyncio
 
 from pathlib import Path
 from websockets import serve
 
-import y_py as Y
+from y_py import encode_state_as_update, encode_state_vector, YDoc
 from ypy_websocket import WebsocketServer
 
 
 pytest_plugins = [
-    "jupyter_server.pytest_plugin",
+#    "jupyter_server.pytest_plugin",
 #    "jupyter_rtc_test.tests.jupyter_server_fixtures",
 ]
 
@@ -33,7 +34,7 @@ update_json_file(here / "node_modules/y-websocket/package.json", d)
 
 class TestYDoc:
     def __init__(self):
-        self.ydoc = Y.YDoc()
+        self.ydoc = YDoc()
         self.array = self.ydoc.get_array("array")
         self.state = None
         self.value = 0
@@ -42,8 +43,8 @@ class TestYDoc:
         with self.ydoc.begin_transaction() as txn:
             self.array.append(txn, self.value)
         self.value += 1
-        update = Y.encode_state_as_update(self.ydoc, self.state)
-        self.state = Y.encode_state_vector(self.ydoc)
+        update = encode_state_as_update(self.ydoc, self.state)
+        self.state = encode_state_vector(self.ydoc)
         return update
 
 
@@ -57,8 +58,8 @@ def jp_server_config(jp_server_config):
     return {"ServerApp": {"jpserver_extensions": {"jupyter_rtc_test": True}}}
 
 
-@pytest.fixture
-async def yws_server(request):
+@pytest_asyncio.fixture
+async def y_ws_server(request):
     try:
         kwargs = request.param
     except Exception:
@@ -68,9 +69,9 @@ async def yws_server(request):
         yield websocket_server
 
 
-@pytest.fixture
-def yjs_client(request):
+@pytest_asyncio.fixture
+async def y_ws_client(request):
     client_id = request.param
-    p = subprocess.Popen(["node", f"{here / 'src/__tests__/4_y_py_websocket/clients/yclient_'}{client_id}.mjs"])
+    p = subprocess.Popen(["node", f"{here / 'src/__tests__/clients/yclient_'}{client_id}.mjs"])
     yield p
     p.kill()

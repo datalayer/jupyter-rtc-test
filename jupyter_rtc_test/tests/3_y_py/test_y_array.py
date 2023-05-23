@@ -49,6 +49,7 @@ def test_to_string():
     assert str(arr) == expected_str
     assert arr.__repr__() == f"YArray({expected_str})"
 
+
 def test_to_json():
     contents = [7, "awesome", True, ["nested"], {"testing": "dicts"}]
     doc = YDoc()
@@ -62,6 +63,7 @@ def test_to_json():
     
     # ensure that it works with python json
     assert json.loads(integrated.to_json()) == contents
+
 
 def test_inserts_nested():
     d1 = YDoc()
@@ -308,6 +310,7 @@ def test_move_to():
         arr.extend(t, [0,1,2,3,4,5,6,7,8,9])
     with pytest.raises(Exception):
         doc.transact(lambda t: arr.move_to(t, 0, -5))
+
 
 def test_move_range_to():
     """

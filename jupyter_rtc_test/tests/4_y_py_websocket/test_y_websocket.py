@@ -36,8 +36,8 @@ class YTest:
 
 
 @pytest.mark.asyncio
-@pytest.mark.parametrize("yjs_client", "0", indirect=True)
-async def test_ypy_yjs_0(yws_server, yjs_client):
+@pytest.mark.parametrize("y_ws_client", "0", indirect=True)
+async def test_y_py_websocket_0(y_ws_server, y_ws_client):
     ydoc = YDoc()
     ytest = YTest(ydoc)
     websocket = await connect("ws://127.0.0.1:1234/my-roomname")
@@ -54,18 +54,18 @@ async def test_ypy_yjs_0(yws_server, yjs_client):
 
 
 @pytest.mark.asyncio
-@pytest.mark.parametrize("yjs_client", "1", indirect=True)
-async def test_ypy_yjs_1(yws_server, yjs_client):
+@pytest.mark.parametrize("y_ws_client", "1", indirect=True)
+async def test_y_py_websocket_1(y_ws_server, y_ws_client):
     # Wait for the JS client to connect.
     tt, dt = 0, 0.1
     while True:
         await asyncio.sleep(dt)
-        if "/my-roomname" in yws_server.rooms:
+        if "/my-roomname" in y_ws_server.rooms:
             break
         tt += dt
         if tt >= 1:
             raise RuntimeError("Timeout waiting for client to connect")
-    ydoc = yws_server.rooms["/my-roomname"].ydoc
+    ydoc = y_ws_server.rooms["/my-roomname"].ydoc
     ytest = YTest(ydoc)
     ytest.run_clock()
     await ytest.clock_run()
