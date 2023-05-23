@@ -10,8 +10,10 @@ import y_py as Y
 from ypy_websocket import WebsocketServer
 
 
-pytest_plugins = [ "jupyter_server.pytest_plugin" ]
-# pytest_plugins = [ "jupyter_rtc_test.tests.jupyter_server_fixtures" ]
+pytest_plugins = [
+    "jupyter_server.pytest_plugin",
+#    "jupyter_rtc_test.tests.jupyter_server_fixtures",
+]
 
 here = Path(__file__).parent
 
@@ -26,7 +28,7 @@ def update_json_file(path: Path, d: dict):
 # workaround until https://github.com/yjs/y-websocket/pull/104 is merged and released.
 here = Path(__file__).parent
 d = {"type": "module"}
-update_json_file(here / ".." / "node_modules/y-websocket/package.json", d)
+update_json_file(here / "node_modules/y-websocket/package.json", d)
 
 
 class TestYDoc:
@@ -50,9 +52,9 @@ def test_ydoc():
     return TestYDoc()
 
 
-# @pytest.fixture
-# def jp_server_config(jp_server_config):
-#     return {"ServerApp": {"jpserver_extensions": {"jupyter_rtc_test": True}}}
+@pytest.fixture
+def jp_server_config(jp_server_config):
+    return {"ServerApp": {"jpserver_extensions": {"jupyter_rtc_test": True}}}
 
 
 @pytest.fixture
@@ -69,6 +71,6 @@ async def yws_server(request):
 @pytest.fixture
 def yjs_client(request):
     client_id = request.param
-    p = subprocess.Popen(["node", f"{here / '../src/__tests__/4_y_py_websocket/clients/yclient_'}{client_id}.mjs"])
+    p = subprocess.Popen(["node", f"{here / 'src/__tests__/4_y_py_websocket/clients/yclient_'}{client_id}.mjs"])
     yield p
     p.kill()
