@@ -50,6 +50,13 @@ make env && \
   conda activate datalayer
 ```
 
+Watch out: the tests will not work the `tronasync` nor `jupyter` pytest plugins. To avoid issues, run the following commands.
+
+```bash
+pip uninstall pytest-tornasync
+pip uninstall pytest-jupyter
+```
+
 ## Install and Build
 
 Install the JavaScript dependencies.
