@@ -7,9 +7,9 @@ import {
 } from '@primer/react';
 import { LinkIcon, AlertIcon } from '@primer/octicons-react';
 import {
-  DaskLogoIcon,
-  PyTorchLogoIcon,
-  TensorFlowLogoIcon
+  DaskIcon,
+  PyTorchIcon,
+  TensorFlowIcon
 } from '@datalayer/icons';
 
 const Tab1 = (): JSX.Element => {
@@ -32,19 +32,19 @@ const Tab1 = (): JSX.Element => {
       <ActionList>
         <ActionList.Item>
           <ActionList.LeadingVisual>
-            <DaskLogoIcon />
+            <DaskIcon />
           </ActionList.LeadingVisual>
           Dask kernel
         </ActionList.Item>
         <ActionList.Item>
           <ActionList.LeadingVisual>
-            <PyTorchLogoIcon />
+            <PyTorchIcon />
           </ActionList.LeadingVisual>
           PyTorch Kernel
         </ActionList.Item>
         <ActionList.Item>
           <ActionList.LeadingVisual>
-            <TensorFlowLogoIcon />
+            <TensorFlowIcon />
           </ActionList.LeadingVisual>
           Tensorflow Kernel
         </ActionList.Item>
