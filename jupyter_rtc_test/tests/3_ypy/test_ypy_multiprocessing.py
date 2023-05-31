@@ -12,7 +12,6 @@ PROCESSES = 2
 
 
 doc = YDoc()
-receiver = YDoc()
 array = doc.get_array("test")
 contents = [True, 42, "string"]
 

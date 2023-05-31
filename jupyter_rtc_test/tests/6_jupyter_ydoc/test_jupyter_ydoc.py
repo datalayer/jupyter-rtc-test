@@ -12,21 +12,14 @@ from websockets import connect  # type: ignore
 
 from y_py import YDoc
 from ypy_websocket import WebsocketProvider
+
 from jupyter_ydoc import YNotebook
 from jupyter_ydoc.utils import cast_all
 
+from jupyter_rtc_test.tests.utils import stringify_source
+
 
 files_dir = Path(__file__).parent / "notebooks"
-
-
-def stringify_source(nb: dict) -> dict:
-    """Stringify in-place the cell sources."""
-    for cell in nb["cells"]:
-        cell["source"] = (
-            "".join(cell["source"]) if isinstance(cell["source"], list) else cell["source"]
-        )
-
-    return nb
 
 
 class YTestNotebook:
@@ -61,6 +54,7 @@ async def test_simple(y_ws_server, y_ws_client):
     ytest = YTestNotebook(ydoc, 3.0)
     await ytest.change()
     assert ytest.source == nb
+
 
 @pytest.mark.asyncio
 async def test_plotly(y_ws_server):

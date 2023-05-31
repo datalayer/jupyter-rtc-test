@@ -1,6 +1,5 @@
 from y_py import (
-    encode_state_vector, encode_state_as_update,
-    apply_update
+    encode_state_vector, encode_state_as_update, apply_update
 )
 
 
@@ -16,3 +15,12 @@ def exchange_updates(docs):
                 state_vector = encode_state_vector(d1)
                 diff = encode_state_as_update(d2, state_vector)
                 apply_update(d1, diff)
+
+
+def stringify_source(nb: dict) -> dict:
+    """Stringify in-place the cell sources."""
+    for cell in nb["cells"]:
+        cell["source"] = (
+            "".join(cell["source"]) if isinstance(cell["source"], list) else cell["source"]
+        )
+    return nb
