@@ -50,7 +50,7 @@ make env && \
   conda activate datalayer
 ```
 
-Watch out: the tests will not work the `tronasync` nor `jupyter` pytest plugins. To avoid issues, run the following commands.
+**⚡ Watch out ⚡** The tests will not work with the `pytest-tornasync` or the `pytest-jupyter` plugins install. To avoid issues, run the following commands.
 
 ```bash
 pip uninstall pytest-tornasync
@@ -110,75 +110,78 @@ Run the following command to run all the tests on a local machine.
 yarn test:py
 ```
 
-PS: In case of doubt, kill any ghost process before running the tests.
+**♪ Note ♪** Kill any ghost process before running the tests.
 
 ```bash
-yarn kill && yarn test:py
+yarn kill && \
+  yarn test:py
 ```
 
-This repository contains source code taken from the various repositories under `BSD-3` or `MIT` license. The following subsections highligh the various test that starting from the lower layers to the higher ones.
+The following subsections highligh the various test that starting from the lower layers to the higher ones.
 
-### 0. Y.js - https://github.com/yjs/yjs
+### 0. Y.js
 
-JavaScript shared data types for building collaborative software.
+JavaScript shared data types for building collaborative software developed in https://github.com/yjs/yjs
 
 ```bash
 yarn test:py:0
 ```
 
-### 2. Y-RS - https://github.com/y-crdt/y-crdt/tree/main/yrs
+### 2. Y Rust (Yrs)
 
-Rust port of Y.js with WASM javascript artificats.
+Rust port of Y.js developed in https://github.com/y-crdt/y-crdt/tree/main/yrs.
 
 ```bash
 yarn test:py:1
 ```
 
-### 2. Y-WASM - https://github.com/y-crdt/y-crdt/tree/main/ywasm
+### 2. Y WebAssembly (Ywasm)
 
-JavaScript WASM shared data types for building collaborative software.
+JavaScript WASM shared data types generated from `Yrs` for building collaborative software developed in https://github.com/y-crdt/y-crdt/tree/main/ywasm
 
 ```bash
 yarn test:py:2
 ```
 
-### 3. Y.py - https://github.com/y-crdt/ypy
+### 3. Ypy
 
-Python bindings to `y-crdt`.
+Python bindings for `Yrs` developed in https://github.com/y-crdt/ypy.
 
 ```bash
 yarn test:py:3
 ```
 
-### 4. Y.py Store - https://github.com/y-crdt/ypy-websocket
+### 4. Ypy Store
 
-Store for `ypy`.
+Store for `Ypy` developed in https://github.com/y-crdt/ypy-websocket.
 
-Y.py Store should not be part of y_py_websocket, see https://github.com/y-crdt/ypy-websocket/issues/19
+Note: Ypy Store should not be part of the `ypy_websocket` repository, see https://github.com/y-crdt/ypy-websocket/issues/19
 
 ```bash
 yarn test:py:4
 ```
 
-### 5. Y.py WebSocket - https://github.com/y-crdt/ypy-websocket
+### 5. Ypy WebSocket
 
-WebSocket connector for `ypy`.
+WebSocket connector for `Ypy` developed in https://github.com/y-crdt/ypy-websocket.
 
 ```bash
 yarn test:py:5
 ```
 
-### 6. Jupyter YDoc - https://github.com/jupyter-server/jupyter_ydoc
+### 6. Jupyter YDoc
 
-Jupyter document structures for collaborative editing using `Y.js` JavaScript and `ypy` Python.
+Jupyter document structures for collaborative editing using `Y.js` JavaScript and `Ypy` Python developed in https://github.com/jupyter-server/jupyter_ydoc.
+
+Note: `Y.js` should be replace by `Ywasm`.
 
 ```bash
 yarn test:py:6
 ```
 
-### 7. Jupyter Collaboration - https://github.com/jupyterlab/jupyter_collaboration
+### 7. Jupyter Collaboration
 
-The JupyterLab extension that delivers the RTC functionality to the end-user.
+The JupyterLab extension that delivers the RTC functionality to the end-user developed in https://github.com/jupyterlab/jupyter_collaboration.
 
 ```bash
 yarn test:py:7
@@ -186,27 +189,41 @@ yarn test:py:7
 
 ## User Interfaces
 
-You can also run the tests from a JupyterLab extension.
+You can also run the RTC tests from various user interface.
+
+### Web application
 
 ```bash
 # open http://localhost:3063/
 yarn start
 ```
 
+### JupyterLab extension
+
 ```bash
 # open http://localhost:8686/api/jupyter/lab?token=60c1661cc408f978c309d04157af55c9588ff9557c9380e4fb50785750703da6
 yarn jupyterlab
 ```
 
-You can also run the tests from a Jupyter Server application.
+### Jupyter Server application
 
 ```bash
 # open http://localhost:8888/jupyter_rtc_test?token=142461e29e03250e569824cff00bc99941148a334ff258e5
 yarn jupyter-rtc-test
 ```
 
-## TCP Proxy
+## TODO
+
+At some point, we need to simulate network latency with some TCP proxy.
 
 - https://github.com/MarkNenadov/websocket_proxpy
 - https://github.com/Shopify/toxiproxy
 - https://github.com/douglas/toxiproxy-python
+
+## ⚖️ License
+
+Copyright (c) 2023 Datalayer, Inc.
+
+Released under the terms of the BSD 3-Clause license (see [LICENSE](./LICENSE)).
+
+This repository contains source code taken from the various repositories under `BSD-3` or `MIT` license. 
