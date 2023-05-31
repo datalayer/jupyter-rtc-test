@@ -117,11 +117,11 @@ yarn kill && \
   yarn test:py
 ```
 
-The following subsections highligh the various test that starting from the lower layers to the higher ones.
+The following subsections highligh the tests, starting from the lower layers to the higher ones.
 
 ### 0. Y.js
 
-JavaScript shared data types for building collaborative software developed in https://github.com/yjs/yjs
+The JavaScript shared data types for building collaborative software is developed in https://github.com/yjs/yjs
 
 ```bash
 yarn test:py:0
@@ -129,7 +129,7 @@ yarn test:py:0
 
 ### 2. Y Rust (Yrs)
 
-Rust port of Y.js developed in https://github.com/y-crdt/y-crdt/tree/main/yrs.
+The Rust port of Y.js is developed in https://github.com/y-crdt/y-crdt/tree/main/yrs.
 
 ```bash
 yarn test:py:1
@@ -137,7 +137,7 @@ yarn test:py:1
 
 ### 2. Y WebAssembly (Ywasm)
 
-JavaScript WASM shared data types generated from `Yrs` for building collaborative software developed in https://github.com/y-crdt/y-crdt/tree/main/ywasm
+The JavaScript WASM shared data types are generated from `Yrs` and is developed in https://github.com/y-crdt/y-crdt/tree/main/ywasm
 
 ```bash
 yarn test:py:2
@@ -145,7 +145,7 @@ yarn test:py:2
 
 ### 3. Ypy
 
-Python bindings for `Yrs` developed in https://github.com/y-crdt/ypy.
+The Python binding for `Yrs` is developed in https://github.com/y-crdt/ypy.
 
 ```bash
 yarn test:py:3
@@ -153,9 +153,9 @@ yarn test:py:3
 
 ### 4. Ypy Store
 
-Store for `Ypy` developed in https://github.com/y-crdt/ypy-websocket.
+The Store for `Ypy` is developed in https://github.com/y-crdt/ypy-websocket.
 
-Note: Ypy Store should not be part of the `ypy_websocket` repository, see https://github.com/y-crdt/ypy-websocket/issues/19
+**♪ Note ♪** Ypy Store should not be part of the `ypy_websocket` repository, see https://github.com/y-crdt/ypy-websocket/issues/19
 
 ```bash
 yarn test:py:4
@@ -163,7 +163,7 @@ yarn test:py:4
 
 ### 5. Ypy WebSocket
 
-WebSocket connector for `Ypy` developed in https://github.com/y-crdt/ypy-websocket.
+The WebSocket connector for `Ypy` is developed in https://github.com/y-crdt/ypy-websocket.
 
 ```bash
 yarn test:py:5
@@ -173,7 +173,7 @@ yarn test:py:5
 
 Jupyter document structures for collaborative editing using `Y.js` JavaScript and `Ypy` Python developed in https://github.com/jupyter-server/jupyter_ydoc.
 
-Note: `Y.js` should be replace by `Ywasm`.
+**♪ Note ♪** `Y.js` should be replaced by `Ywasm`.
 
 ```bash
 yarn test:py:6
@@ -181,7 +181,7 @@ yarn test:py:6
 
 ### 7. Jupyter Collaboration
 
-The JupyterLab extension that delivers the RTC functionality to the end-user developed in https://github.com/jupyterlab/jupyter_collaboration.
+The JupyterLab extension that delivers the RTC functionality to the end-user is developed in https://github.com/jupyterlab/jupyter_collaboration.
 
 ```bash
 yarn test:py:7
@@ -189,32 +189,32 @@ yarn test:py:7
 
 ## User Interfaces
 
-You can also run the RTC tests from various user interface.
+Upon running the RTC tests from the CLI, you can also run them from various user interfaces.
 
-### Web application
+### Web Application
 
 ```bash
 # open http://localhost:3063/
 yarn start
 ```
 
-### JupyterLab extension
-
-```bash
-# open http://localhost:8686/api/jupyter/lab?token=60c1661cc408f978c309d04157af55c9588ff9557c9380e4fb50785750703da6
-yarn jupyterlab
-```
-
-### Jupyter Server application
+### Jupyter Server Application
 
 ```bash
 # open http://localhost:8888/jupyter_rtc_test?token=142461e29e03250e569824cff00bc99941148a334ff258e5
 yarn jupyter-rtc-test
 ```
 
+### JupyterLab Extension
+
+```bash
+# open http://localhost:8686/api/jupyter/lab?token=60c1661cc408f978c309d04157af55c9588ff9557c9380e4fb50785750703da6
+yarn jupyterlab
+```
+
 ## TODO
 
-At some point, we need to simulate network latency with some TCP proxy.
+Simulate network latency with the help of TCP proxy.
 
 - https://github.com/MarkNenadov/websocket_proxpy
 - https://github.com/Shopify/toxiproxy
