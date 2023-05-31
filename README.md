@@ -118,17 +118,25 @@ yarn kill && yarn test:py
 
 This repository contains source code taken from the various repositories under `BSD-3` or `MIT` license. The following subsections highligh the various test that starting from the lower layers to the higher ones.
 
-### 1. Y.js - https://github.com/yjs/yjs
+### 0. Y.js - https://github.com/yjs/yjs
 
 JavaScript shared data types for building collaborative software.
+
+```bash
+yarn test:py:0
+```
+
+### 2. Y-RS - https://github.com/y-crdt/y-crdt/tree/main/yrs
+
+Rust port of Y.js with WASM javascript artificats.
 
 ```bash
 yarn test:py:1
 ```
 
-### 2. Y-CRDT - https://github.com/y-crdt/y-crdt
+### 2. Y-WASM - https://github.com/y-crdt/y-crdt/tree/main/ywasm
 
-Rust port of Y.js with WASM javascript artificats.
+JavaScript WASM shared data types for building collaborative software.
 
 ```bash
 yarn test:py:2
@@ -142,28 +150,38 @@ Python bindings to `y-crdt`.
 yarn test:py:3
 ```
 
-### 4. Y.py WebSocket - https://github.com/y-crdt/ypy-websocket
+### 4. Y.py Store - https://github.com/y-crdt/ypy-websocket
 
-WebSocket connector for `ypy`.
+Store for `ypy`.
+
+Y.py Store should not be part of y_py_websocket, see https://github.com/y-crdt/ypy-websocket/issues/19
 
 ```bash
 yarn test:py:4
 ```
 
-### 5. Jupyter YDoc - https://github.com/jupyter-server/jupyter_ydoc
+### 5. Y.py WebSocket - https://github.com/y-crdt/ypy-websocket
 
-Jupyter document structures for collaborative editing using `Y.js` JavaScript and `ypy` Python.
+WebSocket connector for `ypy`.
 
 ```bash
 yarn test:py:5
 ```
 
-### 6. Jupyter Collaboration - https://github.com/jupyterlab/jupyter_collaboration
+### 6. Jupyter YDoc - https://github.com/jupyter-server/jupyter_ydoc
+
+Jupyter document structures for collaborative editing using `Y.js` JavaScript and `ypy` Python.
+
+```bash
+yarn test:py:6
+```
+
+### 7. Jupyter Collaboration - https://github.com/jupyterlab/jupyter_collaboration
 
 The JupyterLab extension that delivers the RTC functionality to the end-user.
 
 ```bash
-yarn test:py:6
+yarn test:py:7
 ```
 
 ## User Interfaces
