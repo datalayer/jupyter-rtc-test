@@ -10,7 +10,7 @@ import {
   DaskIcon,
   PyTorchIcon,
   TensorFlowIcon
-} from '@datalayer/icons-react/default';
+} from '@datalayer/icons-react';
 
 const Tab1 = (): JSX.Element => {
   return (
