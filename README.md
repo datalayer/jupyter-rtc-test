@@ -110,7 +110,7 @@ Run the following command to run all the tests on a local machine.
 yarn test:py
 ```
 
-** Note ♪** Kill any ghost process before running the tests.
+**Note ♪** Kill any ghost process before running the tests.
 
 ```bash
 yarn kill && \
@@ -155,7 +155,7 @@ yarn test:py:3
 
 The Store for `Ypy` is developed in https://github.com/y-crdt/ypy-websocket.
 
-** Note ♪** Ypy Store should not be part of the `ypy_websocket` repository, see https://github.com/y-crdt/ypy-websocket/issues/19
+**Note ♪** Ypy Store should not be part of the `ypy_websocket` repository, see https://github.com/y-crdt/ypy-websocket/issues/19
 
 ```bash
 yarn test:py:4
@@ -173,7 +173,7 @@ yarn test:py:5
 
 Jupyter document structures for collaborative editing using `Y.js` JavaScript and `Ypy` Python developed in https://github.com/jupyter-server/jupyter_ydoc.
 
-** Note ♪** `Y.js` should be replaced by `Ywasm`.
+**Note ♪** `Y.js` should be replaced by `Ywasm`.
 
 ```bash
 yarn test:py:6
