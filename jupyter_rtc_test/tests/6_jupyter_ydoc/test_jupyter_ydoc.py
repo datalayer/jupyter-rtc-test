@@ -22,7 +22,7 @@ from jupyter_rtc_test.tests.utils import stringify_source
 files_dir = Path(__file__).parent / "notebooks"
 
 
-class YTestNotebook:
+class Clocker:
     def __init__(self, ydoc: YDoc, timeout: float = 1.0):
         self.timeout = timeout
         self.ytest = ydoc.get_map("_test")
@@ -51,7 +51,7 @@ async def test_simple(y_ws_server, y_ws_client):
     WebsocketProvider(ydoc, websocket)
     nb = stringify_source(json.loads((files_dir / "simple.ipynb").read_text()))
     ynotebook.source = nb
-    ytest = YTestNotebook(ydoc, 3.0)
+    ytest = Clocker(ydoc, 3.0)
     await ytest.change()
     assert ytest.source == nb
 
