@@ -8,8 +8,8 @@ from datetime import datetime
 from typing import Any
 
 import pytest
-from jupyter_server import _tz as tz
 
+from jupyter_server import _tz as tz
 from jupyter_collaboration.loaders import FileLoader, FileLoaderMapping
 
 
@@ -46,7 +46,7 @@ class FakeContentsManager:
 
 
 @pytest.mark.asyncio
-async def test_FileLoader_with_watcher():
+async def test_file_loader_with_watcher():
     id = "file-4567"
     path = "myfile.txt"
     paths = {}
@@ -67,11 +67,8 @@ async def test_FileLoader_with_watcher():
         triggered = True
 
     loader.observe("test", trigger)
-
     cm.model["last_modified"] = datetime.now()
-
     await asyncio.sleep(0.15)
-
     try:
         assert triggered
     finally:
@@ -79,7 +76,7 @@ async def test_FileLoader_with_watcher():
 
 
 @pytest.mark.asyncio
-async def test_FileLoader_without_watcher():
+async def test_file_loader_without_watcher():
     id = "file-4567"
     path = "myfile.txt"
     paths = {}
@@ -99,11 +96,8 @@ async def test_FileLoader_without_watcher():
         triggered = True
 
     loader.observe("test", trigger)
-
     cm.model["last_modified"] = datetime.now()
-
     await loader.notify()
-
     try:
         assert triggered
     finally:
@@ -111,7 +105,7 @@ async def test_FileLoader_without_watcher():
 
 
 @pytest.mark.asyncio
-async def test_FileLoaderMapping_with_watcher():
+async def test_file_loader_mapping_with_watcher():
     id = "file-4567"
     path = "myfile.txt"
     paths = {}
@@ -125,19 +119,13 @@ async def test_FileLoaderMapping_with_watcher():
     )
 
     loader = map[id]
-
     triggered = False
-
     async def trigger(*args):
         nonlocal triggered
         triggered = True
-
     loader.observe("test", trigger)
-
     # Clear map (and its loader) before updating => triggered should be False
     await map.clear()
     cm.model["last_modified"] = datetime.now()
-
     await asyncio.sleep(0.15)
-
     assert not triggered
