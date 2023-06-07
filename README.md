@@ -104,10 +104,15 @@ jupyter server extension list
 
 ## All Tests
 
-Run the following command to run all the tests on a local machine.
+Run the following command to run all the python or javascript tests on a local machine.
 
 ```bash
+# Run the python tests.
 yarn test:py
+```
+
+```bash
+yarn test:js
 ```
 
 **Note ♪** Kill any ghost process before running the tests.
@@ -117,7 +122,7 @@ yarn kill && \
   yarn test:py
 ```
 
-The following subsections highligh the tests, starting from the lower layers to the higher ones.
+The following subsections narrow down the tests, starting from the lower technical layers to the higher ones.
 
 ### 0. Y.js
 
