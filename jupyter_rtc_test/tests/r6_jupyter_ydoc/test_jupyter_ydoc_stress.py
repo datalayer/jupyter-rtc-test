@@ -22,7 +22,7 @@ from .utils import Tester
 
 NOTEBOOKS_DIR = Path(__file__).parent / "notebooks"
 HERE = Path(__file__).parent
-NUMBER_OF_CLIENTS = 2
+NUMBER_OF_CLIENTS = 20
 
 
 def custom_hook(args):
