@@ -18,7 +18,15 @@ afterEach(async () => {
   await page.close();
 });
 
-test('should display correct browser', async () => {
-  const browser = await page.$eval('.string-major', el => el.innerHTML);
-  expect(browser).toContain('Chrome');
+describe('@jupyter/collaboration', () => {
+
+  describe('Browser tests', () => {
+
+    test('should display correct browser', async () => {
+      const browser = await page.$eval('.string-major', el => el.innerHTML);
+      expect(browser).toContain('Chrome');
+    });
+
+  });
+
 });

@@ -7,30 +7,7 @@ from websockets import connect
 from y_py import YDoc
 from ypy_websocket import WebsocketProvider
 
-
-class Tester:
-    def __init__(self, ydoc: YDoc, timeout: float = 1.0):
-        self.ydoc = ydoc
-        self.timeout = timeout
-        self.ytest = ydoc.get_map("_test")
-        self.clock = -1.0
-
-    def run_clock(self):
-        self.clock = max(self.clock, 0.0)
-        with self.ydoc.begin_transaction() as t:
-            self.ytest.set(t, "clock", self.clock)
-
-    async def clock_run(self):
-        change = asyncio.Event()
-        def callback(event):
-            if "clock" in event.keys:
-                clk = self.ytest["clock"]
-                if clk > self.clock:
-                    self.clock = clk + 1.0
-                    change.set()
-        subscription_id = self.ytest.observe(callback)
-        await asyncio.wait_for(change.wait(), timeout=self.timeout)
-        self.ytest.unobserve(subscription_id)
+from jupyter_rtc_test.tests.r5_ypy_websocket.utils import Tester
 
 
 @pytest.mark.asyncio
@@ -46,7 +23,7 @@ async def test_ypy_websocket_0(y_ws_server, y_ws_client):
         with ydoc.begin_transaction() as t:
             ymap.set(t, "in", float(v_in))
         ytest.run_clock()
-        await ytest.clock_run()
+        await ytest.clock_has_run()
         v_out = ymap["out"]
         assert v_out == v_in + 1.0
 
@@ -66,7 +43,7 @@ async def test_ypy_websocket_1(y_ws_server, y_ws_client):
     ydoc = y_ws_server.rooms["/my-roomname"].ydoc
     tester = Tester(ydoc)
     tester.run_clock()
-    await tester.clock_run()
+    await tester.clock_has_run()
     ycells = ydoc.get_array("cells")
     ystate = ydoc.get_map("state")
     assert json.loads(ycells.to_json()) == [{"metadata": {"foo": "bar"}, "source": "1 + 2"}]

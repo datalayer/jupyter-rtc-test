@@ -1,16 +1,17 @@
 from __future__ import annotations
 
 import asyncio
-from datetime import datetime
-from typing import Any
 
 import pytest
+
+from datetime import datetime
+from typing import Any
 
 from jupyter_server import _tz as tz
 from jupyter_collaboration.loaders import FileLoader, FileLoaderMapping
 
 
-class FakeFileIDManager:
+class TestFileIDManager:
     def __init__(self, mapping: dict[str, str]):
         self.mapping = mapping
 
@@ -18,7 +19,7 @@ class FakeFileIDManager:
         return self.mapping[id]
 
 
-class FakeContentsManager:
+class TestContentsManager:
     def __init__(self, model: dict):
         self.model = {
             "name": "",
@@ -49,10 +50,10 @@ async def test_file_loader_with_watcher():
     paths = {}
     paths[id] = path
 
-    cm = FakeContentsManager({"last_modified": datetime.now()})
+    cm = TestContentsManager({"last_modified": datetime.now()})
     loader = FileLoader(
         id,
-        FakeFileIDManager(paths),
+        TestFileIDManager(paths),
         cm,
         poll_interval=0.1,
     )
@@ -79,10 +80,10 @@ async def test_file_loader_without_watcher():
     paths = {}
     paths[id] = path
 
-    cm = FakeContentsManager({"last_modified": datetime.now()})
+    cm = TestContentsManager({"last_modified": datetime.now()})
     loader = FileLoader(
         id,
-        FakeFileIDManager(paths),
+        TestFileIDManager(paths),
         cm,
     )
 
@@ -108,10 +109,10 @@ async def test_file_loader_mapping_with_watcher():
     paths = {}
     paths[id] = path
 
-    cm = FakeContentsManager({"last_modified": datetime.now()})
+    cm = TestContentsManager({"last_modified": datetime.now()})
 
     map = FileLoaderMapping(
-        {"contents_manager": cm, "file_id_manager": FakeFileIDManager(paths)},
+        {"contents_manager": cm, "file_id_manager": TestFileIDManager(paths)},
         file_poll_interval=1.0,
     )
 

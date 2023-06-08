@@ -1,6 +1,3 @@
-// Copyright (c) Jupyter Development Team.
-// Distributed under the terms of the Modified BSD License.
-
 import { Delta, YFile } from '@jupyter/ydoc';
 
 describe('@jupyter/ydoc', () => {
@@ -8,14 +5,17 @@ describe('@jupyter/ydoc', () => {
   describe('YFile', () => {
 
     describe('#constructor', () => {
+
       test('should create a document without arguments', () => {
         const file = new YFile();
         expect(file.source.length).toBe(0);
         file.dispose();
       });
+
     });
 
     describe('#disposed', () => {
+
       test('should be emitted when the document is disposed', () => {
         const file = new YFile();
         let disposed = false;
@@ -25,9 +25,11 @@ describe('@jupyter/ydoc', () => {
         file.dispose();
         expect(disposed).toEqual(true);
       });
+
     });
 
     describe('source', () => {
+
       test('should set source', () => {
         const file = new YFile();
         const source = 'foo';
@@ -71,7 +73,6 @@ describe('@jupyter/ydoc', () => {
             }
           ]
         ]);
-
         file.dispose();
       });
 
@@ -93,7 +94,6 @@ describe('@jupyter/ydoc', () => {
             }
           ]
         ]);
-
         file.dispose();
       });
 
@@ -121,6 +121,7 @@ describe('@jupyter/ydoc', () => {
         ]);
         file.dispose();
       });
+
     });
 
   });

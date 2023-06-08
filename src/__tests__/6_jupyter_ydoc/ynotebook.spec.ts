@@ -6,14 +6,17 @@ describe('@jupyter/ydoc', () => {
   describe('YNotebook', () => {
 
     describe('#constructor', () => {
+
       test('should create a notebook without arguments', () => {
         const notebook = YNotebook.create();
         expect(notebook.cells.length).toBe(0);
         notebook.dispose();
       });
+
     });
 
     describe('#factory', () => {
+
       test('should create a notebook with a cell', () => {
         const cell: ICodeCell = {
           id: 'first-cell',
@@ -53,9 +56,11 @@ describe('@jupyter/ydoc', () => {
         expect(notebook.metadata).toEqual(metadata);
         notebook.dispose();
       });
+
     });
 
     describe('#disposed', () => {
+
       test('should be emitted when the document is disposed', () => {
         const notebook = YNotebook.create();
         let disposed = false;
@@ -65,9 +70,11 @@ describe('@jupyter/ydoc', () => {
         notebook.dispose();
         expect(disposed).toEqual(true);
       });
+
     });
 
     describe('metadata', () => {
+
       test('should get metadata', () => {
         const notebook = YNotebook.create();
         const metadata = {
@@ -248,7 +255,6 @@ describe('@jupyter/ydoc', () => {
         expect(changes).toEqual([
           { type: 'add', key: 'test', newValue: 'banana', oldValue: undefined }
         ]);
-
         notebook.dispose();
       });
 
@@ -367,6 +373,7 @@ describe('@jupyter/ydoc', () => {
         expect(changes[0].cellsChange).toEqual([{ delete: 1 }]);
         notebook.dispose();
       });
+
     });
 
     describe('#moveCell', () => {
@@ -395,6 +402,7 @@ describe('@jupyter/ydoc', () => {
     });
 
     describe('#fromJSON', () => {
+
       test('should load a serialize notebook', () => {
         const notebook = YNotebook.create();
         notebook.fromJSON({
@@ -443,16 +451,17 @@ describe('@jupyter/ydoc', () => {
           nbformat: 4,
           nbformat_minor: 4
         });
-
         expect(notebook.cells).toHaveLength(1);
         expect(notebook.cells[0].id).not.toEqual('first-cell');
         notebook.dispose();
       });
+
     });
 
     describe('#undo', () => {
 
       describe('globally', () => {
+
         test('should undo cell addition', () => {
           const notebook = YNotebook.create();
           notebook.addCell({ cell_type: 'code' });
@@ -489,9 +498,11 @@ describe('@jupyter/ydoc', () => {
           expect(notebook.getCell(0).getSource()).toEqual('print(hello);');
           expect(notebook.getCell(1).getSource()).toEqual('');
         });
+
       });
 
       describe('per cells', () => {
+
         test('should undo cell addition', () => {
           const notebook = YNotebook.create({
             disableDocumentWideUndoRedo: true

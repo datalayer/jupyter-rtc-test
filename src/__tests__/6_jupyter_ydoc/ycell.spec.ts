@@ -1,6 +1,7 @@
 import { IMapChange, YCodeCell, YNotebook } from '@jupyter/ydoc';
 
 describe('@jupyter/ydoc', () => {
+
   // Fix awareness timeout open handle
   beforeEach(() => {
     jest.useFakeTimers();
@@ -288,5 +289,7 @@ describe('@jupyter/ydoc', () => {
       codeCell.undo();
       expect(codeCell.getMetadata('collapsed')).toEqual(true);
     });
+
   });
+
 });
