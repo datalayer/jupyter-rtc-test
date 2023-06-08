@@ -1,19 +1,19 @@
+import { YNotebook } from '@jupyter/ydoc';
 import ws from "ws";
 import { WebsocketProvider } from 'y-websocket';
-import { YNotebook } from '@jupyter/ydoc';
 
 const _notebook = new YNotebook();
 const _map = _notebook.ydoc.getMap('_test');
 
 const wsProvider = new WebsocketProvider(
   'ws://127.0.0.1:1234',
-  'room-1',
+  'room_2',
   _notebook.ydoc,
   { WebSocketPolyfill: ws }
 );
 
 wsProvider.on('status', event => {
-  console.log(event.status)
+  console.log('Event status', event.status);
 })
 
 _map.observe(event => {

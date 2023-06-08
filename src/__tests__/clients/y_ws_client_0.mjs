@@ -1,20 +1,20 @@
+import { Doc } from 'yjs';
 import ws from "ws";
 import { WebsocketProvider } from 'y-websocket';
-import { Doc } from 'yjs';
 
 const _doc = new Doc();
-const _clocker = _doc.getMap('_test');
+const _clocker = _doc.getMap('clocker');
 const _map = _doc.getMap('map');
 
 const wsProvider = new WebsocketProvider(
   'ws://127.0.0.1:1234',
-  'room-1',
+  'room_0',
   _doc,
   { WebSocketPolyfill: ws }
 );
 
 wsProvider.on('status', event => {
-  console.log(event.status)
+  console.log('Event status', event.status);
 });
 
 var clock = -1;

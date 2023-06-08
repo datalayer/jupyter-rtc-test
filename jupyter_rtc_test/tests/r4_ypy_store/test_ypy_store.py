@@ -1,11 +1,9 @@
-import time
-
 import aiosqlite
+import pytest
+import time
 
 from pathlib import Path
 from unittest.mock import patch
-
-import pytest
 
 from jupyter_rtc_test.tests.r4_ypy_store.utils import (
     TestSQLiteYStore, MetadataCallback, TestTempFileYStore

@@ -12,15 +12,14 @@ describe('Y.js Providers', () => {
     // Sync clients with the y-websocket provider.
     const websocketProvider = new WebsocketProvider(
       'ws://127.0.0.1:1234',
-      'ws-test-room',
+      'test-room',
       ydoc,
       { WebSocketPolyfill: require('ws') }
     );
     websocketProvider.on('status', event => {
       console.log('websocketProvider status', event.status); // logs "connected" or "disconnected"
     });
-
-    /*
+/*
     // Sync clients with the y-webrtc provider.
     // Failing with ReferenceError: WebSocket is not defined - Needs { WebSocketPolyfill: require('ws') }
     const webrtcProvider = new WebrtcProvider(
@@ -39,7 +38,8 @@ describe('Y.js Providers', () => {
     webrtcProvider.on('status', event => {
       console.log('websocketProvider', event.status) // logs "connected" or "disconnected"
     });
-
+*/
+/*
     // This allows you to instantly get the (cached) documents data.
     const indexeddbProvider = new IndexeddbPersistence(
       'my-roomname', 
@@ -48,7 +48,7 @@ describe('Y.js Providers', () => {
     indexeddbProvider.whenSynced.then(() => {
       console.log('loaded data from indexed db')
     });
-    */
+*/
 
     // Array of numbers which produce a sum.
     const yarray = ydoc.getArray('count');
@@ -60,8 +60,8 @@ describe('Y.js Providers', () => {
         'new sum ' + yarray.toArray().reduce((a: any, b: any) => a + b)
       );
     });
-    // add 1 to the sum
-    yarray.push([1]); // => "new sum: 1"
+    // add 1 to the sum.
+    yarray.push([1]); // => "new sum: 1".
     await new Promise(r => setTimeout(r, 5000));
 
   });

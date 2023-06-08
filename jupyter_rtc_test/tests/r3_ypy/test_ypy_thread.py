@@ -1,9 +1,8 @@
+import pytest
+
 import threading
 from threading import Lock, Thread
-
 from multiprocessing.pool import ThreadPool
-
-import pytest
 
 from y_py import YDoc
 

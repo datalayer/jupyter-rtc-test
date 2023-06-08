@@ -15,7 +15,7 @@ from .utils import Tester
 async def test_ypy_websocket_0(y_ws_server, y_ws_client):
     doc = YDoc()
     tester = Tester(doc)
-    websocket = await connect("ws://127.0.0.1:1234/room-1")
+    websocket = await connect("ws://127.0.0.1:1234/room_0")
     websocket_provider = WebsocketProvider(doc, websocket)
     map = doc.get_map("map")
     # set a value in "in"
@@ -35,12 +35,12 @@ async def test_ypy_websocket_1(y_ws_server, y_ws_client):
     tt, dt = 0, 0.1
     while True:
         await asyncio.sleep(dt)
-        if "/room-1" in y_ws_server.rooms:
+        if "/room_1" in y_ws_server.rooms:
             break
         tt += dt
         if tt >= 1:
             raise RuntimeError("Timeout waiting for client to connect")
-    doc = y_ws_server.rooms["/room-1"].ydoc
+    doc = y_ws_server.rooms["/room_1"].ydoc
     tester = Tester(doc)
     tester.run_clock()
     await tester.clock_has_run()

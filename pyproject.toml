@@ -26,7 +26,8 @@ dependencies = [
     "ypy_websocket",
     "jupyter_ydoc",
     "jupyterlab>=4.0.0",
-    "jupyter_collaboration"
+    "jupyter_collaboration",
+    "uvicorn",
 ]
 dynamic = ["version", "description", "authors", "urls", "keywords"]
 
@@ -39,10 +40,8 @@ test = [
     "pytest",
     "pytest-asyncio",
     "pytest-cov",
-    "pytest-tornasync",
-    "pytest-jupyter",
     "ypy-websocket",
-    "websockets"
+    "websockets",
 ]
 
 [tool.hatch.version]

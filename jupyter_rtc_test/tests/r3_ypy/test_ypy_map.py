@@ -1,8 +1,7 @@
 import json
+import pytest
 
 from copy import deepcopy
-
-import pytest
 
 from y_py import YDoc, YMap, YMapEvent
 

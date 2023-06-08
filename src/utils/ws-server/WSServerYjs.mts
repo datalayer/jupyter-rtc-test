@@ -16,7 +16,7 @@ import debounce from 'lodash.debounce';
 
 const wss = new WebSocketServer({ noServer: true });
 
-const host = process.env.HOST || 'localhost';
+const host = process.env.HOST || '127.0.0.1';
 const port = parseInt(process.env.PORT || "1234");
 
 const server = http.createServer((request, response) => {
@@ -232,13 +232,13 @@ class WSSharedDoc extends Y.Doc {
  * @return {WSSharedDoc}
  */
 const getYDoc = (docname, gc = true) => map.setIfUndefined(docs, docname, () => {
-  const doc = new WSSharedDoc(docname)
-  doc.gc = gc
+  const doc = new WSSharedDoc(docname);
+  doc.gc = gc;
   if (persistence !== null) {
-    persistence.bindState(docname, doc)
+    persistence.bindState(docname, doc);
   }
-  docs.set(docname, doc)
-  return doc
+  docs.set(docname, doc);
+  return doc;
 })
 
 /**

@@ -12,20 +12,20 @@ describe('Y.js standalone', () => {
 
     const ydoc = new Doc();
 
-    // Define an instance of Array named "my array"
+    // Define an instance of Array named "my array".
     // Every peer that defines "my array" like this will sync content with this peer.
     const yarray = ydoc.getArray('my array');
 
     // We can register change-observers like this
     yarray.observe(event => {
-      // Log a delta every time the type changes
+      // Log a delta every time the type changes.
       // Learn more about the delta format here: https://quilljs.com/docs/delta/
       console.log('delta:', event.changes.delta);
     });
 
     // There are a few caveats that you need to understand when working with shared types
     // It is best to explain this in a few lines of code:
-    // We can insert & delete content
+    // We can insert & delete content.
     yarray.insert(0, ['some content']); // => delta: [{ insert: ['some content'] }]
 
     // Note that the above method accepts an array of content to insert.
@@ -114,10 +114,6 @@ describe('Y.js standalone', () => {
 
     // Every time a local or remote client modifies yarray, the observer is called.
     yarray.insert(0, ['val']); // => "yarray was modified"
-
-    console.log(
-      '-----------------------------------------------------------------'
-    );
 
     // Map.
     const ymap = doc.getMap('map-1');
