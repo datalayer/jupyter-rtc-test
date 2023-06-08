@@ -1,10 +1,12 @@
 import {
-  encodeStateAsUpdate, encodeStateVector, applyUpdate, 
-  createRelativePositionFromTypeIndex, createAbsolutePositionFromRelativePosition,
+  encodeStateAsUpdate, encodeStateVector,
+  applyUpdate,
+  createRelativePositionFromTypeIndex,
+  createAbsolutePositionFromRelativePosition,
   Doc, Array, Map, XmlElement, UndoManager
 } from 'yjs';
 
-describe('Y.js Standalone', () => {
+describe('Y.js standalone', () => {
 
   it('y.js', async () => {
 
@@ -99,20 +101,10 @@ describe('Y.js Standalone', () => {
       console.log('exception', (error as Error).message);
     }
   });
-});
 
-describe('Y.js Standalone 2', () => {
+  it('y.js simple', async () => {
 
-  it('y.js standalone', async () => {
-
-    console.log(
-      '-----------------------------------------------------------------'
-    );
     const doc = new Doc();
-
-    console.log(
-      '-----------------------------------------------------------------'
-    );
 
     // Array.
     const yarray = doc.getArray('array-1');

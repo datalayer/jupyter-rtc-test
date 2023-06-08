@@ -1,11 +1,10 @@
-// Copyright (c) Jupyter Development Team.
-// Distributed under the terms of the Modified BSD License.
-
-import type * as nbformat from '@jupyterlab/nbformat';
+import type { ICodeCell, INotebookMetadata } from '@jupyterlab/nbformat';
 import { IMapChange, NotebookChange, YNotebook } from '@jupyter/ydoc';
 
 describe('@jupyter/ydoc', () => {
+
   describe('YNotebook', () => {
+
     describe('#constructor', () => {
       test('should create a notebook without arguments', () => {
         const notebook = YNotebook.create();
@@ -16,7 +15,7 @@ describe('@jupyter/ydoc', () => {
 
     describe('#factory', () => {
       test('should create a notebook with a cell', () => {
-        const cell: nbformat.ICodeCell = {
+        const cell: ICodeCell = {
           id: 'first-cell',
           cell_type: 'code',
           source: '',
@@ -24,7 +23,6 @@ describe('@jupyter/ydoc', () => {
           outputs: [],
           execution_count: null
         };
-
         const notebook = YNotebook.create({
           data: {
             cells: [cell]
@@ -36,13 +34,12 @@ describe('@jupyter/ydoc', () => {
       });
 
       test('should create a notebook with metadata', () => {
-        const metadata: nbformat.INotebookMetadata = {
+        const metadata: INotebookMetadata = {
           kernelspec: {
             name: 'xeus-python',
             display_name: 'Xeus Python'
           }
         };
-
         const notebook = YNotebook.create({
           data: {
             nbformat: 1,
@@ -80,9 +77,7 @@ describe('@jupyter/ydoc', () => {
             name: 'python'
           }
         };
-
         notebook.setMetadata(metadata);
-
         expect(notebook.metadata).toEqual(metadata);
         notebook.dispose();
       });
@@ -96,9 +91,7 @@ describe('@jupyter/ydoc', () => {
             name: 'python'
           }
         };
-
         notebook.setMetadata(metadata);
-
         expect(notebook.getMetadata()).toEqual(metadata);
         notebook.dispose();
       });
@@ -112,9 +105,7 @@ describe('@jupyter/ydoc', () => {
             name: 'python'
           }
         };
-
         notebook.setMetadata(metadata);
-
         expect(notebook.getMetadata('orig_nbformat')).toEqual(1);
         notebook.dispose();
       });
@@ -128,10 +119,8 @@ describe('@jupyter/ydoc', () => {
             name: 'python'
           }
         };
-
         notebook.setMetadata(metadata);
         notebook.setMetadata('test', 'banana');
-
         expect(notebook.getMetadata('test')).toEqual('banana');
         notebook.dispose();
       });
@@ -148,9 +137,7 @@ describe('@jupyter/ydoc', () => {
             },
             test: value
           };
-
           nb.setMetadata(metadata);
-
           expect(nb.getMetadata('test')).toEqual(value);
           nb.dispose();
         }
@@ -184,7 +171,6 @@ describe('@jupyter/ydoc', () => {
 
       test('should emit all metadata changes', () => {
         const notebook = YNotebook.create();
-
         const metadata = {
           orig_nbformat: 1,
           kernelspec: {
@@ -192,13 +178,11 @@ describe('@jupyter/ydoc', () => {
             name: 'python'
           }
         };
-
         const changes: IMapChange[] = [];
         notebook.metadataChanged.connect((_, c) => {
           changes.push(c);
         });
         notebook.metadata = metadata;
-
         expect(changes).toHaveLength(2);
         expect(changes).toEqual([
           {
@@ -212,13 +196,11 @@ describe('@jupyter/ydoc', () => {
             newValue: metadata.kernelspec
           }
         ]);
-
         notebook.dispose();
       });
 
       test('should emit all metadata changes on update', () => {
         const notebook = YNotebook.create();
-
         const metadata = {
           orig_nbformat: 1,
           kernelspec: {
@@ -226,13 +208,11 @@ describe('@jupyter/ydoc', () => {
             name: 'python'
           }
         };
-
         const changes: IMapChange[] = [];
         notebook.metadataChanged.connect((_, c) => {
           changes.push(c);
         });
         notebook.updateMetadata(metadata);
-
         expect(changes).toHaveLength(2);
         expect(changes).toEqual([
           {
@@ -246,7 +226,6 @@ describe('@jupyter/ydoc', () => {
             newValue: metadata.kernelspec
           }
         ]);
-
         notebook.dispose();
       });
 
@@ -260,13 +239,11 @@ describe('@jupyter/ydoc', () => {
           }
         };
         notebook.metadata = metadata;
-
         const changes: IMapChange[] = [];
         notebook.metadataChanged.connect((_, c) => {
           changes.push(c);
         });
         notebook.setMetadata('test', 'banana');
-
         expect(changes).toHaveLength(1);
         expect(changes).toEqual([
           { type: 'add', key: 'test', newValue: 'banana', oldValue: undefined }
@@ -285,15 +262,12 @@ describe('@jupyter/ydoc', () => {
           }
         };
         notebook.metadata = metadata;
-
         const changes: IMapChange[] = [];
         notebook.setMetadata('test', 'banana');
-
         notebook.metadataChanged.connect((_, c) => {
           changes.push(c);
         });
         notebook.deleteMetadata('test');
-
         expect(changes).toHaveLength(1);
         expect(changes).toEqual([
           {
@@ -303,7 +277,6 @@ describe('@jupyter/ydoc', () => {
             oldValue: 'banana'
           }
         ]);
-
         notebook.dispose();
       });
 
@@ -317,15 +290,12 @@ describe('@jupyter/ydoc', () => {
           }
         };
         notebook.metadata = metadata;
-
         const changes: IMapChange[] = [];
         notebook.setMetadata('test', 'banana');
-
         notebook.metadataChanged.connect((_, c) => {
           changes.push(c);
         });
         notebook.setMetadata('test', 'orange');
-
         expect(changes).toHaveLength(1);
         expect(changes).toEqual([
           {
@@ -335,18 +305,19 @@ describe('@jupyter/ydoc', () => {
             oldValue: 'banana'
           }
         ]);
-
         notebook.dispose();
       });
     });
 
     describe('#insertCell', () => {
+
       test('should insert a cell', () => {
         const notebook = YNotebook.create();
         notebook.insertCell(0, { cell_type: 'code' });
         expect(notebook.cells.length).toBe(1);
         notebook.dispose();
       });
+
       test('should set cell source', () => {
         const notebook = YNotebook.create();
         const codeCell = notebook.insertCell(0, { cell_type: 'code' });
@@ -354,6 +325,7 @@ describe('@jupyter/ydoc', () => {
         expect(notebook.cells[0].getSource()).toBe('test');
         notebook.dispose();
       });
+
       test('should update source', () => {
         const notebook = YNotebook.create();
         const codeCell = notebook.insertCell(0, { cell_type: 'code' });
@@ -370,7 +342,6 @@ describe('@jupyter/ydoc', () => {
           changes.push(c);
         });
         const codeCell = notebook.insertCell(0, { cell_type: 'code' });
-
         expect(changes).toHaveLength(1);
         expect(changes[0].cellsChange).toEqual([
           {
@@ -382,16 +353,15 @@ describe('@jupyter/ydoc', () => {
     });
 
     describe('#deleteCell', () => {
+
       test('should emit a delete cells change', () => {
         const notebook = YNotebook.create();
         const changes: NotebookChange[] = [];
         const codeCell = notebook.insertCell(0, { cell_type: 'code' });
-
         notebook.changed.connect((_, c) => {
           changes.push(c);
         });
         notebook.deleteCell(0);
-
         expect(changes).toHaveLength(1);
         expect(codeCell.isDisposed).toEqual(true);
         expect(changes[0].cellsChange).toEqual([{ delete: 1 }]);
@@ -410,7 +380,6 @@ describe('@jupyter/ydoc', () => {
           changes.push(c);
         });
         notebook.moveCell(0, 1);
-
         expect(notebook.getCell(1)).not.toEqual(codeCell);
         expect(notebook.getCell(1).toJSON()).toEqual(raw);
         expect(changes[0].cellsChange).toHaveLength(3);
@@ -436,7 +405,6 @@ describe('@jupyter/ydoc', () => {
           nbformat: 4,
           nbformat_minor: 5
         });
-
         expect(notebook.cells).toHaveLength(0);
         expect(notebook.nbformat).toEqual(4);
         expect(notebook.nbformat_minor).toEqual(5);
@@ -454,7 +422,6 @@ describe('@jupyter/ydoc', () => {
           nbformat: 4,
           nbformat_minor: 5
         });
-
         expect(notebook.getMetadata('orig_nbformat')).toEqual(undefined);
         notebook.dispose();
       });
@@ -484,17 +451,15 @@ describe('@jupyter/ydoc', () => {
     });
 
     describe('#undo', () => {
+
       describe('globally', () => {
         test('should undo cell addition', () => {
           const notebook = YNotebook.create();
           notebook.addCell({ cell_type: 'code' });
           notebook.undoManager.stopCapturing();
           notebook.addCell({ cell_type: 'markdown' });
-
           expect(notebook.cells.length).toEqual(2);
-
           notebook.undo();
-
           expect(notebook.cells.length).toEqual(1);
         });
 
@@ -505,9 +470,7 @@ describe('@jupyter/ydoc', () => {
           notebook.addCell({ cell_type: 'markdown' });
           notebook.undoManager.stopCapturing();
           codeCell.updateSource(0, 0, 'print(hello);');
-
           notebook.undo();
-
           expect(notebook.cells.length).toEqual(2);
           expect(notebook.getCell(0).getSource()).toEqual('');
         });
@@ -521,9 +484,7 @@ describe('@jupyter/ydoc', () => {
           codeCell.updateSource(0, 0, 'print(hello);');
           notebook.undoManager.stopCapturing();
           markdownCell.updateSource(0, 0, '# Title');
-
           codeCell.undo();
-
           expect(notebook.cells.length).toEqual(2);
           expect(notebook.getCell(0).getSource()).toEqual('print(hello);');
           expect(notebook.getCell(1).getSource()).toEqual('');
@@ -538,11 +499,8 @@ describe('@jupyter/ydoc', () => {
           notebook.addCell({ cell_type: 'code' });
           notebook.undoManager.stopCapturing();
           notebook.addCell({ cell_type: 'markdown' });
-
           expect(notebook.cells.length).toEqual(2);
-
           notebook.undo();
-
           expect(notebook.cells.length).toEqual(1);
         });
 
@@ -553,11 +511,8 @@ describe('@jupyter/ydoc', () => {
           const codeCell = notebook.addCell({ cell_type: 'code' });
           notebook.undoManager.stopCapturing();
           notebook.addCell({ cell_type: 'markdown' });
-
           codeCell.updateSource(0, 0, 'print(hello);');
-
           notebook.undo();
-
           expect(notebook.cells.length).toEqual(1);
           expect(notebook.getCell(0).getSource()).toEqual('print(hello);');
         });
@@ -571,14 +526,16 @@ describe('@jupyter/ydoc', () => {
           const markdownCell = notebook.addCell({ cell_type: 'markdown' });
           codeCell.updateSource(0, 0, 'print(hello);');
           markdownCell.updateSource(0, 0, '# Title');
-
           codeCell.undo();
-
           expect(notebook.cells.length).toEqual(2);
           expect(notebook.getCell(0).getSource()).toEqual('');
           expect(notebook.getCell(1).getSource()).toEqual('# Title');
         });
+
       });
+
     });
+
   });
+
 });

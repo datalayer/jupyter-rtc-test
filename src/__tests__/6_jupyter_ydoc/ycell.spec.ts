@@ -10,6 +10,7 @@ describe('@jupyter/ydoc', () => {
   });
 
   describe('YCell standalone', () => {
+
     test('should set source', () => {
       const codeCell = YCodeCell.create();
       codeCell.setSource('test');
@@ -32,9 +33,7 @@ describe('@jupyter/ydoc', () => {
         editable: false,
         name: 'cell-name'
       };
-
       cell.setMetadata(metadata);
-
       expect(cell.metadata).toEqual({
         ...metadata,
         jupyter: { outputs_hidden: true }
@@ -49,9 +48,7 @@ describe('@jupyter/ydoc', () => {
         editable: false,
         name: 'cell-name'
       };
-
       cell.setMetadata(metadata);
-
       expect(cell.getMetadata()).toEqual({ ...metadata, collapsed: true });
       cell.dispose();
     });
@@ -63,9 +60,7 @@ describe('@jupyter/ydoc', () => {
         editable: false,
         name: 'cell-name'
       };
-
       cell.setMetadata(metadata);
-
       expect(cell.getMetadata('editable')).toEqual(metadata.editable);
       cell.dispose();
     });
@@ -80,9 +75,7 @@ describe('@jupyter/ydoc', () => {
           name: 'cell-name',
           test: value
         };
-
         cell.setMetadata(metadata);
-
         expect(cell.getMetadata('test')).toEqual(value);
         cell.dispose();
       }
@@ -95,29 +88,24 @@ describe('@jupyter/ydoc', () => {
         editable: false,
         name: 'cell-name'
       };
-
       cell.setMetadata(metadata);
       cell.setMetadata('test', 'banana');
-
       expect(cell.getMetadata('test')).toEqual('banana');
       cell.dispose();
     });
 
     test('should emit all metadata changes', () => {
       const notebook = YNotebook.create();
-
       const metadata = {
         collapsed: true,
         editable: false,
         name: 'cell-name'
       };
-
       const changes: IMapChange[] = [];
       notebook.metadataChanged.connect((_, c) => {
         changes.push(c);
       });
       notebook.metadata = metadata;
-
       expect(changes).toHaveLength(3);
       expect(changes).toEqual([
         {
@@ -139,7 +127,6 @@ describe('@jupyter/ydoc', () => {
           oldValue: undefined
         }
       ]);
-
       notebook.dispose();
     });
 
@@ -151,13 +138,11 @@ describe('@jupyter/ydoc', () => {
         name: 'cell-name'
       };
       cell.metadata = metadata;
-
       const changes: IMapChange[] = [];
       cell.metadataChanged.connect((_, c) => {
         changes.push(c);
       });
       cell.setMetadata('test', 'banana');
-
       try {
         expect(changes).toHaveLength(1);
         expect(changes).toEqual([
@@ -176,15 +161,12 @@ describe('@jupyter/ydoc', () => {
         name: 'cell-name'
       };
       cell.metadata = metadata;
-
       const changes: IMapChange[] = [];
       cell.setMetadata('test', 'banana');
-
       cell.metadataChanged.connect((_, c) => {
         changes.push(c);
       });
       cell.deleteMetadata('test');
-
       try {
         expect(changes).toHaveLength(1);
         expect(changes).toEqual([
@@ -208,15 +190,12 @@ describe('@jupyter/ydoc', () => {
         name: 'cell-name'
       };
       cell.metadata = metadata;
-
       const changes: IMapChange[] = [];
       cell.setMetadata('test', 'banana');
-
       cell.metadataChanged.connect((_, c) => {
         changes.push(c);
       });
       cell.setMetadata('test', 'orange');
-
       try {
         expect(changes).toHaveLength(1);
         expect(changes).toEqual([
@@ -234,14 +213,13 @@ describe('@jupyter/ydoc', () => {
   });
 
   describe('#undo', () => {
+
     test('should undo source change', () => {
       const codeCell = YCodeCell.create();
       codeCell.setSource('test');
       codeCell.undoManager?.stopCapturing();
       codeCell.updateSource(0, 0, 'hello');
-
       codeCell.undo();
-
       expect(codeCell.getSource()).toEqual('test');
     });
 
@@ -252,9 +230,7 @@ describe('@jupyter/ydoc', () => {
       codeCell.execution_count = 22;
       codeCell.undoManager?.stopCapturing();
       codeCell.execution_count = 42;
-
       codeCell.undo();
-
       expect(codeCell.execution_count).toEqual(42);
     });
 
@@ -298,9 +274,7 @@ describe('@jupyter/ydoc', () => {
       ];
       codeCell.setOutputs(outputs);
       codeCell.undoManager?.stopCapturing();
-
       codeCell.undo();
-
       expect(codeCell.getOutputs()).toEqual(outputs);
     });
 
@@ -311,9 +285,7 @@ describe('@jupyter/ydoc', () => {
       codeCell.setMetadata({ collapsed: false });
       codeCell.undoManager?.stopCapturing();
       codeCell.setMetadata({ collapsed: true });
-
       codeCell.undo();
-
       expect(codeCell.getMetadata('collapsed')).toEqual(true);
     });
   });

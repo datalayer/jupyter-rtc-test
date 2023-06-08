@@ -4,7 +4,9 @@
 import { Delta, YFile } from '@jupyter/ydoc';
 
 describe('@jupyter/ydoc', () => {
+
   describe('YFile', () => {
+
     describe('#constructor', () => {
       test('should create a document without arguments', () => {
         const file = new YFile();
@@ -28,31 +30,25 @@ describe('@jupyter/ydoc', () => {
     describe('source', () => {
       test('should set source', () => {
         const file = new YFile();
-
         const source = 'foo';
         file.setSource(source);
-
         expect(file.source).toEqual(source);
         file.dispose();
       });
 
       test('should get source', () => {
         const file = new YFile();
-
         const source = 'foo';
         file.setSource(source);
-
         expect(file.getSource()).toEqual(source);
         file.dispose();
       });
 
       test('should update source', () => {
         const file = new YFile();
-
         const source = 'fooo bar';
         file.setSource(source);
         expect(file.source).toBe(source);
-
         file.updateSource(3, 5, '/');
         expect(file.source).toBe('foo/bar');
         file.dispose();
@@ -61,14 +57,12 @@ describe('@jupyter/ydoc', () => {
       test('should emit an insert source change', () => {
         const file = new YFile();
         expect(file.source).toBe('');
-
         const changes: Delta<string>[] = [];
         file.changed.connect((_, c) => {
           changes.push(c.sourceChange!);
         });
         const source = 'foo';
         file.setSource(source);
-
         expect(changes).toHaveLength(1);
         expect(changes).toEqual([
           [
@@ -86,13 +80,11 @@ describe('@jupyter/ydoc', () => {
         const source = 'foo';
         file.setSource(source);
         expect(file.source).toBe(source);
-
         const changes: Delta<string>[] = [];
         file.changed.connect((_, c) => {
           changes.push(c.sourceChange!);
         });
         file.setSource('');
-
         expect(changes).toHaveLength(1);
         expect(changes).toEqual([
           [
@@ -110,14 +102,12 @@ describe('@jupyter/ydoc', () => {
         const source1 = 'foo';
         file.setSource(source1);
         expect(file.source).toBe(source1);
-
         const changes: Delta<string>[] = [];
         file.changed.connect((_, c) => {
           changes.push(c.sourceChange!);
         });
         const source = 'bar';
         file.setSource(source);
-
         expect(changes).toHaveLength(1);
         expect(changes).toEqual([
           [
@@ -129,9 +119,10 @@ describe('@jupyter/ydoc', () => {
             }
           ]
         ]);
-
         file.dispose();
       });
     });
+
   });
+
 });
