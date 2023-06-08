@@ -59,15 +59,15 @@ def test_ydoc():
 
 
 @pytest_asyncio.fixture
-async def y_ws_client(request):
+async def y_websocket_client(request):
     client_id = request.param
-    p = subprocess.Popen(["node", f"{HERE / 'src/__tests__/clients/y_ws_client_'}{client_id}.mjs"])
+    p = subprocess.Popen(["node", f"{HERE / 'src/__tests__/clients/y_websocket_client_'}{client_id}.mjs"])
     yield p
     p.kill()
 
 
 @pytest_asyncio.fixture
-async def y_ws_server(request):
+async def y_websocket_server(request):
     try:
         kwargs = request.param
     except Exception:

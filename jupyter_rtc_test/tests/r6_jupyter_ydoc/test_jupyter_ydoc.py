@@ -16,8 +16,8 @@ NOTEBOOKS_DIR = Path(__file__).parent / "notebooks"
 
 
 @pytest.mark.asyncio
-@pytest.mark.parametrize("y_ws_client", "2", indirect=True)
-async def test_simple(y_ws_server, y_ws_client):
+@pytest.mark.parametrize("y_websocket_client", "2", indirect=True)
+async def test_simple(y_websocket_server, y_websocket_client):
     doc = YDoc()
     notebook = YNotebook(doc)
     websocket = await connect("ws://127.0.0.1:1234/room_2")
@@ -30,7 +30,7 @@ async def test_simple(y_ws_server, y_ws_client):
 
 
 @pytest.mark.asyncio
-async def test_plotly(y_ws_server):
+async def test_plotly(y_websocket_server):
     """This test checks in particular that the type cast is not breaking the data."""
     doc = YDoc()
     notebook = YNotebook(doc)
