@@ -1,6 +1,6 @@
 from y_py import YDoc, YText, YTextEvent
 
-from jupyter_rtc_test.tests.utils import exchange_updates
+from ..utils import exchange_updates
 
 
 def test_to_string():

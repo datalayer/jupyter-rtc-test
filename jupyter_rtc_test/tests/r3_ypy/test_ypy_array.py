@@ -6,7 +6,7 @@ from copy import deepcopy
 
 from y_py import YDoc, YArray, YArrayEvent
 
-from jupyter_rtc_test.tests.utils import exchange_updates
+from ..utils import exchange_updates
 
 
 def test_inserts():

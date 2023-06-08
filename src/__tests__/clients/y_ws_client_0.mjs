@@ -2,13 +2,14 @@ import ws from "ws";
 import { WebsocketProvider } from 'y-websocket';
 import { Doc } from 'yjs';
 
-const ydoc = new Doc();
-const ytest = ydoc.getMap('_test');
-const ymap = ydoc.getMap('map');
+const _doc = new Doc();
+const _clocker = _doc.getMap('_test');
+const _map = _doc.getMap('map');
 
 const wsProvider = new WebsocketProvider(
-  'ws://127.0.0.1:1234', 'my-roomname',
-  ydoc,
+  'ws://127.0.0.1:1234',
+  'room-1',
+  _doc,
   { WebSocketPolyfill: ws }
 );
 
@@ -18,14 +19,14 @@ wsProvider.on('status', event => {
 
 var clock = -1;
 
-ytest.observe(event => {
+_clocker.observe(event => {
   event.changes.keys.forEach((change, key) => {
     if (key === 'clock') {
-      const clk = ytest.get('clock');
+      const clk = _clocker.get('clock');
       if (clk > clock) {
-        ymap.set('out', ymap.get('in') + 1);
+        _map.set('out', _map.get('in') + 1);
         clock = clk + 1;
-        ytest.set('clock', clock);
+        _clocker.set('clock', clock);
       }
     }
   })
