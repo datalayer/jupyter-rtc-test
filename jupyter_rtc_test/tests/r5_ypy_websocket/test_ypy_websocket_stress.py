@@ -1,6 +1,8 @@
 import asyncio
 import pytest
+import random
 import subprocess
+import time
 
 from pathlib import Path
 from websockets import connect
@@ -14,12 +16,10 @@ from ypy_websocket import WebsocketProvider
 
 
 doc = YDoc()
-
 lock = Lock()
 
 HERE = Path(__file__).parent
-
-NUMBER_OF_CLIENTS = 10
+NUMBER_OF_CLIENTS = 200
 
 
 def custom_hook(args):
@@ -29,7 +29,8 @@ threading.excepthook = custom_hook
 
 
 def run_client(value):
-    p = subprocess.Popen(["node", f"{HERE}/../../../src/__tests__/clients/y_websocket_client_writer.mjs"])
+    time.sleep(random.randint(0, 2)) # Randomly sleep between 0 second and 2 seconds.
+    p = subprocess.Popen(["node", f"{HERE}/../../../src/__tests__/clients/y_websocket_client_appender.mjs"])
     return 0
 
 
@@ -38,7 +39,7 @@ async def test_ypy_websocket_stress(y_websocket_server):
     websocket = await connect("ws://127.0.0.1:1234/room_stress")
     with doc.begin_transaction() as txn:
         text = doc.get_text("t")
-        text.insert(txn, 0, "<S>")
+        text.insert(txn, 0, "S")
     websocket_provider = WebsocketProvider(doc, websocket)
     with ThreadPool() as pool:
         result = pool.map(run_client, range(NUMBER_OF_CLIENTS))

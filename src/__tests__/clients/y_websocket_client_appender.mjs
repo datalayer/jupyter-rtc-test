@@ -14,9 +14,7 @@ let wsProvider = new WebsocketProvider(
 wsProvider.on('status', event => {
   console.log('Status', event);
   if (event.status === 'connected') {
-    t.insert(0, '<C>');
-//  }
-//  if (event.status === "disconnected") {
+    t.insert(0, 'C');
     wsProvider.disconnect();
     wsProvider.awareness.destroy();
     wsProvider.destroy();
