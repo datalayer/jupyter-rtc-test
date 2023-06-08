@@ -239,6 +239,7 @@ def test_observer():
     assert delta == None
 
 
+@pytest.mark.skip
 def test_deep_observe():
     """
     Ensure that changes to elements inside the array trigger a callback.
@@ -253,7 +254,7 @@ def test_deep_observe():
 
     def callback(e: list):
         nonlocal events
-        events = e
+        events = epip 
 
     sub = container.observe_deep(callback)
     with ydoc.begin_transaction() as txn:

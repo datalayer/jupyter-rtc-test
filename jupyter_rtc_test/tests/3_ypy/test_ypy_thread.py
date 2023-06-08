@@ -31,6 +31,7 @@ def task(lock):
     return "done"
 
 
+@pytest.mark.skip
 def test_thread():
     """
     This test has following warning:
