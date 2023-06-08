@@ -5,7 +5,7 @@ import subprocess
 import time
 
 from pathlib import Path
-from websockets import connect
+from websockets import connect  # type: ignore
 
 import threading
 from threading import Lock

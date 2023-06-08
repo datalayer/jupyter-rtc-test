@@ -30,6 +30,7 @@ def update_json_file(path: Path, d: dict):
 HERE = Path(__file__).parent
 d = {"type": "module"}
 update_json_file(HERE / "node_modules/y-websocket/package.json", d)
+# update_json_file(HERE / "node_modules/@jupyterlab/nbformat/package.json", d)
 
 
 @pytest.fixture
