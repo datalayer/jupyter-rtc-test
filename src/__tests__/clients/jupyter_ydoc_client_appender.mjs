@@ -36,7 +36,8 @@ wsProvider.on('status', event => {
         }
       };
       notebook.setMetadata(metadata);
-      notebook.getCell(0).setSource("x=1")
+//      notebook.getCell(0).setSource("x=1")
+      notebook.getCell(0).updateSource(0, 0, 'C');
       wsProvider.disconnect();
       wsProvider.awareness.destroy();
       wsProvider.destroy();

@@ -1,23 +1,22 @@
 import asyncio
 import json
-import pytest
 import random
 import subprocess
 import time
 
 import threading
-from threading import Lock
 from multiprocessing.pool import ThreadPool
 
 from pathlib import Path
 from websockets import connect  # type: ignore
+
+import pytest
 
 from y_py import YDoc
 from ypy_websocket import WebsocketProvider
 from jupyter_ydoc import YNotebook
 
 from ..utils import stringify_source
-from .utils import Tester
 
 
 NOTEBOOKS_DIR = Path(__file__).parent / "notebooks"
@@ -49,5 +48,6 @@ async def test_notebook_stress(y_websocket_server):
         assert (1 in result) is False
     await asyncio.sleep(5)
     cell = notebook.get_cell(0)
-    source = cell.get("source")  
-    assert source == "x=1"
+    source = cell.get("source")
+#    assert source == "x=1"
+    assert source == "C" * NUMBER_OF_CLIENTS + "print('Hello, World!')"
