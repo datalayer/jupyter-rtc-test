@@ -12,7 +12,6 @@ from websockets import connect  # type: ignore
 
 import pytest
 
-from y_py import YDoc
 from ypy_websocket import WebsocketProvider
 from jupyter_ydoc import YNotebook
 

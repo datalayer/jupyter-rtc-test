@@ -1,12 +1,11 @@
 from __future__ import annotations
 
 import asyncio
-import pytest
 
 from datetime import datetime
-from typing import Any
 
-from jupyter_server import _tz as tz
+import pytest
+
 from jupyter_collaboration.loaders import FileLoader, FileLoaderMapping
 
 from .utils import TestContentsManager, TestFileIDManager

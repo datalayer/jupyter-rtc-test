@@ -2,7 +2,8 @@ import asyncio
 import json
 
 import pytest
-from websockets import connect
+
+from websockets import connect  # type: ignore
 
 from y_py import YDoc
 from ypy_websocket import WebsocketProvider

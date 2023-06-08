@@ -1,5 +1,4 @@
 import asyncio
-import pytest
 import random
 import subprocess
 import time
@@ -10,6 +9,8 @@ from websockets import connect  # type: ignore
 import threading
 from threading import Lock
 from multiprocessing.pool import ThreadPool
+
+import pytest
 
 from y_py import YDoc
 from ypy_websocket import WebsocketProvider
