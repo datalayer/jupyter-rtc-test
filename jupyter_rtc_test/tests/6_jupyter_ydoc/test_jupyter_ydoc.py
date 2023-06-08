@@ -15,14 +15,13 @@ from ypy_websocket import WebsocketProvider
 
 from jupyter_ydoc import YNotebook
 from jupyter_ydoc.utils import cast_all
-
 from jupyter_rtc_test.tests.utils import stringify_source
 
 
 files_dir = Path(__file__).parent / "notebooks"
 
 
-class Clocker:
+class Tester:
     def __init__(self, ydoc: YDoc, timeout: float = 1.0):
         self.timeout = timeout
         self.ytest = ydoc.get_map("_test")
@@ -43,6 +42,16 @@ class Clocker:
 
 
 @pytest.mark.asyncio
+async def test_plotly(y_ws_server):
+    """This test checks in particular that the type cast is not breaking the data."""
+    ydoc = YDoc()
+    ynotebook = YNotebook(ydoc)
+    nb = stringify_source(json.loads((files_dir / "plotly.ipynb").read_text()))
+    ynotebook.source = nb
+    assert ynotebook.source == nb
+
+
+@pytest.mark.asyncio
 @pytest.mark.parametrize("y_ws_client", "2", indirect=True)
 async def test_simple(y_ws_server, y_ws_client):
     ydoc = YDoc()
@@ -51,16 +60,6 @@ async def test_simple(y_ws_server, y_ws_client):
     WebsocketProvider(ydoc, websocket)
     nb = stringify_source(json.loads((files_dir / "simple.ipynb").read_text()))
     ynotebook.source = nb
-    ytest = Clocker(ydoc, 3.0)
-    await ytest.change()
-    assert ytest.source == nb
-
-
-@pytest.mark.asyncio
-async def test_plotly(y_ws_server):
-    """This test checks in particular that the type cast is not breaking the data."""
-    ydoc = YDoc()
-    ynotebook = YNotebook(ydoc)
-    nb = stringify_source(json.loads((files_dir / "plotly.ipynb").read_text()))
-    ynotebook.source = nb
-    assert ynotebook.source == nb
+    tester = Tester(ydoc, 3.0)
+    await tester.change()
+    assert tester.source == nb

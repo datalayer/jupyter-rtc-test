@@ -1,8 +1,8 @@
-import * as Y from 'yjs';
-import { WebsocketProvider } from 'y-websocket';
 import ws from "ws";
+import { WebsocketProvider } from 'y-websocket';
+import { Doc } from 'yjs';
 
-const ydoc = new Y.Doc();
+const ydoc = new Doc();
 const ytest = ydoc.getMap('_test');
 const ymap = ydoc.getMap('map');
 

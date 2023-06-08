@@ -72,6 +72,6 @@ async def y_ws_server(request):
 @pytest_asyncio.fixture
 async def y_ws_client(request):
     client_id = request.param
-    p = subprocess.Popen(["node", f"{here / 'src/__tests__/clients/yclient_'}{client_id}.mjs"])
+    p = subprocess.Popen(["node", f"{here / 'src/__tests__/clients/y_ws_client_'}{client_id}.mjs"])
     yield p
     p.kill()
