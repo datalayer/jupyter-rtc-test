@@ -4,7 +4,7 @@
 
 # Jupyter RTC Test
 
-> 💦 Stress tests for 🪐 Jupyter 🔌 Real Time Collaboration (RTC).
+> ⏱️ Stress tests for 🪐 Jupyter 🔌 Real Time Collaboration (RTC).
 
 The goal of this repository is to stress test the Real Time Collaboration (RTC) feature of JupyterLab and Jupyter Server.
 
@@ -216,14 +216,6 @@ yarn jupyter-rtc-test
 # open http://localhost:8686/api/jupyter/lab?token=60c1661cc408f978c309d04157af55c9588ff9557c9380e4fb50785750703da6
 yarn jupyterlab
 ```
-
-## TODO
-
-Simulate network latency with the help of TCP proxy.
-
-- https://github.com/MarkNenadov/websocket_proxpy
-- https://github.com/Shopify/toxiproxy
-- https://github.com/douglas/toxiproxy-python
 
 ## ⚖️ License
 
