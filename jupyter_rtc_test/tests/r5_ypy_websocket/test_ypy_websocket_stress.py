@@ -20,7 +20,7 @@ doc = YDoc()
 lock = Lock()
 
 HERE = Path(__file__).parent
-NUMBER_OF_CLIENTS = 200
+NUMBER_OF_CLIENTS = 10
 
 
 def custom_hook(args):

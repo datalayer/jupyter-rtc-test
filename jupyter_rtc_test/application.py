@@ -32,7 +32,7 @@ class JupyterRtcTestApp(ExtensionAppJinjaMixin, ExtensionApp):
     configC = Unicode("", config=True, help="Config C example.")
 
     def initialize_settings(self):
-        self.log.info("Jupyter Manager Config {}".format(self.config))
+        self.log.info("Jupyter RTC Test Config {}".format(self.config))
 
     def initialize_handlers(self):
         handlers = [
