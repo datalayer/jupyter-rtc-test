@@ -1,6 +1,5 @@
-// import { Doc } from 'yjs';
-import { YNotebook } from '@jupyter/ydoc';
 import ws from "ws";
+import { YNotebook } from '@jupyter/ydoc';
 import { WebsocketProvider } from 'y-websocket';
 
 const notebook = new YNotebook()
@@ -36,8 +35,7 @@ wsProvider.on('status', event => {
         }
       };
       notebook.setMetadata(metadata);
-//      notebook.getCell(0).setSource("x=1")
-      notebook.getCell(0).updateSource(0, 0, 'C');
+      notebook.getCell(0).setSource("x=1")
       wsProvider.disconnect();
       wsProvider.awareness.destroy();
       wsProvider.destroy();
