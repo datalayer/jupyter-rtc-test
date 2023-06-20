@@ -5,7 +5,7 @@ import time
 from pathlib import Path
 from unittest.mock import patch
 
-from jupyter_rtc_test.tests.r4_ypy_store.utils import (
+from .utils import (
     TestSQLiteYStore, MetadataCallback, TestTempFileYStore
 )
 

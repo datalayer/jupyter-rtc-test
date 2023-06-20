@@ -26,8 +26,8 @@ make env && \
 **⚡ Watch out ⚡** The tests will not work with the `pytest-tornasync` or the `pytest-jupyter` plugins install. To avoid issues, run the following commands.
 
 ```bash
-pip uninstall pytest-tornasync
-pip uninstall pytest-jupyter
+pip uninstall -y pytest-tornasync
+pip uninstall -y pytest-jupyter
 ```
 
 ## Install and Build
