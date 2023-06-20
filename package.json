@@ -64,7 +64,7 @@
     "start:webrtc:yjs": "fkill -s :4444 && node src/utils/webrtc-server/server-1.js",
     "start:ws:transparent": "fkill -s :8899 && node --loader ts-node/esm src/utils/ws-server/WSServerTransparent.mts",
     "start:ws:yjs": "fkill -s :1234 && YPERSISTENCE=./data-server ts-node-esm src/utils/ws-server/WSServerYjs.mts",
-    "start:ws:ypy": "fkill -s :1234 && python jupyter_rtc_test/tests/lstart_y_websocket.py",
+    "start:ws:ypy": "fkill -s :1234 && python jupyter_rtc_test/tests/start_y_websocket.py",
     "stylelint": "jlpm stylelint:check --fix",
     "stylelint:check": "stylelint --cache \"style/**/*.css\"",
     "test": "run-s test:py test:js",

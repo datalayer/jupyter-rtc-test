@@ -7,8 +7,6 @@ import tornado
 from jupyter_server.base.handlers import APIHandler, JupyterHandler
 from jupyter_server.extension.handler import ExtensionHandlerMixin, ExtensionHandlerJinjaMixin
 
-from genson import SchemaBuilder
-
 
 # pylint: disable=W0223
 class BaseTemplateHandler(ExtensionHandlerJinjaMixin, ExtensionHandlerMixin, JupyterHandler):

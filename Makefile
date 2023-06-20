@@ -36,7 +36,7 @@ env-rm: warning ## env-rm
 		conda remove -y --name ${ENV_NAME} --all || true )
 
 kill:
-	./dev/sh/kill-processes.sh
+	./dev/sh/kill.sh
 
 warning:
 	echo "\x1b[34m\x1b[43mEnsure you have run \x1b[1;37m\x1b[41m conda deactivate \x1b[22m\x1b[34m\x1b[43m before invoking this.\x1b[0m"

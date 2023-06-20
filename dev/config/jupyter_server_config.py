@@ -13,7 +13,7 @@ c.ServerApp.log_level = 'INFO'
 #################
 
 c.ServerApp.ip = '0.0.0.0'
-c.ServerApp.port = 8686
+c.ServerApp.port = 8888
 c.ServerApp.port_retries = 0
 
 #################
@@ -67,7 +67,6 @@ c.ServerApp.cookie_options = {
 #################
 
 c.ServerApp.jpserver_extensions = {
-    'jupyterlab': True,
     'jupyter_rtc_test': True,
 }
 
@@ -84,8 +83,8 @@ c.ServerApp.preferred_dir = content_dir
 # URLs
 #################
 
-c.ServerApp.base_url = '/api/jupyter'
-c.ServerApp.default_url = '/api/jupyter/lab'
+# c.ServerApp.base_url = '/api/jupyter'
+# c.ServerApp.default_url = '/api/jupyter/lab'
 
 #################
 # Kernel

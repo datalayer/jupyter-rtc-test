@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { ThemeProvider, BaseStyles, Box } from '@primer/react';
 import {
   CpuIcon,
@@ -9,9 +9,14 @@ import {
 } from '@primer/octicons-react';
 import { UnderlineNav } from '@primer/react/drafts';
 import MockTab1 from './Tab1';
+import { connect } from './../../ws';
 
 const Tester = (): JSX.Element => {
   const [tab, setTab] = useState(1);
+  useEffect(()=> {
+    connect('ws://localhost:8888/jupyter_rtc_test/echo', true);
+    connect('ws://localhost:8888/jupyter_rtc_test/echo', true);
+  });
   return (
     <>
       <ThemeProvider>

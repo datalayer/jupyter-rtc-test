@@ -3,7 +3,7 @@ const webpack = require("webpack");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 
-const JUPYTER_HOST = 'http://localhost:8686';
+const JUPYTER_HOST = 'http://localhost:8888';
 
 const IS_PRODUCTION = process.argv.indexOf('--mode=production') > -1;
 const mode = IS_PRODUCTION ? "production" : "development";

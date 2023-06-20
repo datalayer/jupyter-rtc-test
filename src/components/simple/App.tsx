@@ -3,7 +3,7 @@ import { useEffect, useState, useRef } from 'react';
 
 const ENDPOINT = 'ws://127.0.0.1:8899';
 // const ENDPOINT = "ws://127.0.0.1:3001";
-// const ENDPOINT = "ws://127.0.0.1:8686/api/jupyter/api/yjs/notebook:tmp.ipynb";
+// const ENDPOINT = "ws://127.0.0.1:8888/api/jupyter/api/yjs/notebook:tmp.ipynb";
 
 function App() {
   const ws = useRef<WebSocket>();
