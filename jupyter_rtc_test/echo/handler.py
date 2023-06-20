@@ -11,7 +11,7 @@ class WsEchoHandler(WebSocketMixin, WebSocketHandler, JupyterHandler):
     """WsEchoHandler"""
 
     def _send_hello(self):
-        """send a hello"""
+        """Send a hello."""
         if self.ws_connection is None and self.ping_callback is not None:
             self.ping_callback.stop()
             return
@@ -32,7 +32,7 @@ class WsEchoHandler(WebSocketMixin, WebSocketHandler, JupyterHandler):
 
 
     def open(self, *args, **kwargs):
-        """open"""
+        """WebSocket open"""
         self.log.info("WebSocket opened.")
         super(WebSocketMixin, self).open(*args, **kwargs)
         loop = ioloop.IOLoop.current()
@@ -45,12 +45,12 @@ class WsEchoHandler(WebSocketMixin, WebSocketHandler, JupyterHandler):
         self.ping_callback.start()
 
     def on_message(self, message):
-        """on_message"""
+        """WebSocket on message"""
         self.log.info("WebSocket message: " + message)
         self.write_message(str(message) + '... pong')
 
     def on_close(self):
-        """on_close"""
+        """WebSocket on close"""
         self.log.info("WebSocket closed")
 
     # CORS

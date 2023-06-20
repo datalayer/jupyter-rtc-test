@@ -9,7 +9,7 @@ import uuid
 from pathlib import Path
 from typing import Any
 
-from jupyter_server.auth import authorized
+# from jupyter_server.auth import authorized
 from jupyter_server.base.handlers import APIHandler, JupyterHandler
 from jupyter_ydoc import ydocs as YDOCS
 from tornado import web
@@ -136,9 +136,9 @@ class YDocWebSocketHandler(WebSocketHandler, JupyterHandler):
         """
         Overrides default behavior to check whether the client is authenticated or not.
         """
-        if self.get_current_user() is None:
-            self.log.warning("Couldn't authenticate WebSocket connection")
-            raise web.HTTPError(403)
+#        if self.get_current_user() is None:
+#            self.log.warning("Couldn't authenticate WebSocket connection")
+#            raise web.HTTPError(403)
         return await super().get(*args, **kwargs)
 
     async def open(self, room_id):
@@ -291,6 +291,19 @@ class YDocWebSocketHandler(WebSocketHandler, JupyterHandler):
         """
         return True
 
+    # CORS
+
+    def set_default_headers(self):
+        self.log.info('Setting default headers')
+        self.set_header("Access-Control-Allow-Origin", "*")
+        self.set_header('Access-Control-Allow-Methods', 'POST, PUT, DELETE, GET, OPTIONS')
+        self.set_header("Access-Control-Allow-Credentials", "true")
+        self.set_header("Access-Control-Allow-Headers", "Authorization, Content-Type, Depth, User-Agent, X-File-Size, X-Requested-With, X-Requested-By, If-Modified-Since, X-File-Name, Cache-Control")
+
+    def options(self):
+        self.set_status(204)
+        self.finish()
+
 
 class DocSessionHandler(APIHandler):
     """
@@ -299,8 +312,8 @@ class DocSessionHandler(APIHandler):
 
     auth_resource = "contents"
 
-    @web.authenticated
-    @authorized
+#    @web.authenticated
+#    @authorized
     async def put(self, path):
         """
         Creates a new session for a given document or returns an existing one.
@@ -333,3 +346,16 @@ class DocSessionHandler(APIHandler):
         )
         self.set_status(201)
         return self.finish(data)
+
+    # CORS
+
+    def set_default_headers(self):
+        self.log.info('Setting default headers')
+        self.set_header("Access-Control-Allow-Origin", "*")
+        self.set_header('Access-Control-Allow-Methods', 'POST, PUT, DELETE, GET, OPTIONS')
+        self.set_header("Access-Control-Allow-Credentials", "true")
+        self.set_header("Access-Control-Allow-Headers", "Authorization, Content-Type, Depth, User-Agent, X-File-Size, X-Requested-With, X-Requested-By, If-Modified-Since, X-File-Name, Cache-Control")
+
+    def options(self):
+        self.set_status(204)
+        self.finish()

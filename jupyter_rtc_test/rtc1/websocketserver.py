@@ -8,8 +8,9 @@ from logging import Logger
 from typing import Any
 
 from tornado.websocket import WebSocketHandler
-from ypy_websocket.websocket_server import WebsocketServer, YRoom
+
 from ypy_websocket.ystore import BaseYStore
+from ypy_websocket.websocket_server import WebsocketServer, YRoom
 
 
 class RoomNotFound(LookupError):

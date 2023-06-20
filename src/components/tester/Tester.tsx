@@ -14,8 +14,7 @@ import { connect } from './../../ws';
 const Tester = (): JSX.Element => {
   const [tab, setTab] = useState(1);
   useEffect(()=> {
-    connect('ws://localhost:8888/jupyter_rtc_test/echo', true);
-    connect('ws://localhost:8888/jupyter_rtc_test/echo', true);
+    connect('ws://localhost:8888/jupyter_rtc_test/tester', true);
   });
   return (
     <>

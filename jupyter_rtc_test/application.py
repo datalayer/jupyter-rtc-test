@@ -17,11 +17,11 @@ from ypy_websocket.ystore import BaseYStore
 from .handlers import ConfigHandler, IndexHandler
 from .echo.handler import WsEchoHandler
 from .relay.handler import WsRelayHandler
-from .rtc.handlers import DocSessionHandler, YDocWebSocketHandler
-from .rtc.loaders import FileLoaderMapping
-from .rtc.stores import SQLiteYStore
-from .rtc.utils import EVENTS_SCHEMA_PATH
-from .rtc.websocketserver import JupyterWebsocketServer
+from .rtc1.handlers import DocSessionHandler, YDocWebSocketHandler
+from .rtc1.loaders import FileLoaderMapping
+from .rtc1.stores import SQLiteYStore
+from .rtc1.websocketserver import JupyterWebsocketServer
+from .tester.handler import WsTesterHandler
 
 
 DEFAULT_STATIC_FILES_PATH = os.path.join(os.path.dirname(__file__), "./static")
@@ -101,24 +101,21 @@ class JupyterRtcTestApp(ExtensionAppJinjaMixin, ExtensionApp):
         self.file_loaders = FileLoaderMapping(
             self.serverapp.web_app.settings, self.log, self.file_poll_interval
         )
-        self.handlers.extend(
-            [
-                ("jupyter_rtc_test", IndexHandler),
-                (url_path_join("jupyter_rtc_test", "get_config"), ConfigHandler),
-                (url_path_join("jupyter_rtc_test", "echo"), WsEchoHandler),
-                (url_path_join("jupyter_rtc_test", "relay"), WsRelayHandler),
-                (
-                    r"/jupyter_rtc_test/room/(.*)",
-                    YDocWebSocketHandler,
-                    {
-                        "document_cleanup_delay": self.document_cleanup_delay,
-                        "document_save_delay": self.document_save_delay,
-                        "file_loaders": self.file_loaders,
-                        "ystore_class": self.ystore_class,
-                        "ywebsocket_server": self.ywebsocket_server,
-                    },
-                ),
-                (r"/jupyter_rtc_test/session/(.*)", DocSessionHandler),
+        self.handlers.extend([
+            ("jupyter_rtc_test", IndexHandler),
+            (url_path_join("jupyter_rtc_test", "get_config"), ConfigHandler),
+            (url_path_join("jupyter_rtc_test", "echo"), WsEchoHandler),
+            (url_path_join("jupyter_rtc_test", "relay"), WsRelayHandler),
+            (url_path_join("jupyter_rtc_test", "tester"), WsTesterHandler),
+            (r"/jupyter_rtc_test/room/(.*)", YDocWebSocketHandler, {
+                    "document_cleanup_delay": self.document_cleanup_delay,
+                    "document_save_delay": self.document_save_delay,
+                    "file_loaders": self.file_loaders,
+                    "ystore_class": self.ystore_class,
+                    "ywebsocket_server": self.ywebsocket_server,
+                },
+            ),
+            (r"/jupyter_rtc_test/session/(.*)", DocSessionHandler),
         ])
 
 
