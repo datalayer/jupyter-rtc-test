@@ -6,25 +6,27 @@ from tornado.websocket import WebSocketHandler
 from jupyter_server.base.handlers import JupyterHandler
 from jupyter_server.base.zmqhandlers import WebSocketMixin
 
-connected = set()
+
+CONNECTED = set()
+
 
 class WsRelayHandler(WebSocketMixin, WebSocketHandler, JupyterHandler):
-    """WsEchoHandler"""
+    """WsRelayHandler"""
 
     def open(self, *args, **kwargs):
-        """open"""
-        print("WebSocket opened.")
+        """WsRelayHandler open"""
+        self.log.info("WsRelayHandler opened.")
         super(WebSocketMixin, self).open(*args, **kwargs)
-        connected.add(self)
+        CONNECTED.add(self)
 
     def on_message(self, message):
-        """on_message"""
-        self.log.info("WebSocket message: " + message)
-        peers = {peer for peer in connected if peer is not self}
+        """WsRelayHandler on_message"""
+        self.log.info("WsRelayHandler message: " + message)
+        peers = {peer for peer in CONNECTED if peer is not self}
         for peer in peers:
             peer.write_message(str(message))
 
     def on_close(self):
-        """on_close"""
-        self.log.info("WebSocket closed.")
-        connected.remove(self)
+        """WsRelayHandler on_close"""
+        self.log.info("WsRelayHandler closed.")
+        CONNECTED.remove(self)

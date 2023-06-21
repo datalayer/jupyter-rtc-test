@@ -106,11 +106,11 @@
   },
   "dependencies": {
     "@datalayer/icons-react": "0.0.12",
+    "@datalayer/primer-addons": "0.0.13",
     "@jupyterlab/application": "4.0.0",
     "@jupyterlab/coreutils": "6.0.0",
     "@jupyterlab/services": "7.0.0",
     "@jupyterlab/settingregistry": "4.0.0",
-    "@primer/octicons-react": "18.2.0",
     "@primer/react": "35.25.1",
     "lodash.debounce": "4.0.8",
     "react": "18.2.0",

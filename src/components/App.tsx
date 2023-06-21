@@ -1,10 +1,10 @@
 import { createRoot } from 'react-dom/client';
-import Tester from './tester/Tester';
+import Stresser from './tester/Stresser';
 
 const root = createRoot(document.getElementById('root') as HTMLElement);
 
 const App = () => <>
-  <Tester />
+  <Stresser />
 </>
 
 root.render(<App />);

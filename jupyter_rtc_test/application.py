@@ -14,14 +14,14 @@ from jupyter_server.extension.application import ExtensionApp
 
 from ypy_websocket.ystore import BaseYStore
 
-from .handlers import ConfigHandler, IndexHandler
+from .handlers import IndexHandler, ConfigHandler
 from .echo.handler import WsEchoHandler
+from .stresser.handler import WsStresserHandler
 from .relay.handler import WsRelayHandler
 from .rtc1.handlers import DocSessionHandler, YDocWebSocketHandler
 from .rtc1.loaders import FileLoaderMapping
 from .rtc1.stores import SQLiteYStore
 from .rtc1.websocketserver import JupyterWebsocketServer
-from .tester.handler import WsTesterHandler
 
 
 DEFAULT_STATIC_FILES_PATH = os.path.join(os.path.dirname(__file__), "./static")
@@ -74,6 +74,7 @@ class JupyterRtcTestApp(ExtensionAppJinjaMixin, ExtensionApp):
         directory.""",
     )
 
+
     def initialize_settings(self):
         self.settings.update(
             {
@@ -84,6 +85,7 @@ class JupyterRtcTestApp(ExtensionAppJinjaMixin, ExtensionApp):
             }
         )
         self.log.info("Jupyter RTC Test Config {}".format(self.config))
+
 
     def initialize_handlers(self):
         # Set configurable parameters to YStore class
@@ -106,7 +108,7 @@ class JupyterRtcTestApp(ExtensionAppJinjaMixin, ExtensionApp):
             (url_path_join("jupyter_rtc_test", "get_config"), ConfigHandler),
             (url_path_join("jupyter_rtc_test", "echo"), WsEchoHandler),
             (url_path_join("jupyter_rtc_test", "relay"), WsRelayHandler),
-            (url_path_join("jupyter_rtc_test", "tester"), WsTesterHandler),
+            (url_path_join("jupyter_rtc_test", "stresser"), WsStresserHandler),
             (r"/jupyter_rtc_test/room/(.*)", YDocWebSocketHandler, {
                     "document_cleanup_delay": self.document_cleanup_delay,
                     "document_save_delay": self.document_save_delay,
