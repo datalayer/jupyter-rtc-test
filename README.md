@@ -6,13 +6,17 @@
 
 > 📶 Stress tests for 🪐 Jupyter 🔌 Real Time Collaboration (RTC).
 
-The goal of this repository is to stress test the Real Time Collaboration (RTC) feature of JupyterLab and Jupyter Server and is a needed requirement {to avoid users having issues when they enable RTC](./docs/why.md).
+The goal of this repository is to stress test the Real Time Collaboration (RTC) feature of JupyterLab and Jupyter Server and is a needed requirement [to avoid users having issues when they enable RTC](./docs/why.md).
 
 The current list of discovered issues is [maintained on this page](./docs/issues.md).
 
 The tests aims to replicate real life cases, meaning that most of them are running in a distrbuted way. You can run the test on a standalone (local laptop or CI) machine, in which case the distributed behavior is simulated.
 
 You can also run the tests in a real a distributed environment like Kubernetes, this however requires you to setup additional infrastructure and configuration. Please note you can also run the Kubernetes flavored tests on a local Minikube instance.
+
+## Install
+
+[Install](./docs/install.md) the tool directly from PyPI and [launch it](./docs/use.md) from the command line.
 
 ## Develop
 

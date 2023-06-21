@@ -3,9 +3,9 @@ import { useEffect, useState, useRef } from 'react';
 
 const ENDPOINT = 'ws://127.0.0.1:8899';
 // const ENDPOINT = "ws://127.0.0.1:3001";
-// const ENDPOINT = "ws://127.0.0.1:8888/api/jupyter/api/yjs/notebook:tmp.ipynb";
+// const ENDPOINT = "ws://127.0.0.1:8888/api/yjs/notebook:tmp.ipynb";
 
-function App() {
+const SimpleApp = () => {
   const ws = useRef<WebSocket>();
   const [isPaused, setPause] = useState(false);
   const [response, setResponse] = useState('');
@@ -32,7 +32,7 @@ function App() {
     socket.on("time", data => {
       setResponse(data);
     });
-*/
+    */
     ws.current = new WebSocket(ENDPOINT);
     const wsCurrent = ws.current;
     wsCurrent.onerror = e => {
@@ -68,4 +68,4 @@ function App() {
   );
 }
 
-export default App;
+export default SimpleApp;

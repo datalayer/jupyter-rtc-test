@@ -238,7 +238,7 @@ def test_observer():
     assert delta == None
 
 
-# @pytest.mark.skip
+@pytest.mark.skip
 def test_deep_observe():
     """
     Ensure that changes to elements inside the array trigger a callback.

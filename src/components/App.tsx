@@ -1,5 +1,5 @@
 import { createRoot } from 'react-dom/client';
-import Stresser from './tester/Stresser';
+import Stresser from './stress/Stresser';
 
 const root = createRoot(document.getElementById('root') as HTMLElement);
 

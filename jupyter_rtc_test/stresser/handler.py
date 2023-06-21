@@ -56,8 +56,8 @@ class WsStresserHandler(WebSocketMixin, WebSocketHandler, JupyterHandler):
 
     def _stop_stress(self):
         self.log.info('Stopping stress.')
-        WsStresserHandler.pool.stop()
-        pool = ThreadPool()
+        WsStresserHandler.pool.close()
+        WsStresserHandler.pool = ThreadPool()
 
     def open(self, *args, **kwargs):
         """WsStresserHandler open"""

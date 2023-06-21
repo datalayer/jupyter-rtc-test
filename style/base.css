@@ -4,6 +4,6 @@
     https://jupyterlab.readthedocs.io/en/stable/developer/css.html
 */
 
-.jupyterrtctest-container {
+.jupyter-rtc-test-container {
   overflow-y: visible;
 }
