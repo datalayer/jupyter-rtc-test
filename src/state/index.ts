@@ -2,7 +2,7 @@ import { makeObservable, observable, action } from "mobx";
 
 export class AppState {
   tab: number;
-  constructor(tab: number = 3) {
+  constructor(tab: number = 1) {
     makeObservable(this, {
       tab: observable,
       setTab: action,

@@ -41,7 +41,7 @@ const AboutTab = (): JSX.Element => {
             See the left diagram to know more about the stress tests arechitecture, 
             see also this <InlineLink href="https://github.com/datalayer/jupyter-rtc-test/blob/main/docs/why.md">this document</InlineLink> to know more about the technical stack.
             </Text>
-            <Link href="javascript:return false;" onClick={() => appState.setTab(2)}>Run the tests</Link>
+            <Link onClick={() => appState.setTab(2)}>Run the tests</Link>
           </River.Content>
         </River>
         <Styled>

@@ -10,15 +10,15 @@ from typing import Any
 from tornado.websocket import WebSocketHandler
 
 from ypy_websocket.ystore import BaseYStore
-from ypy_websocket.websocket_server import WebsocketServer, YRoom
+from ypy_websocket.websocket_server import WebsocketServer as YpyWebsocketServer, YRoom
 
 
 class RoomNotFound(LookupError):
     pass
 
 
-class JupyterWebsocketServer(WebsocketServer):
-    """Ypy websocket server.
+class JupyterWebsocketServer(YpyWebsocketServer):
+    """Jupyter Ypy websocket server.
 
     It communicates the document updates to all clients for each room.
     """

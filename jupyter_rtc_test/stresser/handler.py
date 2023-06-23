@@ -1,5 +1,7 @@
 """Stresser handler."""
 
+import json
+
 from tornado import ioloop
 from tornado.websocket import WebSocketHandler
 
@@ -20,7 +22,7 @@ from ypy_websocket import WebsocketProvider
 
 
 HERE = Path(__file__).parent
-NUMBER_OF_CLIENTS = 10
+NUMBER_OF_CLIENTS = 20
 
 
 CONNECTED = set()
@@ -33,9 +35,9 @@ threading.excepthook = custom_hook
 
 
 def run_client(value):
-    time.sleep(random.randint(0, 2)) # Randomly sleep between 0 second and 2 seconds.
-    p = subprocess.Popen(["node", f"{HERE}/../../src/__tests__/clients/stress_ui/y_websocket_client_insert.mjs", str(value)])
-    return 0
+    time.sleep(random.randint(0, 20)) # Randomly sleep between 0 second and 2 seconds.
+    proc = subprocess.Popen(["node", f"{HERE}/../../src/__tests__/clients/stress_ui/y_websocket_client_insert.mjs", str(value)])
+    return proc
 
 
 class WsStresserHandler(WebSocketMixin, WebSocketHandler, JupyterHandler):
@@ -67,15 +69,16 @@ class WsStresserHandler(WebSocketMixin, WebSocketHandler, JupyterHandler):
 
     def on_message(self, m):
         """WsStresserHandler on message"""
-        message = str(m)
-        self.log.info("WsStresserHandler message: " + message)
-        if message == 'start':
+        payload = str(m)
+        self.log.info('WsStresserHandler message payload: ' + m)
+        message = json.loads(payload)
+        action = message['action']
+        if action == 'start':
             self._start_stress()
-        elif message == 'stop':
+        elif action == 'stop':
             self._stop_stress()
-        elif message.startswith('info:'):
-            peers = {peer for peer in CONNECTED if peer is not self}
-            self.log.info(peers)
+        elif action == 'info':
+            peers = { peer for peer in CONNECTED if peer is not self }
             for peer in peers:
                 peer.write_message(message)
         else:
@@ -92,9 +95,8 @@ class WsStresserHandler(WebSocketMixin, WebSocketHandler, JupyterHandler):
 #        return True
 
     def set_default_headers(self):
-        self.log.info('Setting default headers')
         self.set_header("Access-Control-Allow-Origin", "*")
-        self.set_header('Access-Control-Allow-Methods', 'POST, PUT, DELETE, GET, OPTIONS')
+        self.set_header('Access-Control-Allow-Methods', "POST, PUT, DELETE, GET, OPTIONS")
         self.set_header("Access-Control-Allow-Credentials", "true")
         self.set_header("Access-Control-Allow-Headers", "Authorization, Content-Type, Depth, User-Agent, X-File-Size, X-Requested-With, X-Requested-By, If-Modified-Since, X-File-Name, Cache-Control")
 

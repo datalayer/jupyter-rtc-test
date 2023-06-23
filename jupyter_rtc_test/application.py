@@ -18,10 +18,10 @@ from .handlers import IndexHandler, ConfigHandler
 from .echo.handler import WsEchoHandler
 from .stresser.handler import WsStresserHandler
 from .relay.handler import WsRelayHandler
-from .rtc1.handlers import DocSessionHandler, YDocWebSocketHandler
-from .rtc1.loaders import FileLoaderMapping
-from .rtc1.stores import SQLiteYStore
-from .rtc1.websocketserver import JupyterWebsocketServer
+from .rtc.handlers import DocSessionHandler, YDocWebSocketHandler
+from .rtc.loaders import FileLoaderMapping
+from .rtc.stores import SQLiteYStore
+from .rtc.websocketserver import JupyterWebsocketServer
 
 
 DEFAULT_STATIC_FILES_PATH = os.path.join(os.path.dirname(__file__), "./static")
