@@ -4,6 +4,8 @@
     "description": "description",
     "defaulNumberOfClients": 10,
     "maxNumberOfClients": 100,
-    "scriptNme": ""
+    "nodeJsScript": "",
+    "pythonScript": "",
+    "shouldConverge": true
   }
 ]

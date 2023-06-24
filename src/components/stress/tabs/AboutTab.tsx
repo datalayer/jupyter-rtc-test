@@ -32,13 +32,13 @@ const AboutTab = (): JSX.Element => {
           <River.Content>
             <Heading>Architecture</Heading>
             <Text>
-            You can run via CLI 64 python unit tests with pytest 76 javascript unit tests with jest. This ensures that the environement and basic functionality is available.
+            You can run the tests via CLI (64 python unit tests with pytest and 76 javascript unit tests with jest). These tests ensure that the environment and basic functionality are available.
             <br/>
             <br/>
             You can run 2 stress tests via CLI or via UI.
             <br/>
             <br/>            
-            See the left diagram to know more about the stress tests arechitecture, 
+            See the left diagram to know more about the stress tests architecture, 
             see also this <InlineLink href="https://github.com/datalayer/jupyter-rtc-test/blob/main/docs/why.md">this document</InlineLink> to know more about the technical stack.
             </Text>
             <Link onClick={() => appState.setTab(2)}>Run the tests</Link>

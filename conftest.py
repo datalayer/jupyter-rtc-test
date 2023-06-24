@@ -20,11 +20,14 @@ HERE = Path(__file__).parent
 
 
 def update_json_file(path: Path, d: dict):
-    with open(path, "rb") as f:
-        package_json = json.load(f)
-    package_json.update(d)
-    with open(path, "w") as f:
-        json.dump(package_json, f, indent=2)
+    try:
+        with open(path, "rb") as f:
+            package_json = json.load(f)
+        package_json.update(d)
+        with open(path, "w") as f:
+            json.dump(package_json, f, indent=2)
+    except:
+        pass
 
 # Workaround until https://github.com/yjs/y-websocket/pull/104 is merged and released.
 HERE = Path(__file__).parent

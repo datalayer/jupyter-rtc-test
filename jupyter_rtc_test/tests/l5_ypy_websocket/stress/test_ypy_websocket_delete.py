@@ -37,7 +37,7 @@ def run_client(value):
 
 @pytest.mark.asyncio
 async def test_ypy_websocket_delete(y_websocket_server):
-    websocket = await connect("ws://127.0.0.1:1234/room_stress")
+    websocket = await connect("ws://127.0.0.1:1234/jupyter_rtc_test")
     with doc.begin_transaction() as txn:
         text = doc.get_text("t")
         text.insert(txn, 0, "S")

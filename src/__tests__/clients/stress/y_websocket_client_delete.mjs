@@ -6,7 +6,7 @@ const doc = new Doc();
 
 let wsProvider = new WebsocketProvider(
   'ws://127.0.0.1:1234',
-  'room_stress',
+  'jupyter_rtc_test',
   doc,
   { WebSocketPolyfill: ws }
 );

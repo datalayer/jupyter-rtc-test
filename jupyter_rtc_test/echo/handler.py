@@ -55,8 +55,10 @@ class WsEchoHandler(WebSocketMixin, WebSocketHandler, JupyterHandler):
 
     # CORS
 
+#    def check_origin(self, origin):
+#        return True
+
     def set_default_headers(self):
-        self.log.info('Setting default headers')
         self.set_header("Access-Control-Allow-Origin", "*")
         self.set_header('Access-Control-Allow-Methods', 'POST, PUT, DELETE, GET, OPTIONS')
         self.set_header("Access-Control-Allow-Credentials", "true")

@@ -111,8 +111,6 @@
     "@jupyterlab/coreutils": "6.0.0",
     "@jupyterlab/services": "7.0.0",
     "@jupyterlab/settingregistry": "4.0.0",
-    "@primer/brand-primitives": "0.20.0",
-    "@primer/react-brand": "0.20.0",
     "lodash.debounce": "4.0.8",
     "mobx": "6.7.0",
     "mobx-react": "7.6.0",
@@ -281,9 +279,6 @@
   "publishConfig": {
     "access": "public"
   },
-  "installConfig": {
-    "hoistingLimits": "workspaces"
-  },
   "jupyterlab": {
     "discovery": {
       "server": {
@@ -297,8 +292,7 @@
     },
     "extension": "./lib/jupyterlab/index.js",
     "outputDir": "jupyter_rtc_test/labextension",
-    "schemaDir": "schema",
-    "webpackConfig": "./webpack.jupyterlab.config.js"
+    "schemaDir": "schema"
   },
   "jupyter-releaser": {
     "hooks": {

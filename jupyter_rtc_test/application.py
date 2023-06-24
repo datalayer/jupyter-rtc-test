@@ -1,4 +1,4 @@
-"""The Jupyter RTC Test Server application."""
+"""The Jupyter RTC Test server application."""
 from __future__ import annotations
 
 import os
@@ -21,7 +21,7 @@ from .relay.handler import WsRelayHandler
 from .rtc.handlers import DocSessionHandler, YDocWebSocketHandler
 from .rtc.loaders import FileLoaderMapping
 from .rtc.stores import SQLiteYStore
-from .rtc.websocketserver import JupyterWebsocketServer
+from .rtc.server import JupyterWebsocketServer
 
 
 DEFAULT_STATIC_FILES_PATH = os.path.join(os.path.dirname(__file__), "./static")

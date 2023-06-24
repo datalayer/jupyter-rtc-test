@@ -21,7 +21,8 @@ from ypy_websocket.yutils import YMessageType
 from .loaders import FileLoaderMapping
 from .rooms import DocumentRoom, TransientRoom
 from .utils import JUPYTER_COLLABORATION_EVENTS_URI, LogLevel, decode_file_path
-from .websocketserver import JupyterWebsocketServer
+from .server import JupyterWebsocketServer
+
 
 YFILE = YDOCS["file"]
 
@@ -294,7 +295,6 @@ class YDocWebSocketHandler(WebSocketHandler, JupyterHandler):
     # CORS
 
     def set_default_headers(self):
-        self.log.info('Setting default headers')
         self.set_header("Access-Control-Allow-Origin", "*")
         self.set_header('Access-Control-Allow-Methods', 'POST, PUT, DELETE, GET, OPTIONS')
         self.set_header("Access-Control-Allow-Credentials", "true")
@@ -350,7 +350,6 @@ class DocSessionHandler(APIHandler):
     # CORS
 
     def set_default_headers(self):
-        self.log.info('Setting default headers')
         self.set_header("Access-Control-Allow-Origin", "*")
         self.set_header('Access-Control-Allow-Methods', 'POST, PUT, DELETE, GET, OPTIONS')
         self.set_header("Access-Control-Allow-Credentials", "true")
