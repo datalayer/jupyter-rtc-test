@@ -2,7 +2,7 @@ import WebSocket from "ws";
 import { Doc } from 'yjs';
 import { WebsocketProvider } from 'y-websocket';
 
-const id = process.argv[2]
+const id = Number(process.argv[2])
 const doc = new Doc();
 
 let wsProvider = new WebsocketProvider(

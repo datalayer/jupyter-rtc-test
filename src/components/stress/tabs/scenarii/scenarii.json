@@ -1,11 +1,20 @@
 [
   {
-    "name": "name",
-    "description": "description",
+    "name": "Insert 1 character",
+    "description": "Insert one character at a time.",
     "defaulNumberOfClients": 10,
     "maxNumberOfClients": 100,
-    "nodeJsScript": "",
-    "pythonScript": "",
+    "nodeJsScript": "y_websocket_client_insert.mjs",
+    "pythonScript": "y_websocket_client_insert.py",
+    "shouldConverge": true
+  },
+  {
+    "name": "Insert and delete characters",
+    "description": "Insert and delete randomly characters.",
+    "defaulNumberOfClients": 10,
+    "maxNumberOfClients": 100,
+    "nodeJsScript": "y_websocket_client_insert_delete.mjs",
+    "pythonScript": "y_websocket_client_insert_delete.py",
     "shouldConverge": true
   }
 ]

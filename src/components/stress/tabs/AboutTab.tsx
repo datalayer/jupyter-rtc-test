@@ -1,9 +1,17 @@
-import { Box } from "@primer/react";
+import { HeartOutlineIcon } from "@datalayer/icons-react";
+import { Avatar, AvatarPair, Box } from "@primer/react";
 import { FAQ, InlineLink, Text, River, Link, Heading, ThemeProvider } from "@primer/react-brand";
 import styled from 'styled-components';
 import appState from "../../../state";
 
 import ArchitectureSvg from "./../../../../style/svg/architecture.image.svg";
+
+const By = () => (
+  <AvatarPair>
+    <Avatar src="https://avatars.githubusercontent.com/datalayer" />
+    <Avatar src="https://avatars.githubusercontent.com/anaconda" />
+  </AvatarPair>
+)
 
 const AboutTab = (): JSX.Element => {
   const Styled = styled.div`
@@ -32,16 +40,21 @@ const AboutTab = (): JSX.Element => {
           <River.Content>
             <Heading>Architecture</Heading>
             <Text>
-            You can run the tests via CLI (64 python unit tests with pytest and 76 javascript unit tests with jest). These tests ensure that the environment and basic functionality are available.
-            <br/>
-            <br/>
-            You can run 2 stress tests via CLI or via UI.
-            <br/>
-            <br/>            
-            See the left diagram to know more about the stress tests architecture, 
-            see also this <InlineLink href="https://github.com/datalayer/jupyter-rtc-test/blob/main/docs/why.md">this document</InlineLink> to know more about the technical stack.
+              You can run the tests via CLI (64 python unit tests with pytest and 76 javascript unit tests with jest). These tests ensure that the environment and basic functionality are available.
+              <br/>
+              <br/>
+              You can run 2 stress tests via CLI or via UI.
+              <br/>
+              <br/>            
+              See the left diagram to know more about the stress tests architecture, 
+              see also this <InlineLink href="https://github.com/datalayer/jupyter-rtc-test/blob/main/docs/why.md">this document</InlineLink> to know more about the technical stack.
+              <br/>
+              <br/>
+              <Link onClick={() => appState.setTab(2)}>Run the tests</Link>
+              <br/>
+              <br/>
+              Done with <HeartOutlineIcon/> by <By/>
             </Text>
-            <Link onClick={() => appState.setTab(2)}>Run the tests</Link>
           </River.Content>
         </River>
         <Styled>

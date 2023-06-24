@@ -23,8 +23,6 @@ from ypy_websocket import WebsocketProvider
 
 HERE = Path(__file__).parent
 NUMBER_OF_CLIENTS = 20
-
-
 CONNECTED = set()
 
 
@@ -41,13 +39,13 @@ def run_client(value):
 
 
 class WsStresserHandler(WebSocketMixin, WebSocketHandler, JupyterHandler):
-    """WsStresserHandler"""
+    """WsStresser Handler"""
 
     doc = YDoc()
     pool = ThreadPool()
 
     def _start_stress(self):
-        self.log.info('Starting stress.')
+        self.log.info('Starting stress tests.')
         WsStresserHandler.doc = YDoc()
         with WsStresserHandler.doc.begin_transaction() as txn:
             text = WsStresserHandler.doc.get_text("t")
@@ -57,20 +55,20 @@ class WsStresserHandler(WebSocketMixin, WebSocketHandler, JupyterHandler):
         self.log.info(result)
 
     def _stop_stress(self):
-        self.log.info('Stopping stress.')
+        self.log.info('Stopping stress tests.')
         WsStresserHandler.pool.close()
         WsStresserHandler.pool = ThreadPool()
 
     def open(self, *args, **kwargs):
-        """WsStresserHandler open"""
-        self.log.info("WsStresserHandler opened.")
+        """WsStresser Handler open."""
+        self.log.info("WsStresser Handler opened.")
         super(WebSocketMixin, self).open(*args, **kwargs)
         CONNECTED.add(self)
 
     def on_message(self, m):
-        """WsStresserHandler on message"""
+        """WsStresser Handler on message."""
         payload = str(m)
-        self.log.info('WsStresserHandler message payload: ' + m)
+        self.log.info('WsStresser Handler message payload: ' + m)
         message = json.loads(payload)
         action = message['action']
         if action == 'start':
@@ -85,8 +83,8 @@ class WsStresserHandler(WebSocketMixin, WebSocketHandler, JupyterHandler):
             self.write_message(message)
 
     def on_close(self):
-        """WsStresserHandler on close"""
-        self.log.info("WsStresserHandler closed")
+        """WsStresser Handler on close."""
+        self.log.info("WsStresser Handler closed.")
         CONNECTED.remove(self)
 
     # CORS

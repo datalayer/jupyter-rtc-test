@@ -961,24 +961,24 @@
   <text
      xml:space="preserve"
      style="font-size:13.2101px;line-height:1.25;font-family:sans-serif;stroke-width:0.825633"
-     x="304.11472"
-     y="325.76917"
+     x="125.4352"
+     y="303.34076"
      id="text504"><tspan
        sodipodi:role="line"
        id="tspan502"
-       x="304.11472"
-       y="325.76917"
+       x="125.4352"
+       y="303.34076"
        style="stroke-width:0.825633">jupyter-ydoc</tspan></text>
   <text
      xml:space="preserve"
      style="font-size:13.2101px;line-height:1.25;font-family:sans-serif;stroke-width:0.825633"
-     x="217.58513"
-     y="339.72314"
+     x="221.58513"
+     y="325.72314"
      id="text504-1"><tspan
        sodipodi:role="line"
        id="tspan502-4"
-       x="217.58513"
-       y="339.72314"
+       x="221.58513"
+       y="325.72314"
        style="stroke-width:0.825633">Y.js (or Ywasm)</tspan></text>
   <text
      xml:space="preserve"
@@ -994,13 +994,13 @@
   <text
      xml:space="preserve"
      style="font-size:13.2101px;line-height:1.25;font-family:sans-serif;stroke-width:0.825633"
-     x="397.62671"
-     y="339.54254"
+     x="395.62671"
+     y="325.54254"
      id="text504-1-5"><tspan
        sodipodi:role="line"
        id="tspan502-4-4"
-       x="397.62671"
-       y="339.54254"
+       x="395.62671"
+       y="325.54254"
        style="stroke-width:0.825633">Ypy</tspan></text>
   <text
      xml:space="preserve"
@@ -1038,12 +1038,12 @@
   <text
      xml:space="preserve"
      style="font-size:13.2101px;line-height:1.25;font-family:sans-serif;stroke-width:0.825633"
-     x="58.520737"
+     x="63.705853"
      y="227.70099"
      id="text504-8"><tspan
        sodipodi:role="line"
        id="tspan502-2"
-       x="58.520737"
+       x="63.705853"
        y="227.70099"
        style="stroke-width:0.825633">jupyter-ydoc</tspan></text>
   <text
@@ -1127,7 +1127,7 @@
        id="tspan502-2-0-8"
        x="466.90173"
        y="389.29709"
-       style="stroke-width:0.825633">Document content</tspan></text>
+       style="stroke-width:0.825633">Document info</tspan></text>
   <path
      style="fill:none;stroke:#000000;stroke-width:1;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:1,1;stroke-opacity:1;marker-end:url(#Arrow1Lend-4);stroke-dashoffset:0"
      d="M 237.9225,251.57619 283.87698,113.97751"

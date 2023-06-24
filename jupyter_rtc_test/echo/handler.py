@@ -51,7 +51,7 @@ class WsEchoHandler(WebSocketMixin, WebSocketHandler, JupyterHandler):
 
     def on_close(self):
         """WebSocket on close"""
-        self.log.info("WebSocket closed")
+        self.log.info("WebSocket closed.")
 
     # CORS
 
