@@ -58,7 +58,7 @@
     "prettier": "jlpm prettier:base --write --list-different",
     "prettier:base": "prettier \"**/*{.ts,.tsx,.js,.jsx,.css,.json,.md}\"",
     "prettier:check": "jlpm prettier:base --check",
-    "start": "run-p -c 'start:*' -c start:ws:ypy",
+    "start": "run-p -c 'start:*'",
     "start:jupyter-server": "cd ./dev/sh && ./start-jupyter-server.sh",
     "start:webpack": "webpack serve",
     "start:webrtc:yjs": "fkill -s :4444 && node src/utils/webrtc-server/server-1.js",

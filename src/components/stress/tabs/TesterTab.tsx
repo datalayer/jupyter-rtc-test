@@ -1,9 +1,9 @@
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect, useCallback, useMemo } from 'react';
 import useWebSocket, { ReadyState } from 'react-use-websocket';
 import { Doc } from 'yjs';
 import { WebsocketProvider } from 'y-websocket';
 import styled from 'styled-components';
-import { Button, Box, Heading, ActionMenu, ActionList, Text, Spinner, Label } from '@primer/react';
+import { useTheme, Button, Box, Heading, ActionMenu, ActionList, Text, Spinner, Label } from '@primer/react';
 import { AlertIcon, BookIcon, CheckIcon } from '@primer/octicons-react';
 import { Grid } from '@primer/react-brand';
 import { Slider, CloseableFlash } from "@datalayer/primer-addons";
@@ -53,6 +53,9 @@ const createMessage = (id: number, action: string, text: string): string => {
 }
 
 const TesterTab = (): JSX.Element => {
+  const { theme } = useTheme();
+  const okColor = useMemo(() => theme?.colorSchemes.light.colors.success.muted, []);
+  const nokColor = useMemo(() => theme?.colorSchemes.light.colors.severe.muted, []);
   const [ scenarii, _ ] = useState<Scenario[]>(scenariiJson as Scenario[]);
   const [ scenario, setScenario ] = useState<Scenario | undefined>(scenarii[0]);
   const [ users, setUsers ] = useState<Clients>(new Map<number, Client>());
@@ -63,6 +66,9 @@ const TesterTab = (): JSX.Element => {
   const { sendMessage, lastMessage, readyState } = useWebSocket(socketUrl);
   const sendStart = useCallback(() => sendMessage(createMessage(-1, 'start', '')), []);
   const sendStop = useCallback(() => sendMessage(createMessage(-1, 'stop', '')), []);
+  const getColor = (a: string, b: string) => {
+    return a === b ? okColor : nokColor;
+  }
   useEffect(() => {
     const wsProvider = new WebsocketProvider(
       'ws://127.0.01:8888/jupyter_rtc_test/room',
@@ -71,7 +77,6 @@ const TesterTab = (): JSX.Element => {
     );
     const t = doc.getText('t');
     wsProvider.on('status', event => {
-      console.log('Status', event);
       if (event.status === 'connected') {
         t.insert(0, 'C');
         setDoc(doc);
@@ -100,11 +105,12 @@ const TesterTab = (): JSX.Element => {
     sendStop();
     setRunning(false);
   }
+  const browserText = doc.getText('t').toString();
   return (
     <>
+      <Heading sx={{fontSize: 3, paddingBottom: 3}}>Scenario</Heading>
       <Grid style={{ maxWidth: '100%', paddingLeft: 0, paddingRight: 0 }}>
-        <Grid.Column span={12}>
-         <Heading sx={{fontSize: 3, paddingBottom: 3}}>Scenario</Heading>
+        <Grid.Column span={6}>
           <ActionMenu>
             <ActionMenu.Button>Test scenarii</ActionMenu.Button>
             <ActionMenu.Overlay>
@@ -133,14 +139,30 @@ const TesterTab = (): JSX.Element => {
           {
             scenario &&
               <>
-                <Box mt={3}><Text><b>{scenario.name}</b>: {scenario.description}</Text></Box>
-                <Box mt={3}><Text><b>Is typically converging:</b> {scenario.isConverging.toString()}</Text></Box>
-                <Box mt={3}><Slider label="Number of remote Node.js users" min={1} max={scenario.maxNumberNodejsClients} value={scenario.numberNodejsClients} disabled={running} onChange={(numberNodejsClients) => setScenario({...scenario, numberNodejsClients})} /></Box>
-                <Box mt={3}><Text><Label variant="primary">Node.js</Label> <code>{scenario.nodeJsScript}</code></Text></Box>
-                <Box mt={3}><Slider label="Number of remote Python users" min={1} max={scenario.maxNumberPythonClients} value={scenario.numberPythonClients} disabled={running} onChange={() => {}} /></Box>
-                <Box mt={3}><Text><Label variant="accent">Python</Label> <code>{scenario.pythonScript}</code></Text></Box>
-                <Box mt={3}><Slider label="Warmup period (seconds)" min={1} max={scenario.maxWarmupPeriodSeconds} value={scenario.warmupPeriodSeconds} disabled={running} onChange={() => {}} /></Box>
-                <Box mt={3}><Slider label="Maximum text length (characters)" min={1} max={scenario.maxTextLenght} disabled={running} value={scenario.textLenght} onChange={() => {}} /></Box>
+                <Box mt={3}>
+                  <Text><b>{scenario.name}</b>: {scenario.description}</Text>
+                </Box>
+                <Box mt={3}>
+                  <Text><b>Is typically converging:</b> {scenario.isConverging.toString()}</Text>
+                </Box>
+                <Box mt={3}>
+                  <Slider label="Number of remote Node.js users" min={1} max={scenario.maxNumberNodejsClients} value={scenario.numberNodejsClients} disabled={running} onChange={(numberNodejsClients) => setScenario({...scenario, numberNodejsClients})} />
+                </Box>
+                <Box mt={3}>
+                  <Text><Label variant="primary">Node.js</Label> <code>{scenario.nodeJsScript}</code></Text>
+                </Box>
+                <Box mt={3}>
+                  <Slider label="Number of remote Python users" min={1} max={scenario.maxNumberPythonClients} value={scenario.numberPythonClients} disabled={running} onChange={() => {}} />
+                </Box>
+                <Box mt={3}>
+                  <Text><Label variant="accent">Python</Label> <code>{scenario.pythonScript}</code></Text>
+                </Box>
+                <Box mt={3}>
+                  <Slider label="Warmup period (seconds)" min={1} max={scenario.maxWarmupPeriodSeconds} value={scenario.warmupPeriodSeconds} disabled={running} onChange={() => {}} />
+                </Box>
+                <Box mt={3}>
+                  <Slider label="Maximum text length (characters)" min={1} max={scenario.maxTextLenght} disabled={running} value={scenario.textLenght} onChange={() => {}} />
+                </Box>
               </>
           }
           {
@@ -165,45 +187,52 @@ const TesterTab = (): JSX.Element => {
             )
           }
         </Grid.Column>
+        <Grid.Column span={6}>
+          { scenario &&
+            <Box>
+              <Chart/>
+            </Box>
+          }
+        </Grid.Column>
         { scenario ?
           <>
-            <Grid.Column span={6}>
+            <Grid.Column span={12}>
               <Box>
                 <Heading sx={{fontSize: 2, mb: 2, mt:2}}>Browser Document</Heading>
-                <OverflowText>{ doc.getText('t').toString() }</OverflowText>
+                <OverflowText>{ browserText }</OverflowText>
               </Box>
               <Box>
                 <Heading sx={{fontSize: 2, mb: 2, mt:2}}>Node.js Remote Documents</Heading>
+                <Grid style={{ maxWidth: '100%', paddingLeft: 0, paddingRight: 0 }}>
                 {
                   Array.from(users.values()).sort((a, b) => (a.id < b.id ? -1 : (a.id == b.id ? 0 : 1))).map(user => {
-                    return <Box key={user.id}><OverflowText>Client {user.id}: {user.text}</OverflowText></Box>
+                    return <Grid.Column span={6}>
+                      <Box key={user.id} style={{backgroundColor: getColor(browserText, user.text)}}><OverflowText>Client {user.id}: {user.text}</OverflowText></Box>
+                    </Grid.Column>
                   })
                 }
+                </Grid>
               </Box>
               <Box>
                 <Heading sx={{fontSize: 2, mb: 2, mt:2}}>Python Remote Documents</Heading>
+                <Grid style={{ maxWidth: '100%', paddingLeft: 0, paddingRight: 0 }}>
                 {
-                  Array.from(users.values()).sort((a, b) => (a.id < b.id ? -1 : (a.id == b.id ? 0 : 1))).map(user => {
-                    return <Box key={user.id}><OverflowText>Client {user.id}: {user.text}</OverflowText></Box>
-                  })
                 }
+                </Grid>
               </Box>
               <Box>
                 <Heading sx={{fontSize: 2, mb: 2, mt:2}}>Server Document</Heading>
                 <CloseableFlash variant="warning">The display of the Server Document still needs to be implemented.</CloseableFlash>
               </Box>
               <Box>
-                <Heading sx={{fontSize: 2, mb: 2, mt:2}}>Infos History</Heading>
+                <Heading sx={{fontSize: 2, mb: 2, mt:2}}>Infos History (latest 100)</Heading>
                 {
-                  messageHistory.reverse().map((value, index) => {
-                    return <Box key={index}>{(value as any).data}</Box>
+                  messageHistory.reverse().slice(0, 100).map((value, index) => {
+                    return <Box key={index}>
+                      {(value as any).data}
+                    </Box>
                   })
                 }
-              </Box>
-            </Grid.Column>
-            <Grid.Column span={6}>
-              <Box>
-                <Chart/>
               </Box>
             </Grid.Column>
           </>

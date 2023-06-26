@@ -22,7 +22,9 @@ from ypy_websocket import WebsocketProvider
 
 
 HERE = Path(__file__).parent
-NUMBER_OF_CLIENTS = 20
+
+NUMBER_OF_CLIENTS = 40
+
 CONNECTED = set()
 
 
@@ -32,17 +34,29 @@ def custom_hook(args):
 threading.excepthook = custom_hook
 
 
-def run_client(value):
-    time.sleep(random.randint(0, 20)) # Randomly sleep between 0 second and 2 seconds.
-    proc = subprocess.Popen(["node", f"{HERE}/../../src/__tests__/clients/stress_ui/y_websocket_client_insert.mjs", str(value)])
-    return proc
+def run_nodejs_client(value):
+    time.sleep(random.randint(0, 10)) # Random warmup period.
+    nodejs_process = subprocess.Popen(["node", f"{HERE}/../../src/__tests__/clients/stress_ui/y_websocket_client_insert.mjs", str(value)])
+    return nodejs_process
+
+
+def run_python_client(value):
+    time.sleep(random.randint(0, 10)) # Random warmup period.
+    python_process = subprocess.Popen(["python", f"{HERE}/clients/client_insert.py", str(value)])
+    return python_process
 
 
 class WsStresserHandler(WebSocketMixin, WebSocketHandler, JupyterHandler):
     """WsStresser Handler"""
 
     doc = YDoc()
-    pool = ThreadPool()
+
+    nodejs_pool = ThreadPool()
+    nodejs_processes = []
+
+    python_pool = ThreadPool()
+    python_processes = []
+
 
     def _start_stress(self):
         self.log.info('Starting stress tests.')
@@ -51,13 +65,23 @@ class WsStresserHandler(WebSocketMixin, WebSocketHandler, JupyterHandler):
             text = WsStresserHandler.doc.get_text("t")
             text.insert(txn, 0, "S")
         websocket_provider = WebsocketProvider(WsStresserHandler.doc, self)
-        result = WsStresserHandler.pool.map(run_client, range(NUMBER_OF_CLIENTS))
-        self.log.info(result)
+        nodejs_result = WsStresserHandler.nodejs_pool.map(run_nodejs_client, range(NUMBER_OF_CLIENTS))
+        WsStresserHandler.nodejs_processes = nodejs_result
+#        python_result = WsStresserHandler.python_pool.map(run_python_client, range(NUMBER_OF_CLIENTS))
+#        WsStresserHandler.python_processes = python_result
 
     def _stop_stress(self):
         self.log.info('Stopping stress tests.')
-        WsStresserHandler.pool.close()
-        WsStresserHandler.pool = ThreadPool()
+        for nodejs_process in WsStresserHandler.nodejs_processes:
+            self.log.info("Killing nodejs process with pid %s " % nodejs_process.pid)
+            nodejs_process.kill()
+        WsStresserHandler.nodejs_pool.close()
+        WsStresserHandler.nodejs_pool = ThreadPool()
+        for python_process in WsStresserHandler.python_processes:
+            self.log.info("Killing python process with pid %s " % python_process.pid)
+            python_process.kill()
+        WsStresserHandler.python_pool.close()
+        WsStresserHandler.pyton_pool = ThreadPool()
 
     def open(self, *args, **kwargs):
         """WsStresser Handler open."""

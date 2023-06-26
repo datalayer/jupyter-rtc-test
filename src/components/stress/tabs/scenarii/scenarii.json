@@ -8,7 +8,7 @@
     "nodeJsScript": "y_websocket_client_insert.mjs",
     "numberPythonClients": 10,
     "maxNumberPythonClients": 100,
-    "pythonScript": "y_websocket_client_insert.py",
+    "pythonScript": "client_insert.py",
     "warmupPeriodSeconds": 3,
     "maxWarmupPeriodSeconds": 10,
     "textLenght": 10,
