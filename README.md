@@ -6,12 +6,9 @@
 
 > 📶 Stress tests for 🪐 Jupyter 🔌 Real Time Collaboration (RTC).
 
-- [ ] Client -> TestDocument: Python remote documents, Node.js remote documents, Browser Document, Server Document (-> Warning message)
-- [ ] Dropdown: show orange the non-converging
-- [ ] Pause/Restart users
-- [ ] Stop users
-- [ ] Add python users
-- [ ] JSON params
+- [ ] Stop users
+- [ ] Add Python users
+- [ ] Pause / Restart users
 
 The goal of this repository is to stress test the Real Time Collaboration (RTC) feature of JupyterLab and Jupyter Server and is a needed requirement [to avoid users having issues when they enable RTC](./docs/why.md).
 

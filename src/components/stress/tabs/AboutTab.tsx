@@ -49,11 +49,11 @@ const AboutTab = (): JSX.Element => {
               See the left diagram to know more about the stress tests architecture, 
               see also this <InlineLink href="https://github.com/datalayer/jupyter-rtc-test/blob/main/docs/why.md">this document</InlineLink> to know more about the technical stack.
               <br/>
+              <br/>            
+              The unit and stress tests are good ways to learn about then Jupyter RTC internals and how to develop on top of it.
+              <br/>
               <br/>
               <Link onClick={() => appState.setTab(2)}>Run the tests</Link>
-              <br/>
-              <br/>
-              Done with <HeartOutlineIcon/> by <By/>
             </Text>
           </River.Content>
         </River>
@@ -71,13 +71,22 @@ const AboutTab = (): JSX.Element => {
                   </FAQ.Answer>
                 </FAQ.Item>
                 <FAQ.Item>
-                  <FAQ.Question>Why can I can use it?</FAQ.Question>
+                  <FAQ.Question>How can I can use it?</FAQ.Question>
                   <FAQ.Answer>
                     <p>
                       For now you have to build and use if <InlineLink href="https://github.com/datalayer/jupyter-rtc-test/blob/main/docs/use.md">from source</InlineLink>.
                     </p>
                   </FAQ.Answer>
                 </FAQ.Item>
+                <FAQ.Item>
+                  <FAQ.Question>Who is developing this?</FAQ.Question>
+                  <FAQ.Answer>
+                    <p>
+                      This is done with <HeartOutlineIcon/> by <By/>.
+                    </p>
+                  </FAQ.Answer>
+                </FAQ.Item>
+
               </FAQ>
             </Box>
           </ThemeProvider>

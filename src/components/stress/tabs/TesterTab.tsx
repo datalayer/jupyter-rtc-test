@@ -1,22 +1,36 @@
 import { useState, useEffect, useCallback } from 'react';
-import { Button, Box, Heading, ActionMenu, ActionList, Text, Spinner, Label } from '@primer/react';
+import useWebSocket, { ReadyState } from 'react-use-websocket';
 import { Doc } from 'yjs';
 import { WebsocketProvider } from 'y-websocket';
+import styled from 'styled-components';
+import { Button, Box, Heading, ActionMenu, ActionList, Text, Spinner, Label } from '@primer/react';
+import { AlertIcon, BookIcon, CheckIcon } from '@primer/octicons-react';
 import { Grid } from '@primer/react-brand';
-import { Slider } from "@datalayer/primer-addons";
-import useWebSocket, { ReadyState } from 'react-use-websocket';
+import { Slider, CloseableFlash } from "@datalayer/primer-addons";
+import Blankslate from '../blankslate/Blankslate';
 import Chart from './charts/Chart';
 
 import scenariiJson from './scenarii/scenarii.json';
 
+const OverflowText = styled(Text)`
+  overflow-wrap: break-word;
+`;
+
 type Scenario = {
+  id: number;
   name: string;
   description: string;
-  defaulNumberOfClients: number;
-  maxNumberOfClients: number;
+  numberNodejsClients: number;
+  maxNumberNodejsClients: number;
   nodeJsScript: string;
+  numberPythonClients: number;
+  maxNumberPythonClients: number;
   pythonScript: string;
-  shouldConverge: boolean;
+  warmupPeriodSeconds: number;
+  maxWarmupPeriodSeconds: number;
+  textLenght: number;
+  maxTextLenght: number;
+  isConverging: boolean;
 }
 
 type Message = {
@@ -40,8 +54,8 @@ const createMessage = (id: number, action: string, text: string): string => {
 
 const TesterTab = (): JSX.Element => {
   const [ scenarii, _ ] = useState<Scenario[]>(scenariiJson as Scenario[]);
-  const [ scenario, setScenario ] = useState<Scenario>();
-  const [ clients, setClients ] = useState<Clients>(new Map<number, Client>());
+  const [ scenario, setScenario ] = useState<Scenario | undefined>(scenarii[0]);
+  const [ users, setUsers ] = useState<Clients>(new Map<number, Client>());
   const [ running, setRunning ] = useState(false);
   const [ doc, setDoc ] = useState(new Doc());
   const [ socketUrl, __ ] = useState('ws://localhost:8888/jupyter_rtc_test/stresser');
@@ -67,15 +81,15 @@ const TesterTab = (): JSX.Element => {
   useEffect(() => {
     if (lastMessage !== null) {
       setMessageHistory((prev) => prev.concat(lastMessage));
-      const message = JSON.parse(lastMessage.data);
+      const message = JSON.parse((lastMessage as any).data);
       if (message.action === 'info') {
-        clients.set(Number(message.id), message);
-        setClients(clients);
+        users.set(Number(message.id), message);
+        setUsers(users);
       }
     }
   }, [lastMessage, setMessageHistory]);
-  const resetCollectedData = () => {
-    setClients(new Map<number, Client>());
+  const resetScenarioData = () => {
+    setUsers(new Map<number, Client>());
     setMessageHistory([]);
   }
   const startTest = () => {
@@ -94,73 +108,118 @@ const TesterTab = (): JSX.Element => {
           <ActionMenu>
             <ActionMenu.Button>Test scenarii</ActionMenu.Button>
             <ActionMenu.Overlay>
-              <ActionList>
-                { scenarii.map(scenario => <ActionList.Item key={scenario.name} onSelect={() => setScenario(scenario)}>{scenario.name}</ActionList.Item>) }
-                <ActionList.Divider />
-                <ActionList.Item variant="danger" onClick={resetCollectedData}>Reset colllected data</ActionList.Item>
+              <ActionList sx={{width: 300}}>
+                { scenarii.map(s => (
+                  <ActionList.Item key={s.id} disabled={s.id === scenario?.id} onSelect={() => setScenario(s)}>
+                    <ActionList.LeadingVisual>
+                      { s.isConverging ? <CheckIcon /> : <AlertIcon/> }
+                    </ActionList.LeadingVisual>
+                    {s.name}
+                    <ActionList.Description variant="block">
+                      {s.description}
+                    </ActionList.Description>
+                  </ActionList.Item>)
+                )}
+                {scenario && <>
+                  <ActionList.Divider />
+                  <ActionList.Item variant="danger" onSelect={resetScenarioData}>Reset scenario data</ActionList.Item>
+                  <ActionList.Divider />
+                  <ActionList.Item variant="danger" onSelect={() => setScenario(undefined)}>Unload scenario</ActionList.Item>
+                </>
+                }
               </ActionList>
             </ActionMenu.Overlay>
           </ActionMenu>
           {
             scenario &&
               <>
-                <Box mt={3}/>
-                <Box><Text><b>{scenario.name}</b>: {scenario.description}</Text></Box>
-                <Box><Text><b>Should converge:</b> {scenario.shouldConverge.toString()}</Text></Box>
-                <Box mt={3}/>
-                <Slider label="Number of node.js clients" min={1} max={100} value={10} disabled={running} onChange={() => {}} />
-                <Box><Text><Label variant="accent">Node.js</Label> <code>{scenario.nodeJsScript}</code></Text></Box>
-                <Box mt={3}/>
-                <Slider label="Number of python clients" min={1} max={100} value={10} disabled={running} onChange={() => {}} />
-                <Box><Text><Label variant="accent">Python</Label> <code>{scenario.pythonScript}</code></Text></Box>
-                <Box mt={3}/>
-                <Slider label="Warmup period (seconds)" min={1} max={10} value={2} disabled={running} onChange={() => {}} />
-                <Box mt={3}/>
-                <Slider label="Maximum text length (characters)" min={1} max={500} disabled={running} value={100} onChange={() => {}} />
-                <Box mt={3}/>
+                <Box mt={3}><Text><b>{scenario.name}</b>: {scenario.description}</Text></Box>
+                <Box mt={3}><Text><b>Is typically converging:</b> {scenario.isConverging.toString()}</Text></Box>
+                <Box mt={3}><Slider label="Number of remote Node.js users" min={1} max={scenario.maxNumberNodejsClients} value={scenario.numberNodejsClients} disabled={running} onChange={(numberNodejsClients) => setScenario({...scenario, numberNodejsClients})} /></Box>
+                <Box mt={3}><Text><Label variant="primary">Node.js</Label> <code>{scenario.nodeJsScript}</code></Text></Box>
+                <Box mt={3}><Slider label="Number of remote Python users" min={1} max={scenario.maxNumberPythonClients} value={scenario.numberPythonClients} disabled={running} onChange={() => {}} /></Box>
+                <Box mt={3}><Text><Label variant="accent">Python</Label> <code>{scenario.pythonScript}</code></Text></Box>
+                <Box mt={3}><Slider label="Warmup period (seconds)" min={1} max={scenario.maxWarmupPeriodSeconds} value={scenario.warmupPeriodSeconds} disabled={running} onChange={() => {}} /></Box>
+                <Box mt={3}><Slider label="Maximum text length (characters)" min={1} max={scenario.maxTextLenght} disabled={running} value={scenario.textLenght} onChange={() => {}} /></Box>
               </>
           }
           {
             scenario && (
-              running ?
-                <Box sx={{display: 'flex'}}>
-                  <Box mr={1}><Spinner /></Box>
-                  <Button variant="danger" onClick={stopTest} disabled={readyState !== ReadyState.OPEN}>Stop test</Button>
-                </Box>
-              :
-                <Button variant="primary" onClick={startTest} disabled={readyState !== ReadyState.OPEN}>Start test</Button>
+              <Box sx={{display: 'flex'}} mt={3}>
+                { running ?
+                  <>
+                    <Button leadingVisual={() => <Spinner sx={{paddingTop: 1, paddingBottom: 1}}/>} variant="danger" onClick={stopTest} disabled={readyState !== ReadyState.OPEN}>
+                      Stop users
+                    </Button>
+                    <Box ml={3}/>
+                    <Button leadingVisual={() => <Spinner sx={{paddingTop: 1, paddingBottom: 1}}/>} variant="danger" onClick={stopTest} disabled={true}>
+                      Pause users
+                    </Button>
+                  </>
+                :
+                  <Button variant="primary" onClick={startTest} disabled={readyState !== ReadyState.OPEN}>
+                    Start users
+                  </Button>
+                }
+              </Box>
             )
           }
         </Grid.Column>
-        <Grid.Column span={6}>
-        <Box>
-            { scenario && <Heading sx={{fontSize: 3, mb: 2}}>Browser Client</Heading> }
-            { scenario &&
-              doc.getText('t').toString()
-            }
-          </Box>
-          <Box>
-            { scenario && <Heading sx={{fontSize: 3, mb: 2}}>Remote Clients</Heading> }
-            { scenario &&
-              Array.from(clients.values()).sort((a, b) => (a.id < b.id ? -1 : (a.id == b.id ? 0 : 1))).map(client => {
-                return <Box key={client.id}>Client {client.id}: {client.text}</Box>
-              })
-            }
-          </Box>
-          <Box>
-            { scenario && <Heading sx={{fontSize: 3, mb: 2}}>Infos History</Heading> }
-            { scenario &&
-              messageHistory.reverse().map((value, index) => {
-                return <Box key={index}>{value.data}</Box>
-              })
-            }
-          </Box>
-        </Grid.Column>
-        <Grid.Column span={6}>
-          <Box>
-            {  scenario && <Chart/> }
-          </Box>
-        </Grid.Column>
+        { scenario ?
+          <>
+            <Grid.Column span={6}>
+              <Box>
+                <Heading sx={{fontSize: 2, mb: 2, mt:2}}>Browser Document</Heading>
+                <OverflowText>{ doc.getText('t').toString() }</OverflowText>
+              </Box>
+              <Box>
+                <Heading sx={{fontSize: 2, mb: 2, mt:2}}>Node.js Remote Documents</Heading>
+                {
+                  Array.from(users.values()).sort((a, b) => (a.id < b.id ? -1 : (a.id == b.id ? 0 : 1))).map(user => {
+                    return <Box key={user.id}><OverflowText>Client {user.id}: {user.text}</OverflowText></Box>
+                  })
+                }
+              </Box>
+              <Box>
+                <Heading sx={{fontSize: 2, mb: 2, mt:2}}>Python Remote Documents</Heading>
+                {
+                  Array.from(users.values()).sort((a, b) => (a.id < b.id ? -1 : (a.id == b.id ? 0 : 1))).map(user => {
+                    return <Box key={user.id}><OverflowText>Client {user.id}: {user.text}</OverflowText></Box>
+                  })
+                }
+              </Box>
+              <Box>
+                <Heading sx={{fontSize: 2, mb: 2, mt:2}}>Server Document</Heading>
+                <CloseableFlash variant="warning">The display of the Server Document still needs to be implemented.</CloseableFlash>
+              </Box>
+              <Box>
+                <Heading sx={{fontSize: 2, mb: 2, mt:2}}>Infos History</Heading>
+                {
+                  messageHistory.reverse().map((value, index) => {
+                    return <Box key={index}>{(value as any).data}</Box>
+                  })
+                }
+              </Box>
+            </Grid.Column>
+            <Grid.Column span={6}>
+              <Box>
+                <Chart/>
+              </Box>
+            </Grid.Column>
+          </>
+        :
+          <>
+            <Grid.Column span={6}>
+              <Blankslate border>
+                <Blankslate.Visual>
+                  <BookIcon size="medium" />
+                </Blankslate.Visual>
+                <Blankslate.Heading>Choose a scenario</Blankslate.Heading>
+                <Blankslate.Description>A scenario allows you to configure and run stress tests.</Blankslate.Description>
+              </Blankslate>
+            </Grid.Column>
+          </>
+        }
       </Grid>
     </>
   );
