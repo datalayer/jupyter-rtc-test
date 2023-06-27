@@ -7,13 +7,16 @@
 > 📶 Stress tests for 🪐 Jupyter 🔌 Real Time Collaboration (RTC).
 
 <div align="center" style="text-align: center">
-  <img alt="Jupyter RTC Tests" src="https://datalayer-jupyter-examples.s3.amazonaws.com/jupyter-rtc-test.gif" />
+  <img alt="Jupyter RTC Test" src="https://datalayer-jupyter-examples.s3.amazonaws.com/jupyter-rtc-test.gif" />
 </div>
-
 
 The goal of this repository is to stress test the Real Time Collaboration (RTC) feature of JupyterLab and Jupyter Server and is a needed requirement [to avoid users having issues when they enable RTC](./docs/why.md).
 
-The current list of discovered issues is [maintained on this page](./docs/issues.md).
+<div align="center" style="text-align: center">
+  <img alt="Jupyter RTC Test" src="https://raw.githubusercontent.com/datalayer/jupyter-rtc-test/main/style/svg/architecture.image.svg" />
+</div>
+
+The current list of discovered issues is [maintained on this page](./docs/issues.md). Potential [solutions](./docs/solutions.md) are explored.
 
 The tests aims to replicate real life cases, meaning that most of them are running in a distrbuted way. You can run the test on a standalone (local laptop or CI) machine, in which case the distributed behavior is simulated.
 
