@@ -34,6 +34,7 @@ type Scenario = {
   textLength: number;
   maxTextLength: number;
   shouldConverge: boolean;
+  room: string;
 }
 
 type Message = {
@@ -83,20 +84,22 @@ const TesterTab = (): JSX.Element => {
     return a === b ? okColor : nokColor;
   }
   useEffect(() => {
-    const wsProvider = new WebsocketProvider(
-      'ws://127.0.01:8888/jupyter_rtc_test/room',
-      'jupyter_rtc_test',
-      doc,
-    );
-    wsProvider.on('status', event => {
-      if (event.status === 'connected') {
-        setDoc(doc);
-      }
-    });
-    return () => {
-      wsProvider.destroy();
+    if (scenario) {
+      const wsProvider = new WebsocketProvider(
+        'ws://127.0.01:8888/jupyter_rtc_test/room',
+        scenario.room,
+        doc,
+      );
+      wsProvider.on('status', event => {
+        if (event.status === 'connected') {
+          setDoc(doc);
+        }
+      });
+      return () => {
+        wsProvider.destroy();
+      }  
     }
-  }, [doc]);
+  }, [doc, scenario]);
   useEffect(() => {
     if (lastMessage !== null) {
       setMessageHistory((prev) => prev.concat(lastMessage));

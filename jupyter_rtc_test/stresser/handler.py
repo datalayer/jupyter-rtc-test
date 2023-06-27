@@ -31,15 +31,15 @@ def custom_hook(args):
 threading.excepthook = custom_hook
 
 
-def run_nodejs_client(id, script, textLength, warmupPeriodSeconds):
+def run_nodejs_client(id, script, textLength, warmupPeriodSeconds, room_name):
     time.sleep(random.randint(0, int(warmupPeriodSeconds)))
-    nodejs_process = subprocess.Popen(["node", f"{HERE}/../../src/__tests__/clients/stress-ui/" + script, str(id), textLength, warmupPeriodSeconds])
+    nodejs_process = subprocess.Popen(["node", f"{HERE}/../../src/__tests__/clients/stress-ui/" + script, str(id), textLength, warmupPeriodSeconds, room_name])
     return nodejs_process
 
 
-def run_python_client(id, script, textLength, warmupPeriodSeconds):
+def run_python_client(id, script, textLength, warmupPeriodSeconds, room_name):
     time.sleep(random.randint(0, int(warmupPeriodSeconds)))
-    python_process = subprocess.Popen(["python", f"{HERE}/clients/" + script, str(id), textLength, warmupPeriodSeconds])
+    python_process = subprocess.Popen(["python", f"{HERE}/../tests/clients/" + script, str(id), textLength, warmupPeriodSeconds, room_name])
     return python_process
 
 
@@ -84,10 +84,10 @@ class WsStresserHandler(WebSocketMixin, WebSocketHandler, JupyterHandler):
 #        with WsStresserHandler.doc.begin_transaction() as txn:
 #            text = WsStresserHandler.doc.get_text("t")
 #            text.insert(txn, 0, "S")
-        nodejs_args = [(i, scenario['nodejsScript'], str(scenario['textLength']), str(scenario['warmupPeriodSeconds'])) for i in range(scenario['numberNodejsClients'])]
+        nodejs_args = [(i, scenario['nodejsScript'], str(scenario['textLength']), str(scenario['warmupPeriodSeconds']), scenario['room']) for i in range(scenario['numberNodejsClients'])]
         nodejs_result = WsStresserHandler.nodejs_pool.starmap(run_nodejs_client, nodejs_args)
         WsStresserHandler.nodejs_processes = nodejs_result
-        python_args = [(i, scenario['pythonScript'], str(scenario['textLength']), str(scenario['warmupPeriodSeconds'])) for i in range(scenario['numberPythonClients'])]
+        python_args = [(i, scenario['pythonScript'], str(scenario['textLength']), str(scenario['warmupPeriodSeconds']), scenario['room']) for i in range(scenario['numberPythonClients'])]
         python_result = WsStresserHandler.python_pool.starmap(run_python_client, python_args)
         WsStresserHandler.python_processes = python_result
 

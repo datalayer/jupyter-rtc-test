@@ -5,6 +5,7 @@ import { WebsocketProvider } from 'y-websocket';
 const clientId = Number(process.argv[2])
 const textLength = Number(process.argv[3])
 const warmupPeriodSeconds = Number(process.argv[4])
+const roomName = process.argv[5]
 
 const doc = new Doc();
 const t = doc.getText('t');
@@ -17,7 +18,7 @@ let MUTATE_DOC = true;
 
 let wsProvider = new WebsocketProvider(
   'ws://127.0.01:8888/jupyter_rtc_test/room',
-  'jupyter_rtc_test',
+  roomName,
   doc,
   { WebSocketPolyfill: WebSocket }
 );

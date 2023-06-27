@@ -13,7 +13,8 @@
     "maxWarmupPeriodSeconds": 10,
     "textLength": 100,
     "maxTextLength": 1000,
-    "shouldConverge": true
+    "shouldConverge": true,
+    "room": "insert_delete"
   },
   {
     "id": 2,
@@ -21,7 +22,7 @@
     "description": "Set the full text conent.",
     "numberNodejsClients": 10,
     "maxNumberNodejsClients": 100,
-    "nodejsScript": "y_websocket_client_set_conent.mjs",
+    "nodejsScript": "y_websocket_client_set_content.mjs",
     "numberPythonClients": 10,
     "maxNumberPythonClients": 100,
     "pythonScript": "y_websocket_client_set_content.py",
@@ -29,6 +30,7 @@
     "maxWarmupPeriodSeconds": 3,
     "textLength": 100,
     "maxTextLength": 1000,
-    "shouldConverge": true
+    "shouldConverge": true,
+    "room": "set_content"
   }
 ]

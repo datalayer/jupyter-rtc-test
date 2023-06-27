@@ -24,6 +24,7 @@ WAIT_S = 5
 client_id = int(sys.argv[1])
 text_length = int(sys.argv[2])
 warmup_period_seconds = int(sys.argv[3])
+room_name = sys.argv[4]
 
 doc = YDoc()
 text = doc.get_text('t')
@@ -56,7 +57,7 @@ thread.start()
 
 async def main():
     global MUTATE_DOC 
-    websocket = await connect("ws://127.0.01:8888/jupyter_rtc_test/room/jupyter_rtc_test")
+    websocket = await connect(f"ws://127.0.01:8888/jupyter_rtc_test/room/{room_name}")
     websocket_provider = WebsocketProvider(doc, websocket)
     while True:
         curr_dt = datetime.now() 
