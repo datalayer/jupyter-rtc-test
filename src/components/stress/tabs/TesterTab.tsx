@@ -36,24 +36,28 @@ type Scenario = {
 }
 
 type Message = {
-  id: number;
+  clientId: number;
+  clientType: 'browser' | 'nodejs' | 'python';
+  mutating: boolean;
   action: string;
   scenario?: Scenario;
   text: string;
-  ts: number;
+  timestamp: number;
 }
 
 type Client = Message;
 
 type Clients = Map<number, Client>;
 
-const createMessage = (id: number, action: string, scenario?: Scenario): string => {
+const createMessage = (clientId: number, action: string, scenario?: Scenario): string => {
   const m: Message = {
-    id,
+    clientId,
+    clientType: 'browser',
+    mutating: false,
     action,
     scenario,
     text: '',
-    ts: Date.now(),
+    timestamp: Date.now(),
   }
   return JSON.stringify(m);
 }
@@ -62,7 +66,8 @@ const TesterTab = (): JSX.Element => {
   const { okColor, nokColor } = useColors();
   const [ scenarii, _ ] = useState<Scenario[]>(scenariiJson as Scenario[]);
   const [ scenario, setScenario ] = useState<Scenario | undefined>(scenarii[0]);
-  const [ users, setUsers ] = useState<Clients>(new Map<number, Client>());
+  const [ nodejsUsers, setNodejsUsers ] = useState<Clients>(new Map<number, Client>());
+  const [ pythonUsers, setPythonUsers ] = useState<Clients>(new Map<number, Client>());
   const [ running, setRunning ] = useState(false);
   const [ paused, setPaused ] = useState(false);
   const [ doc, setDoc ] = useState(new Doc());
@@ -94,14 +99,20 @@ const TesterTab = (): JSX.Element => {
     if (lastMessage !== null) {
       setMessageHistory((prev) => prev.concat(lastMessage));
       const message = JSON.parse((lastMessage as any).data);
-      if (message.action === 'info') {
-        users.set(Number(message.id), message);
-        setUsers(users);
+      if (message.action === 'info' && message.clientType === 'nodejs') {
+        nodejsUsers.set(Number(message.clientId), message);
+        setNodejsUsers(nodejsUsers);
+      }
+      else if (message.action === 'info' && message.clientType === 'python') {
+        pythonUsers.set(Number(message.clientId), message);
+        setPythonUsers(pythonUsers);
       }
     }
   }, [lastMessage, setMessageHistory]);
   const resetScenarioData = () => {
-    setUsers(new Map<number, Client>());
+    setNodejsUsers(new Map<number, Client>());
+    setPythonUsers(new Map<number, Client>());
+    setDoc(new Doc());
     setMessageHistory([]);
   }
   const startTest = () => {
@@ -208,13 +219,23 @@ const TesterTab = (): JSX.Element => {
             )
           }
         </Grid.Column>
-        <Grid.Column span={6}>
-          { scenario &&
-            <Box>
-              <Chart/>
-            </Box>
-          }
-        </Grid.Column>
+        { scenario ?
+          <>
+            <Grid.Column span={3}>
+              <Box>
+                <Chart/>
+              </Box>
+            </Grid.Column>
+              <Grid.Column span={3}>
+              <Box>
+                <Chart/>
+              </Box>
+            </Grid.Column>
+          </>
+        :
+          <Grid.Column span={3}>
+          </Grid.Column>
+        }
         { scenario ?
           <>
             <Grid.Column span={12}>
@@ -230,12 +251,12 @@ const TesterTab = (): JSX.Element => {
                 <Heading sx={{fontSize: 2, mb: 2, mt:2}}>Node.js Remote Documents</Heading>
                 <Grid style={{ maxWidth: '100%', paddingLeft: 0, paddingRight: 0 }}>
                 {
-                  running && Array.from(users.entries()).length === 0 ?
+                  running && Array.from(nodejsUsers.entries()).length === 0 ?
                     <Spinner/>
                   :
-                    Array.from(users.values()).sort((a, b) => (a.id < b.id ? -1 : (a.id == b.id ? 0 : 1))).map(user => {
-                      return <Grid.Column span={6} key={user.id}>
-                        <Box key={user.id} style={{backgroundColor: getColor(browserText, user.text)}}><OverflowText>Client {user.id}: {user.text}</OverflowText></Box>
+                    Array.from(nodejsUsers.values()).sort((a, b) => (a.clientId < b.clientId ? -1 : (a.clientId == b.clientId ? 0 : 1))).map(user => {
+                      return <Grid.Column span={6} key={user.clientId}>
+                        <Box key={user.clientId} style={{backgroundColor: getColor(browserText, user.text)}}><OverflowText>Node.js {user.clientId}: {user.text}</OverflowText></Box>
                       </Grid.Column>
                   })
                 }
@@ -245,7 +266,15 @@ const TesterTab = (): JSX.Element => {
                 <Heading sx={{fontSize: 2, mb: 2, mt:2}}>Python Remote Documents</Heading>
                 <Grid style={{ maxWidth: '100%', paddingLeft: 0, paddingRight: 0 }}>
                 {
-                }
+                  running && Array.from(pythonUsers.entries()).length === 0 ?
+                  <Spinner/>
+                :
+                  Array.from(pythonUsers.values()).sort((a, b) => (a.clientId < b.clientId ? -1 : (a.clientId == b.clientId ? 0 : 1))).map(user => {
+                    return <Grid.Column span={6} key={user.clientId}>
+                      <Box key={user.clientId} style={{backgroundColor: getColor(browserText, user.text)}}><OverflowText>Python {user.clientId}: {user.text}</OverflowText></Box>
+                    </Grid.Column>
+                })
+              }
                 </Grid>
               </Box>
               <Box>

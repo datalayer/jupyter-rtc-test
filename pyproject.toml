@@ -27,7 +27,6 @@ dependencies = [
     "jupyter_ydoc",
     "jupyterlab>=4.0.0",
     "jupyter_collaboration",
-    "rel",
     "uvicorn",
 ]
 dynamic = ["version", "description", "authors", "urls", "keywords"]

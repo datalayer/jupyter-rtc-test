@@ -31,7 +31,7 @@ threading.excepthook = custom_hook
 
 
 def run_nodejs_client(id, script, textLength, warmupPeriodSeconds):
-    nodejs_process = subprocess.Popen(["node", f"{HERE}/../../src/__tests__/clients/stress_ui/" + script, str(id), textLength, warmupPeriodSeconds])
+    nodejs_process = subprocess.Popen(["node", f"{HERE}/../../src/__tests__/clients/stress-ui/" + script, str(id), textLength, warmupPeriodSeconds])
     return nodejs_process
 
 
@@ -109,7 +109,7 @@ class WsStresserHandler(WebSocketMixin, WebSocketHandler, JupyterHandler):
     def on_message(self, m):
         """WsStresser Handler on message."""
         payload = str(m)
-        self.log.info('WsStresser Handler message payload: ' + m)
+        self.log.debug('WsStresser Handler message payload: ' + m)
         message = json.loads(payload)
         action = message['action']
         if action == 'start':

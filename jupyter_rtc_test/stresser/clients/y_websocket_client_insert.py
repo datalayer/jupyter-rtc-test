@@ -2,7 +2,10 @@ import random
 import json
 import string
 import sys
-import rel
+
+from datetime import datetime
+
+from threading import Thread
 
 import websocket
 from websocket import WebSocket
@@ -15,7 +18,7 @@ from y_py import YDoc
 from ypy_websocket import WebsocketProvider
 
 
-id = int(sys.argv[1])
+client_id = int(sys.argv[1])
 text_length = int(sys.argv[2])
 warmup_period_seconds = int(sys.argv[3])
 
@@ -23,6 +26,7 @@ doc = YDoc()
 text = doc.get_text('t')
 
 
+global MUTATE_DOC 
 MUTATE_DOC = True
 
 
@@ -30,13 +34,25 @@ info_ws_client = WebSocket()
 info_ws_client.connect("ws://127.0.01:8888/jupyter_rtc_test/stresser")
 
 
-def on_message(ws, message):
-    print("-----------------", message)
+def on_message(ws, m):
+    global MUTATE_DOC 
+    message = json.loads(m)
+    action = message['action']
+    if action == 'pause':
+        MUTATE_DOC = False
+    if action == 'restart':
+        MUTATE_DOC = True
 
-info_ws_client_listener = websocket.WebSocketApp("ws://127.0.01:8888/jupyter_rtc_test/stresser", on_message=on_message)
-info_ws_client_listener.run_forever(dispatcher=rel, reconnect=5)
+def listen_ws_info():
+    info_ws_client_listener = websocket.WebSocketApp("ws://127.0.01:8888/jupyter_rtc_test/stresser", on_message=on_message)
+    info_ws_client_listener.run_forever()
+
+thread = Thread(target=listen_ws_info)
+thread.start()
+
 
 async def main():
+    global MUTATE_DOC 
     websocket = await connect("ws://127.0.01:8888/jupyter_rtc_test/room/jupyter_rtc_test")
     websocket_provider = WebsocketProvider(doc, websocket)
     while True:
@@ -48,13 +64,17 @@ async def main():
                     text.insert(txn, random.randint(0, length), random_string)
                 else:
                     text.delete(txn, random.randint(0, int(length / 2)))
-            print("Python client text", id, str(text))
-            payload = json.dumps({
-                "id": id,
-                "action": "info",
-                "text": str(text),
-            })
-            info_ws_client.send(payload)
+            print("Python client text", client_id, str(text))
+        curr_dt = datetime.now() 
+        payload = json.dumps({
+            "clientId": client_id,
+            "clientType": "python",
+            "mutating": MUTATE_DOC,
+            "action": "info",
+            "text": str(text),
+            "timestamp": int(round(curr_dt.timestamp())),
+        })
+        info_ws_client.send(payload)
         await asyncio.sleep(1)
 
 

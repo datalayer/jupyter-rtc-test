@@ -32,7 +32,7 @@ export const StackedExample = () => {
           arcPadding={0.1}
           fillFactor={0.3}
           colorScheme={colorScheme}
-          label={<StackedRadialGaugeValueLabel label="" />}
+          label={<StackedRadialGaugeValueLabel label="Node.js Users" />}
           descriptionLabel={<StackedRadialGaugeDescriptionLabel label="" />}
           outerArc={<RadialGaugeArc color="white"/>}
         />
