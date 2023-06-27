@@ -5,14 +5,14 @@
     "description": "Insert one character at a time.",
     "numberNodejsClients": 10,
     "maxNumberNodejsClients": 100,
-    "nodeJsScript": "y_websocket_client_insert.mjs",
+    "nodejsScript": "y_websocket_client_insert.mjs",
     "numberPythonClients": 10,
     "maxNumberPythonClients": 100,
-    "pythonScript": "client_insert.py",
+    "pythonScript": "y_websocket_client_insert.py",
     "warmupPeriodSeconds": 3,
     "maxWarmupPeriodSeconds": 10,
-    "textLenght": 10,
-    "maxTextLenght": 10000,
+    "textLength": 100,
+    "maxTextLength": 10000,
     "isConverging": true
   },
   {
@@ -21,14 +21,14 @@
     "description": "Insert and delete randomly characters.",
     "numberNodejsClients": 10,
     "maxNumberNodejsClients": 100,
-    "nodeJsScript": "y_websocket_client_random.mjs",
+    "nodejsScript": "y_websocket_client_random.mjs",
     "numberPythonClients": 10,
     "maxNumberPythonClients": 100,
     "pythonScript": "y_websocket_client_random.py",
     "warmupPeriodSeconds": 3,
     "maxWarmupPeriodSeconds": 3,
-    "textLenght": 100,
-    "maxTextLenght": 100,
+    "textLength": 100,
+    "maxTextLength": 10000,
     "isConverging": true
   }
 ]

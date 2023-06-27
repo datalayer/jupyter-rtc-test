@@ -2,12 +2,9 @@
 
 import json
 
-from tornado import ioloop
 from tornado.websocket import WebSocketHandler
 
-import random
 import subprocess
-import time
 
 from pathlib import Path
 
@@ -23,7 +20,6 @@ from ypy_websocket import WebsocketProvider
 
 HERE = Path(__file__).parent
 
-NUMBER_OF_CLIENTS = 40
 
 CONNECTED = set()
 
@@ -34,15 +30,13 @@ def custom_hook(args):
 threading.excepthook = custom_hook
 
 
-def run_nodejs_client(value):
-    time.sleep(random.randint(0, 10)) # Random warmup period.
-    nodejs_process = subprocess.Popen(["node", f"{HERE}/../../src/__tests__/clients/stress_ui/y_websocket_client_insert.mjs", str(value)])
+def run_nodejs_client(id, script, textLength, warmupPeriodSeconds):
+    nodejs_process = subprocess.Popen(["node", f"{HERE}/../../src/__tests__/clients/stress_ui/" + script, str(id), textLength, warmupPeriodSeconds])
     return nodejs_process
 
 
-def run_python_client(value):
-    time.sleep(random.randint(0, 10)) # Random warmup period.
-    python_process = subprocess.Popen(["python", f"{HERE}/clients/client_insert.py", str(value)])
+def run_python_client(id, script, textLength, warmupPeriodSeconds):
+    python_process = subprocess.Popen(["python", f"{HERE}/clients/" + script, str(id), textLength, warmupPeriodSeconds])
     return python_process
 
 
@@ -58,17 +52,42 @@ class WsStresserHandler(WebSocketMixin, WebSocketHandler, JupyterHandler):
     python_processes = []
 
 
-    def _start_stress(self):
+    @property
+    def path(self):
+        """
+        Returns the room id. It needs to be called 'path' for compatibility with
+        the WebsocketServer (websocket.path).
+        """
+        return "jupyter_rtc_test"
+
+
+    async def send(self, message):
+        """
+        Send a message to the client.
+        """
+        # needed to be compatible with WebsocketServer (websocket.send)
+#        try:
+#            self.write_message(message, binary=True)
+#        except Exception as e:
+#            self.log.debug("Failed to write message", exc_info=e)
+        pass
+
+
+    def _start_stress(self, scenario):
         self.log.info('Starting stress tests.')
+        WsStresserHandler.nodejs_pool = ThreadPool()
+        WsStresserHandler.pyton_pool = ThreadPool()
         WsStresserHandler.doc = YDoc()
-        with WsStresserHandler.doc.begin_transaction() as txn:
-            text = WsStresserHandler.doc.get_text("t")
-            text.insert(txn, 0, "S")
         websocket_provider = WebsocketProvider(WsStresserHandler.doc, self)
-        nodejs_result = WsStresserHandler.nodejs_pool.map(run_nodejs_client, range(NUMBER_OF_CLIENTS))
+#        with WsStresserHandler.doc.begin_transaction() as txn:
+#            text = WsStresserHandler.doc.get_text("t")
+#            text.insert(txn, 0, "S")
+        nodejs_args = [(i, scenario['nodejsScript'], str(scenario['textLength']), str(scenario['warmupPeriodSeconds'])) for i in range(scenario['numberNodejsClients'])]
+        nodejs_result = WsStresserHandler.nodejs_pool.starmap(run_nodejs_client, nodejs_args)
         WsStresserHandler.nodejs_processes = nodejs_result
-#        python_result = WsStresserHandler.python_pool.map(run_python_client, range(NUMBER_OF_CLIENTS))
-#        WsStresserHandler.python_processes = python_result
+        python_args = [(i, scenario['pythonScript'], str(scenario['textLength']), str(scenario['warmupPeriodSeconds'])) for i in range(scenario['numberPythonClients'])]
+        python_result = WsStresserHandler.python_pool.starmap(run_python_client, python_args)
+        WsStresserHandler.python_processes = python_result
 
     def _stop_stress(self):
         self.log.info('Stopping stress tests.')
@@ -76,17 +95,15 @@ class WsStresserHandler(WebSocketMixin, WebSocketHandler, JupyterHandler):
             self.log.info("Killing nodejs process with pid %s " % nodejs_process.pid)
             nodejs_process.kill()
         WsStresserHandler.nodejs_pool.close()
-        WsStresserHandler.nodejs_pool = ThreadPool()
         for python_process in WsStresserHandler.python_processes:
             self.log.info("Killing python process with pid %s " % python_process.pid)
             python_process.kill()
         WsStresserHandler.python_pool.close()
-        WsStresserHandler.pyton_pool = ThreadPool()
 
     def open(self, *args, **kwargs):
         """WsStresser Handler open."""
-        self.log.info("WsStresser Handler opened.")
         super(WebSocketMixin, self).open(*args, **kwargs)
+        self.log.info("WsStresser Handler opened.")
         CONNECTED.add(self)
 
     def on_message(self, m):
@@ -96,10 +113,18 @@ class WsStresserHandler(WebSocketMixin, WebSocketHandler, JupyterHandler):
         message = json.loads(payload)
         action = message['action']
         if action == 'start':
-            self._start_stress()
+            self._start_stress(message['scenario'])
         elif action == 'stop':
             self._stop_stress()
         elif action == 'info':
+            peers = { peer for peer in CONNECTED if peer is not self }
+            for peer in peers:
+                peer.write_message(message)
+        elif action == 'pause':
+            peers = { peer for peer in CONNECTED if peer is not self }
+            for peer in peers:
+                peer.write_message(message)
+        elif action == 'restart':
             peers = { peer for peer in CONNECTED if peer is not self }
             for peer in peers:
                 peer.write_message(message)

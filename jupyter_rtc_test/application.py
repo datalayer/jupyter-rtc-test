@@ -93,7 +93,7 @@ class JupyterRtcTestApp(ExtensionAppJinjaMixin, ExtensionApp):
             setattr(self.ystore_class, k, v)
         self.ywebsocket_server = JupyterWebsocketServer(
             rooms_ready=False,
-            auto_clean_rooms=False,
+            auto_clean_rooms=True,
             ystore_class=self.ystore_class,
             log=self.log,
         )

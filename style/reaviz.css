@@ -1,5 +1,3 @@
-@import url('base.css');
-
 body {
   --tooltip-background: rgba(0,5,11,0.9);
   --tooltip-color: #fff;
@@ -14,4 +12,6 @@ body {
   --chart-handle-drag-fill: transparent;
   --chart-handle-dots: #67c2e4;
   --chart-handle-line: #67c2e4;
+
+  --color-on-background: rgb(51, 51, 51) !important;
 }
