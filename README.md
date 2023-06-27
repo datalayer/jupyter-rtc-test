@@ -18,16 +18,21 @@ The current list of discovered issues is [maintained on this page](./docs/issues
 The tests aims to replicate real life cases, meaning that most of them are running in a distrbuted way. You can run the test on a standalone (local laptop or CI) machine, in which case the distributed behavior is simulated.
 
 You can also run the tests in a real a distributed environment like Kubernetes, this however requires you to setup additional infrastructure and configuration. Please note you can also run the Kubernetes flavored tests on a local Minikube instance.
-
+<!--
 ## Install
 
 [Install](./docs/install.md) the tool directly from PyPI and [launch it](./docs/use.md) from the command line.
-
+-->
 ## Develop
 
 Setup your [environment](./docs/environment.md) to run the [tests](./docs/tests.md).
 
 You can also use the [user interfaces](./docs/ui.md) if you prefer.
+
+## About CRDT
+
+- [CRDT.tech](https://crdt.tech)
+- [Jupyter Real Time Collaboration | JupyterCon 2020](https://www.youtube.com/watch?v=G5CVtJIBE5I)
 
 ## ⚖️ License
 
