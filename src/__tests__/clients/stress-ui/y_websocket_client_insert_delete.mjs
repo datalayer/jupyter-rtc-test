@@ -9,6 +9,8 @@ const warmupPeriodSeconds = Number(process.argv[4])
 const doc = new Doc();
 const t = doc.getText('t');
 
+const WAIT_MS = 5000
+
 
 let MUTATE_DOC = true;
 
@@ -44,7 +46,7 @@ infoWebSocket.onopen = () => {
       text: t.toString(),
     }
     infoWebSocket.send(JSON.stringify(info));
-  }, 1000);
+  }, WAIT_MS);
 };
 infoWebSocket.onmessage = (message) => {
   const data = JSON.parse(message.data);
@@ -66,14 +68,14 @@ wsProvider.on('status', event => {
         } else {
           t.delete(0, t.length / 2);
         }
-        console.log('Nodejs client', clientId, t.toString());
+//        console.log('Nodejs client', clientId, t.toString());
       }
-    }, 1000);
+    }, WAIT_MS);
   }
 });
 
 wsProvider.on('sync', isSynced => {
-  console.log('Nodejs client isSynced', clientId, t.toString());
+//  console.log('Nodejs client is synced', isSynced, clientId, t.toString());
 });
 /*
 t.observe(event => {

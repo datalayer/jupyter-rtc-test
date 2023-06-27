@@ -111,7 +111,11 @@ const UsersGauge = (props: { title: string, ok: number, nok: number }) => {
   const { title, ok, nok } = props;
   return (
     <>
-      <StackedGauge title={title} ok={ok} nok={nok}/>
+      { (ok + nok) > 0 ?      
+         <StackedGauge title={title} ok={ok} nok={nok}/>
+        :
+         <></>
+      }
     </>
   )
 }

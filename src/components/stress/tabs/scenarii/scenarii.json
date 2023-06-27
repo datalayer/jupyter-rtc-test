@@ -1,19 +1,19 @@
 [
   {
     "id": 1,
-    "name": "Insert 1 character",
-    "description": "Insert one character at a time.",
+    "name": "Insert and delete characters",
+    "description": "Insert and delete characters randomly.",
     "numberNodejsClients": 10,
     "maxNumberNodejsClients": 100,
-    "nodejsScript": "y_websocket_client_insert.mjs",
+    "nodejsScript": "y_websocket_client_insert_delete.mjs",
     "numberPythonClients": 10,
     "maxNumberPythonClients": 100,
-    "pythonScript": "y_websocket_client_insert.py",
+    "pythonScript": "y_websocket_client_insert_delete.py",
     "warmupPeriodSeconds": 3,
     "maxWarmupPeriodSeconds": 10,
     "textLength": 100,
-    "maxTextLength": 10000,
-    "isConverging": true
+    "maxTextLength": 1000,
+    "shouldConverge": true
   },
   {
     "id": 2,
@@ -28,7 +28,7 @@
     "warmupPeriodSeconds": 3,
     "maxWarmupPeriodSeconds": 3,
     "textLength": 100,
-    "maxTextLength": 10000,
-    "isConverging": true
+    "maxTextLength": 1000,
+    "shouldConverge": true
   }
 ]

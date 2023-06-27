@@ -18,6 +18,9 @@ from y_py import YDoc
 from ypy_websocket import WebsocketProvider
 
 
+WAIT_S = 5
+
+
 client_id = int(sys.argv[1])
 text_length = int(sys.argv[2])
 warmup_period_seconds = int(sys.argv[3])
@@ -26,7 +29,7 @@ doc = YDoc()
 text = doc.get_text('t')
 
 
-global MUTATE_DOC 
+global MUTATE_DOC
 MUTATE_DOC = True
 
 
@@ -64,7 +67,7 @@ async def main():
                     text.insert(txn, random.randint(0, length), random_string)
                 else:
                     text.delete(txn, random.randint(0, int(length / 2)))
-            print("Python client text", client_id, str(text))
+#            print("Python client text", client_id, str(text))
         curr_dt = datetime.now() 
         payload = json.dumps({
             "clientId": client_id,
@@ -75,7 +78,7 @@ async def main():
             "timestamp": int(round(curr_dt.timestamp())),
         })
         info_ws_client.send(payload)
-        await asyncio.sleep(1)
+        await asyncio.sleep(WAIT_S)
 
 
 if __name__ == '__main__':
