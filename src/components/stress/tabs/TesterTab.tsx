@@ -112,7 +112,6 @@ const TesterTab = (): JSX.Element => {
   const resetScenarioData = () => {
     setNodejsUsers(new Map<number, Client>());
     setPythonUsers(new Map<number, Client>());
-    setDoc(new Doc());
     setMessageHistory([]);
   }
   const startTest = () => {
@@ -255,7 +254,7 @@ const TesterTab = (): JSX.Element => {
                     <Spinner/>
                   :
                     Array.from(nodejsUsers.values()).sort((a, b) => (a.clientId < b.clientId ? -1 : (a.clientId == b.clientId ? 0 : 1))).map(user => {
-                      return <Grid.Column span={6} key={user.clientId}>
+                      return <Grid.Column span={3} key={user.clientId}>
                         <Box key={user.clientId} style={{backgroundColor: getColor(browserText, user.text)}}><OverflowText>Node.js {user.clientId}: {user.text}</OverflowText></Box>
                       </Grid.Column>
                   })
@@ -270,7 +269,7 @@ const TesterTab = (): JSX.Element => {
                   <Spinner/>
                 :
                   Array.from(pythonUsers.values()).sort((a, b) => (a.clientId < b.clientId ? -1 : (a.clientId == b.clientId ? 0 : 1))).map(user => {
-                    return <Grid.Column span={6} key={user.clientId}>
+                    return <Grid.Column span={3} key={user.clientId}>
                       <Box key={user.clientId} style={{backgroundColor: getColor(browserText, user.text)}}><OverflowText>Python {user.clientId}: {user.text}</OverflowText></Box>
                     </Grid.Column>
                 })

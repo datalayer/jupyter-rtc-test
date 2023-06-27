@@ -76,7 +76,7 @@ class WsStresserHandler(WebSocketMixin, WebSocketHandler, JupyterHandler):
     def _start_stress(self, scenario):
         self.log.info('Starting stress tests.')
         WsStresserHandler.nodejs_pool = ThreadPool()
-        WsStresserHandler.pyton_pool = ThreadPool()
+        WsStresserHandler.python_pool = ThreadPool()
         WsStresserHandler.doc = YDoc()
         websocket_provider = WebsocketProvider(WsStresserHandler.doc, self)
 #        with WsStresserHandler.doc.begin_transaction() as txn:
@@ -94,10 +94,12 @@ class WsStresserHandler(WebSocketMixin, WebSocketHandler, JupyterHandler):
         for nodejs_process in WsStresserHandler.nodejs_processes:
             self.log.info("Killing nodejs process with pid %s " % nodejs_process.pid)
             nodejs_process.kill()
+        WsStresserHandler.nodejs_processes = []
         WsStresserHandler.nodejs_pool.close()
         for python_process in WsStresserHandler.python_processes:
             self.log.info("Killing python process with pid %s " % python_process.pid)
             python_process.kill()
+        WsStresserHandler.python_processes = []
         WsStresserHandler.python_pool.close()
 
     def open(self, *args, **kwargs):
