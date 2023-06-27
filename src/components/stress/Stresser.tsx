@@ -9,9 +9,8 @@ import AboutTab from './tabs/AboutTab';
 
 import '@primer/react-brand/lib/css/main.css';
 
-import './../../../style/reaviz.css'
-
 import appState from "../../state";
+
 
 const Stresser = observer((): JSX.Element => {
   return (

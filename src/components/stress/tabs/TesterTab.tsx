@@ -10,7 +10,7 @@ import { PauseIcon, RestartIcon } from "@datalayer/icons-react";
 import { Grid } from '@primer/react-brand';
 import useColors from './../../../hooks/ColorsHook';
 import Blankslate from '../blankslate/Blankslate';
-import Chart from './charts/Chart';
+import UsersGauge from './charts/UsersGauge';
 
 import scenariiJson from './scenarii/scenarii.json';
 
@@ -74,10 +74,10 @@ const TesterTab = (): JSX.Element => {
   const [ socketUrl, __ ] = useState('ws://localhost:8888/jupyter_rtc_test/stresser');
   const [ messageHistory, setMessageHistory ] = useState<MessageEvent[]>([]);
   const { sendMessage, lastMessage, readyState } = useWebSocket(socketUrl);
-  const sendStart = useCallback(() => sendMessage(createMessage(-1, 'start', scenario)), []);
-  const sendStop = useCallback(() => sendMessage(createMessage(-1, 'stop', scenario)), []);
-  const sendPause = useCallback(() => sendMessage(createMessage(-1, 'pause', scenario)), []);
-  const sendRestart = useCallback(() => sendMessage(createMessage(-1, 'restart', scenario)), []);
+  const sendStart = useCallback(() => sendMessage(createMessage(-1, 'start', scenario)), [scenario]);
+  const sendStop = useCallback(() => sendMessage(createMessage(-1, 'stop', scenario)), [scenario]);
+  const sendPause = useCallback(() => sendMessage(createMessage(-1, 'pause', scenario)), [scenario]);
+  const sendRestart = useCallback(() => sendMessage(createMessage(-1, 'restart', scenario)), [scenario]);
   const getColor = (a: string, b: string) => {
     return a === b ? okColor : nokColor;
   }
@@ -89,12 +89,13 @@ const TesterTab = (): JSX.Element => {
     );
     wsProvider.on('status', event => {
       if (event.status === 'connected') {
-        // const t = doc.getText('t');
-        // t.insert(0, 'C');
         setDoc(doc);
       }
     });
-  }, []);
+    return () => {
+      wsProvider.destroy();
+    }
+  }, [doc]);
   useEffect(() => {
     if (lastMessage !== null) {
       setMessageHistory((prev) => prev.concat(lastMessage));
@@ -112,6 +113,7 @@ const TesterTab = (): JSX.Element => {
   const resetScenarioData = () => {
     setNodejsUsers(new Map<number, Client>());
     setPythonUsers(new Map<number, Client>());
+    setDoc(new Doc());
     setMessageHistory([]);
   }
   const startTest = () => {
@@ -121,6 +123,7 @@ const TesterTab = (): JSX.Element => {
   const stopTest = () => {
     sendStop();
     setRunning(false);
+    setPaused(false);
   }
   const pauseTest = () => {
     sendPause();
@@ -131,6 +134,24 @@ const TesterTab = (): JSX.Element => {
     setPaused(false);
   }
   const browserText = doc.getText('t').toString();
+  let okNodejsUsers = 0;
+  let nokNodejsUsers = 0;
+  Array.from(nodejsUsers.values()).map(user => {
+    if (user.text === browserText) {
+      okNodejsUsers++;
+    } else {
+      nokNodejsUsers++;
+    }
+  });
+  let okPythonUsers = 0;
+  let nokPythonUsers = 0;
+  Array.from(pythonUsers.values()).map(user => {
+    if (user.text === browserText) {
+      okPythonUsers++;
+    } else {
+      nokPythonUsers++;
+    }
+  });
   return (
     <>
       <Heading sx={{fontSize: 3, paddingBottom: 3}}>Scenario</Heading>
@@ -171,16 +192,16 @@ const TesterTab = (): JSX.Element => {
                   <Text><b>Is typically converging:</b> {scenario.isConverging.toString()}</Text>
                 </Box>
                 <Box mt={3}>
-                  <Slider label="Number of remote Node.js users" min={1} max={scenario.maxNumberNodejsClients} value={scenario.numberNodejsClients} disabled={running} onChange={(numberNodejsClients) => setScenario({...scenario, numberNodejsClients})} />
-                </Box>
-                <Box mt={3}>
                   <Text><Label variant="primary">Node.js</Label> <code>{scenario.nodejsScript}</code></Text>
                 </Box>
                 <Box mt={3}>
-                  <Slider label="Number of remote Python users" min={1} max={scenario.maxNumberPythonClients} value={scenario.numberPythonClients} disabled={running} onChange={(numberPythonClients) => setScenario({...scenario, numberPythonClients})} />
+                  <Slider label="Number of remote Node.js users" min={1} max={scenario.maxNumberNodejsClients} value={scenario.numberNodejsClients} disabled={running} onChange={(numberNodejsClients) => setScenario({...scenario, numberNodejsClients})} />
                 </Box>
                 <Box mt={3}>
                   <Text><Label variant="accent">Python</Label> <code>{scenario.pythonScript}</code></Text>
+                </Box>
+                <Box mt={3}>
+                  <Slider label="Number of remote Python users" min={1} max={scenario.maxNumberPythonClients} value={scenario.numberPythonClients} disabled={running} onChange={(numberPythonClients) => setScenario({...scenario, numberPythonClients})} />
                 </Box>
                 <Box mt={3}>
                   <Slider label="Warmup period (seconds)" min={1} max={scenario.maxWarmupPeriodSeconds} value={scenario.warmupPeriodSeconds} disabled={running} onChange={(warmupPeriodSeconds) => setScenario({...scenario, warmupPeriodSeconds})} />
@@ -196,7 +217,7 @@ const TesterTab = (): JSX.Element => {
                 { running ?
                   <>
                     <Button leadingVisual={() => <Spinner sx={{paddingTop: 1, paddingBottom: 1}}/>} variant="danger" onClick={stopTest} disabled={readyState !== ReadyState.OPEN}>
-                      Stop users
+                      Terminate users
                     </Button>
                     <Box ml={3}/>
                     { paused ?
@@ -220,19 +241,15 @@ const TesterTab = (): JSX.Element => {
         </Grid.Column>
         { scenario ?
           <>
-            <Grid.Column span={3}>
-              <Box>
-                <Chart/>
-              </Box>
+            <Grid.Column span={3}> 
+              <UsersGauge title="Node.js Users" ok={okNodejsUsers} nok={nokNodejsUsers} />
             </Grid.Column>
-              <Grid.Column span={3}>
-              <Box>
-                <Chart/>
-              </Box>
+            <Grid.Column span={3}>
+              <UsersGauge title="Python Users" ok={okPythonUsers} nok={nokPythonUsers} />
             </Grid.Column>
           </>
         :
-          <Grid.Column span={3}>
+          <Grid.Column span={6}>
           </Grid.Column>
         }
         { scenario ?
@@ -291,7 +308,7 @@ const TesterTab = (): JSX.Element => {
                     messageHistory.reverse().slice(0, 100).map((value, index) => {
                       const data = (value as any).data;
                       return <Box key={index}>
-                        {data}
+                        <code>{data}</code>
                       </Box>
                     })
                 }

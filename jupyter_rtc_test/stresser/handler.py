@@ -74,7 +74,6 @@ class WsStresserHandler(WebSocketMixin, WebSocketHandler, JupyterHandler):
 
 
     def _start_stress(self, scenario):
-        self.log.info('Starting stress tests.')
         WsStresserHandler.nodejs_pool = ThreadPool()
         WsStresserHandler.python_pool = ThreadPool()
         WsStresserHandler.doc = YDoc()
@@ -111,7 +110,7 @@ class WsStresserHandler(WebSocketMixin, WebSocketHandler, JupyterHandler):
     def on_message(self, m):
         """WsStresser Handler on message."""
         payload = str(m)
-        self.log.debug('WsStresser Handler message payload: ' + m)
+#        self.log.debug('WsStresser Handler message', payload)
         message = json.loads(payload)
         action = message['action']
         if action == 'start':
