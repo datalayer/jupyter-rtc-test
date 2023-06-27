@@ -43,7 +43,7 @@ const AboutTab = (): JSX.Element => {
               You can run the tests via CLI (64 python unit tests with pytest and 76 javascript unit tests with jest). These tests ensure that the environment and basic functionality are available.
               <br/>
               <br/>
-              You can run 2 stress tests via CLI or via UI.
+              You can configure and run stress tests via CLI or via UI.
               <br/>
               <br/>            
               See the left diagram to know more about the stress tests architecture, 

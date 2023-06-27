@@ -68,6 +68,7 @@ echarts.use(
 
 const StackedGauge = (props: { title: string, ok: number, nok: number }) => {
   const { title, ok, nok } = props;
+  const total = ok + nok;
   const option = {
     tooltip: {
       formatter: '{a} <br/>{b} : {c}%'
@@ -80,7 +81,7 @@ const StackedGauge = (props: { title: string, ok: number, nok: number }) => {
           show: true
         },
         min: 0,
-        max: ok + nok,  
+        max: total,
         detail: {
           formatter: '{value}'
         },
@@ -97,7 +98,7 @@ const StackedGauge = (props: { title: string, ok: number, nok: number }) => {
     <ReactEChartsCore
       echarts={echarts}
       option={option}
-      style={{ width: "600px", height: "300px" }}
+      style={{ height: 400 }}
       notMerge={true}
       lazyUpdate={true}
 //      theme={"theme_name"}

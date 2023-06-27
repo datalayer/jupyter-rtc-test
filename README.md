@@ -6,9 +6,10 @@
 
 > 📶 Stress tests for 🪐 Jupyter 🔌 Real Time Collaboration (RTC).
 
-- [ ] Stop users
-- [ ] Add Python users
-- [ ] Pause / Restart users
+<div align="center" style="text-align: center">
+  <img alt="Jupyter RTC Tests" src="https://datalayer-jupyter-examples.s3.amazonaws.com/jupyter-rtc-test.gif" />
+</div>
+
 
 The goal of this repository is to stress test the Real Time Collaboration (RTC) feature of JupyterLab and Jupyter Server and is a needed requirement [to avoid users having issues when they enable RTC](./docs/why.md).
 

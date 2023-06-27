@@ -67,8 +67,8 @@ const TesterTab = (): JSX.Element => {
   const { okColor, nokColor } = useColors();
   const [ scenarii, _ ] = useState<Scenario[]>(scenariiJson as Scenario[]);
   const [ scenario, setScenario ] = useState<Scenario | undefined>(scenarii[0]);
-  const [ nodejsUsers, setNodejsUsers ] = useState<Clients>(new Map<number, Client>());
   const [ pythonUsers, setPythonUsers ] = useState<Clients>(new Map<number, Client>());
+  const [ nodejsUsers, setNodejsUsers ] = useState<Clients>(new Map<number, Client>());
   const [ running, setRunning ] = useState(false);
   const [ paused, setPaused ] = useState(false);
   const [ doc, setDoc ] = useState(new Doc());
@@ -135,15 +135,6 @@ const TesterTab = (): JSX.Element => {
     setPaused(false);
   }
   const browserText = doc.getText('t').toString();
-  let okNodejsUsers = 0;
-  let nokNodejsUsers = 0;
-  Array.from(nodejsUsers.values()).map(user => {
-    if (user.text === browserText) {
-      okNodejsUsers++;
-    } else {
-      nokNodejsUsers++;
-    }
-  });
   let okPythonUsers = 0;
   let nokPythonUsers = 0;
   Array.from(pythonUsers.values()).map(user => {
@@ -151,6 +142,15 @@ const TesterTab = (): JSX.Element => {
       okPythonUsers++;
     } else {
       nokPythonUsers++;
+    }
+  });
+  let okNodejsUsers = 0;
+  let nokNodejsUsers = 0;
+  Array.from(nodejsUsers.values()).map(user => {
+    if (user.text === browserText) {
+      okNodejsUsers++;
+    } else {
+      nokNodejsUsers++;
     }
   });
   return (
@@ -193,22 +193,22 @@ const TesterTab = (): JSX.Element => {
                   <Text><b>Should converge:</b> {scenario.shouldConverge.toString()}</Text>
                 </Box>
                 <Box mt={3}>
-                  <Text><Label variant="primary">Node.js</Label> <code>{scenario.nodejsScript}</code></Text>
-                </Box>
-                <Box mt={3}>
-                  <Slider label="Number of remote Node.js users" min={0} max={scenario.maxNumberNodejsClients} value={scenario.numberNodejsClients} disabled={running} onChange={(numberNodejsClients) => setScenario({...scenario, numberNodejsClients})} />
-                </Box>
-                <Box mt={3}>
                   <Text><Label variant="accent">Python</Label> <code>{scenario.pythonScript}</code></Text>
                 </Box>
                 <Box mt={3}>
                   <Slider label="Number of remote Python users" min={0} max={scenario.maxNumberPythonClients} value={scenario.numberPythonClients} disabled={running} onChange={(numberPythonClients) => setScenario({...scenario, numberPythonClients})} />
                 </Box>
                 <Box mt={3}>
-                  <Slider label="Warmup period (seconds)" min={1} max={scenario.maxWarmupPeriodSeconds} value={scenario.warmupPeriodSeconds} disabled={running} onChange={(warmupPeriodSeconds) => setScenario({...scenario, warmupPeriodSeconds})} />
+                  <Text><Label variant="primary">Node.js</Label> <code>{scenario.nodejsScript}</code></Text>
+                </Box>
+                <Box mt={3}>
+                  <Slider label="Number of remote Node.js users" min={0} max={scenario.maxNumberNodejsClients} value={scenario.numberNodejsClients} disabled={running} onChange={(numberNodejsClients) => setScenario({...scenario, numberNodejsClients})} />
                 </Box>
                 <Box mt={3}>
                   <Slider label="Maximum text length (characters)" min={1} max={scenario.maxTextLength} disabled={running} value={scenario.textLength} onChange={(textLength) => setScenario({...scenario, textLength})} />
+                </Box>
+                <Box mt={3}>
+                  <Slider label="Warmup period (seconds)" min={1} max={scenario.maxWarmupPeriodSeconds} value={scenario.warmupPeriodSeconds} disabled={running} onChange={(warmupPeriodSeconds) => setScenario({...scenario, warmupPeriodSeconds})} />
                 </Box>
               </>
           }
@@ -243,10 +243,10 @@ const TesterTab = (): JSX.Element => {
         { scenario ?
           <>
             <Grid.Column span={3}>
-              <UsersGauge title="Node.js Users" ok={okNodejsUsers} nok={nokNodejsUsers} />
+              <UsersGauge title="Synced Python Users" ok={okPythonUsers} nok={nokPythonUsers} />
             </Grid.Column>
             <Grid.Column span={3}>
-              <UsersGauge title="Python Users" ok={okPythonUsers} nok={nokPythonUsers} />
+              <UsersGauge title="Synced Node.js Users" ok={okNodejsUsers} nok={nokNodejsUsers} />
             </Grid.Column>
           </>
         :
@@ -265,21 +265,6 @@ const TesterTab = (): JSX.Element => {
                 </Grid>
               </Box>
               <Box>
-                <Heading sx={{fontSize: 2, mb: 2, mt:2}}>Node.js Remote Documents</Heading>
-                <Grid style={{ maxWidth: '100%', paddingLeft: 0, paddingRight: 0 }}>
-                {
-                  running && Array.from(nodejsUsers.entries()).length === 0 ?
-                    <Spinner/>
-                  :
-                    Array.from(nodejsUsers.values()).sort((a, b) => (a.clientId < b.clientId ? -1 : (a.clientId == b.clientId ? 0 : 1))).map(user => {
-                      return <Grid.Column span={3} key={user.clientId}>
-                        <Box key={user.clientId} style={{backgroundColor: getColor(browserText, user.text)}}><OverflowText>Node.js {user.clientId}: {strip(user.text)}</OverflowText></Box>
-                      </Grid.Column>
-                  })
-                }
-                </Grid>
-              </Box>
-              <Box>
                 <Heading sx={{fontSize: 2, mb: 2, mt:2}}>Python Remote Documents</Heading>
                 <Grid style={{ maxWidth: '100%', paddingLeft: 0, paddingRight: 0 }}>
                 {
@@ -295,8 +280,23 @@ const TesterTab = (): JSX.Element => {
                 </Grid>
               </Box>
               <Box>
+                <Heading sx={{fontSize: 2, mb: 2, mt:2}}>Node.js Remote Documents</Heading>
+                <Grid style={{ maxWidth: '100%', paddingLeft: 0, paddingRight: 0 }}>
+                {
+                  running && Array.from(nodejsUsers.entries()).length === 0 ?
+                    <Spinner/>
+                  :
+                    Array.from(nodejsUsers.values()).sort((a, b) => (a.clientId < b.clientId ? -1 : (a.clientId == b.clientId ? 0 : 1))).map(user => {
+                      return <Grid.Column span={3} key={user.clientId}>
+                        <Box key={user.clientId} style={{backgroundColor: getColor(browserText, user.text)}}><OverflowText>Node.js {user.clientId}: {strip(user.text)}</OverflowText></Box>
+                      </Grid.Column>
+                  })
+                }
+                </Grid>
+              </Box>
+              <Box>
                 <Heading sx={{fontSize: 2, mb: 2, mt:2}}>Server Document</Heading>
-                <CloseableFlash variant="warning">The display of the Server Document still needs to be implemented.</CloseableFlash>
+                <CloseableFlash variant="warning" leadingIcon={AlertIcon}>The display of the Server Document still needs to be implemented.</CloseableFlash>
                 <Grid style={{ maxWidth: '100%', paddingLeft: 0, paddingRight: 0 }}>
                 </Grid>
               </Box>

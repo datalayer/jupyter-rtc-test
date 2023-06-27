@@ -1,15 +1,16 @@
 """Stresser handler."""
 
 import json
-
-from tornado.websocket import WebSocketHandler
-
 import subprocess
+import time
+import random
 
 from pathlib import Path
 
 import threading
 from multiprocessing.pool import ThreadPool
+
+from tornado.websocket import WebSocketHandler
 
 from jupyter_server.base.handlers import JupyterHandler
 from jupyter_server.base.zmqhandlers import WebSocketMixin
@@ -31,11 +32,13 @@ threading.excepthook = custom_hook
 
 
 def run_nodejs_client(id, script, textLength, warmupPeriodSeconds):
+    time.sleep(random.randint(0, int(warmupPeriodSeconds)))
     nodejs_process = subprocess.Popen(["node", f"{HERE}/../../src/__tests__/clients/stress-ui/" + script, str(id), textLength, warmupPeriodSeconds])
     return nodejs_process
 
 
 def run_python_client(id, script, textLength, warmupPeriodSeconds):
+    time.sleep(random.randint(0, int(warmupPeriodSeconds)))
     python_process = subprocess.Popen(["python", f"{HERE}/clients/" + script, str(id), textLength, warmupPeriodSeconds])
     return python_process
 
