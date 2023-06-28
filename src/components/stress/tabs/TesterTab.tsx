@@ -6,7 +6,7 @@ import styled from 'styled-components';
 import { Button, Box, Heading, ActionMenu, ActionList, Text, Spinner, Label } from '@primer/react';
 import { Slider, CloseableFlash } from "@datalayer/primer-addons";
 import { AlertIcon, BookIcon, CheckIcon } from '@primer/octicons-react';
-import { PauseIcon, RestartIcon } from "@datalayer/icons-react";
+import { PauseIcon, RestartIcon, PythonIcon, NodeJsIcon, JupyterServerIcon, BrowserIcon } from "@datalayer/icons-react";
 import { Grid } from '@primer/react-brand';
 import useColors from './../../../hooks/ColorsHook';
 import Blankslate from '../blankslate/Blankslate';
@@ -26,6 +26,9 @@ type Scenario = {
   numberNodejsClients: number;
   maxNumberNodejsClients: number;
   nodejsScript: string;
+  numberBrowserClients: number;
+  maxNumberBrowserClients: number;
+  browserScript: string;
   numberPythonClients: number;
   maxNumberPythonClients: number;
   pythonScript: string;
@@ -34,6 +37,7 @@ type Scenario = {
   textLength: number;
   maxTextLength: number;
   shouldConverge: boolean;
+  documentType: 'text' | 'notebook';
   room: string;
 }
 
@@ -69,6 +73,7 @@ const TesterTab = (): JSX.Element => {
   const [ scenarii, _ ] = useState<Scenario[]>(scenariiJson as Scenario[]);
   const [ scenario, setScenario ] = useState<Scenario | undefined>(scenarii[0]);
   const [ pythonUsers, setPythonUsers ] = useState<Clients>(new Map<number, Client>());
+  const [ browserUsers, setBrowserUsers ] = useState<Clients>(new Map<number, Client>());
   const [ nodejsUsers, setNodejsUsers ] = useState<Clients>(new Map<number, Client>());
   const [ running, setRunning ] = useState(false);
   const [ paused, setPaused ] = useState(false);
@@ -116,6 +121,7 @@ const TesterTab = (): JSX.Element => {
   }, [lastMessage, setMessageHistory]);
   const resetScenarioData = () => {
     setNodejsUsers(new Map<number, Client>());
+    setBrowserUsers(new Map<number, Client>());
     setPythonUsers(new Map<number, Client>());
     setDoc(new Doc());
     setMessageHistory([]);
@@ -193,7 +199,10 @@ const TesterTab = (): JSX.Element => {
                   <Text><b>{scenario.name}</b>: {scenario.description}</Text>
                 </Box>
                 <Box mt={3}>
-                  <Text><b>Should converge:</b> {scenario.shouldConverge.toString()}</Text>
+                  <Text><b>Should converge:</b> {scenario.shouldConverge.toString()}</Text>{!scenario.shouldConverge && <span style={{paddingLeft: 3}}><AlertIcon/></span>}
+                </Box>
+                <Box mt={3}>
+                  <Text><b>Document type:</b> {scenario.documentType}</Text>
                 </Box>
                 <Box mt={3}>
                   <Text><Label variant="accent">Python</Label> <code>{scenario.pythonScript}</code></Text>
@@ -206,6 +215,12 @@ const TesterTab = (): JSX.Element => {
                 </Box>
                 <Box mt={3}>
                   <Slider label="Number of remote Node.js users" min={0} max={scenario.maxNumberNodejsClients} value={scenario.numberNodejsClients} disabled={running} onChange={(numberNodejsClients) => setScenario({...scenario, numberNodejsClients})} />
+                </Box>
+                <Box mt={3}>
+                  <Text><Label variant="secondary">Browser</Label> <code>{scenario.browserScript}</code></Text>
+                </Box>
+                <Box mt={3}>
+                  <Slider label="Number of remote Browser users" min={0} max={scenario.maxNumberBrowserClients} value={scenario.numberBrowserClients} disabled={true} onChange={(numberBrowserClients) => setScenario({...scenario, numberBrowserClients})} />
                 </Box>
                 <Box mt={3}>
                   <Slider label="Maximum text length (characters)" min={1} max={scenario.maxTextLength} disabled={running} value={scenario.textLength} onChange={(textLength) => setScenario({...scenario, textLength})} />
@@ -260,7 +275,7 @@ const TesterTab = (): JSX.Element => {
           <>
             <Grid.Column span={12}>
               <Box>
-                <Heading sx={{fontSize: 2, mb: 2, mt:2}}>Browser Document</Heading>
+                <Heading sx={{fontSize: 2, mb: 2, mt:2}}>Local Browser Document</Heading>
                 <Grid style={{ maxWidth: '100%', paddingLeft: 0, paddingRight: 0 }}>
                   <Grid.Column span={12}>
                     <OverflowText>{ browserText }</OverflowText>
@@ -268,7 +283,7 @@ const TesterTab = (): JSX.Element => {
                 </Grid>
               </Box>
               <Box>
-                <Heading sx={{fontSize: 2, mb: 2, mt:2}}>Python Remote Documents</Heading>
+                <Heading sx={{fontSize: 2, mb: 2, mt:2}}><PythonIcon colored style={{paddingRight: 3}}/>Remote Python Documents</Heading>
                 <Grid style={{ maxWidth: '100%', paddingLeft: 0, paddingRight: 0 }}>
                 {
                   running && Array.from(pythonUsers.entries()).length === 0 ?
@@ -283,7 +298,7 @@ const TesterTab = (): JSX.Element => {
                 </Grid>
               </Box>
               <Box>
-                <Heading sx={{fontSize: 2, mb: 2, mt:2}}>Node.js Remote Documents</Heading>
+                <Heading sx={{fontSize: 2, mb: 2, mt:2}}><NodeJsIcon colored style={{paddingRight: 3}}/>Remote Node.js Documents</Heading>
                 <Grid style={{ maxWidth: '100%', paddingLeft: 0, paddingRight: 0 }}>
                 {
                   running && Array.from(nodejsUsers.entries()).length === 0 ?
@@ -298,8 +313,14 @@ const TesterTab = (): JSX.Element => {
                 </Grid>
               </Box>
               <Box>
-                <Heading sx={{fontSize: 2, mb: 2, mt:2}}>Server Document</Heading>
-                <CloseableFlash variant="warning" leadingIcon={AlertIcon}>The display of the Server Document still needs to be implemented.</CloseableFlash>
+                <Heading sx={{fontSize: 2, mb: 2, mt:2}}><BrowserIcon colored style={{paddingRight: 3}}/>Remote Browser Document</Heading>
+                <CloseableFlash variant="warning" leadingIcon={AlertIcon}>The display of the Remote Browser Documents still needs to be implemented.</CloseableFlash>
+                <Grid style={{ maxWidth: '100%', paddingLeft: 0, paddingRight: 0 }}>
+                </Grid>
+              </Box>
+              <Box>
+                <Heading sx={{fontSize: 2, mb: 2, mt:2}}><JupyterServerIcon colored style={{paddingRight: 3}}/>Server Document</Heading>
+                <CloseableFlash variant="warning" leadingIcon={AlertIcon}>The display of the Remote Server Document still needs to be implemented.</CloseableFlash>
                 <Grid style={{ maxWidth: '100%', paddingLeft: 0, paddingRight: 0 }}>
                 </Grid>
               </Box>

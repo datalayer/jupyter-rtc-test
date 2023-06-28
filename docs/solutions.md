@@ -1,5 +1,7 @@
 # Solutions
 
+This page enumerates potential solutions that could help. These ideas still need to be investigated and explored.
+
 ## Use Ywasm
 
 Use Ywasm in the node.js client. This may better map the Ypy implementation.

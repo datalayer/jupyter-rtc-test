@@ -1,5 +1,5 @@
 import WebSocket from "ws";
-import { Doc } from 'yjs';
+import { YNotebook } from '@jupyter/ydoc';
 import { WebsocketProvider } from 'y-websocket';
 
 const clientId = Number(process.argv[2])
@@ -7,10 +7,9 @@ const textLength = Number(process.argv[3])
 const warmupPeriodSeconds = Number(process.argv[4])
 const roomName = process.argv[5]
 
-const doc = new Doc();
-const t = doc.getText('t');
+const notebook = new YNotebook();
 
-const WAIT_MS = 5000
+const WAIT_MS = 5000;
 
 
 let MUTATE_DOC = true;
@@ -19,21 +18,9 @@ let MUTATE_DOC = true;
 let wsProvider = new WebsocketProvider(
   'ws://127.0.01:8888/jupyter_rtc_test/room',
   roomName,
-  doc,
+  notebook.ydoc,
   { WebSocketPolyfill: WebSocket }
 );
-
-function randomString(length) {
-  let result = '';
-  const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
-  const charactersLength = characters.length;
-  let counter = 0;
-  while (counter < length) {
-    result += characters.charAt(Math.floor(Math.random() * charactersLength));
-    counter += 1;
-  }
-  return result;
-}
 
 const infoWebSocket = new WebSocket('ws://127.0.0.1:8888/jupyter_rtc_test/stresser');
 infoWebSocket.onopen = () => {
@@ -44,7 +31,7 @@ infoWebSocket.onopen = () => {
       mutating: MUTATE_DOC,
       action: 'info',
       timestamp: Date.now(),
-      text: t.toString(),
+      text: notebook.getCell(0).getSource(),
     }
     infoWebSocket.send(JSON.stringify(info));
   }, WAIT_MS);
@@ -64,11 +51,19 @@ wsProvider.on('status', event => {
   if (event.status === 'connected') {
     setInterval(() => {
       if (MUTATE_DOC) {
-        if (t.length < textLength) {
-          t.insert(0, randomString(4));
-        } else {
-          t.delete(0, t.length / 2);
+        if (notebook.cells.length === 0) {
+//          const codeCell = YCodeCell.create();
+//          codeCell.setSource('test');
+          const cell = {
+            id: "",
+            cell_type: 'code',
+            metadata: {},
+            outputs: [],
+            execution_count: 0,
+          };
+          notebook.insertCells(0, [cell]);
         }
+        notebook.getCell(0).setSource("x=1")
 //        console.log('Nodejs client', clientId, t.toString());
       }
     }, WAIT_MS);

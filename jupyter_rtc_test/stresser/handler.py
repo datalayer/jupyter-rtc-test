@@ -44,7 +44,7 @@ def run_python_client(id, script, textLength, warmupPeriodSeconds, room_name):
 
 
 class WsStresserHandler(WebSocketMixin, WebSocketHandler, JupyterHandler):
-    """WsStresser Handler"""
+    """WsStresser handler"""
 
     doc = YDoc()
 
@@ -105,15 +105,15 @@ class WsStresserHandler(WebSocketMixin, WebSocketHandler, JupyterHandler):
         WsStresserHandler.python_pool.close()
 
     def open(self, *args, **kwargs):
-        """WsStresser Handler open."""
+        """WsStresser handler open."""
         super(WebSocketMixin, self).open(*args, **kwargs)
-        self.log.info("WsStresser Handler opened.")
+        self.log.info("WsStresser handler opened.")
         CONNECTED.add(self)
 
     def on_message(self, m):
-        """WsStresser Handler on message."""
+        """WsStresser handler on message."""
         payload = str(m)
-#        self.log.debug('WsStresser Handler message', payload)
+#        self.log.debug('WsStresser handler message', payload)
         message = json.loads(payload)
         action = message['action']
         if action == 'start':
@@ -136,8 +136,8 @@ class WsStresserHandler(WebSocketMixin, WebSocketHandler, JupyterHandler):
             self.write_message(message)
 
     def on_close(self):
-        """WsStresser Handler on close."""
-        self.log.info("WsStresser Handler closed.")
+        """WsStresser handler on close."""
+        self.log.info("WsStresser handler closed.")
         CONNECTED.remove(self)
 
     # CORS
