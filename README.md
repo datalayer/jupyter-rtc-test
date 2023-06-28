@@ -16,11 +16,17 @@ The goal of this repository is to stress test the Real Time Collaboration (RTC) 
   <img alt="Jupyter RTC Test" src="https://raw.githubusercontent.com/datalayer/jupyter-rtc-test/main/style/svg/architecture.image.svg" />
 </div>
 
-The current list of discovered issues is [maintained on this page](./docs/issues.md). Potential [solutions](./docs/solutions.md) are explored.
+## Real life
 
-The tests aims to replicate real life cases, meaning that most of them are running in a distrbuted way. You can run the test on a standalone (local laptop or CI) machine, in which case the distributed behavior is simulated.
+The tests aims to replicate real life cases, meaning that most of them are running in a distrbuted way.
 
-You can also run the tests in a real a distributed environment like Kubernetes, this however requires you to setup additional infrastructure and configuration. Please note you can also run the Kubernetes flavored tests on a local Minikube instance.
+You can run the tests on a standalone (local laptop or CI) machine, in which case the distributed behavior is simulated. You can also run the tests in a real a distributed environment like Kubernetes, this however requires you to setup additional infrastructure and configuration. Please note you can also run the Kubernetes flavored tests on a local Minikube instance.
+
+## Discoveries
+
+We maintain [a list of discovered issues](./docs/issues.md) as well a [potential solutions](./docs/solutions.md).
+
+## JupyterLab
 
 The RTC stress test are being discussed [in an issue in the official JupyterLab repository.](https://github.com/jupyterlab/jupyterlab/issues/14532)
 <!--
@@ -36,8 +42,12 @@ You can also use the [user interfaces](./docs/ui.md) if you prefer.
 
 ## About CRDT
 
+You can read more about the Conflict free Replicated Data Types (CRDT).
+
 - [CRDT.tech](https://crdt.tech)
 - [Jupyter Real Time Collaboration | JupyterCon 2020](https://www.youtube.com/watch?v=G5CVtJIBE5I)
+- [Wikipedia](https://en.wikipedia.org/wiki/Conflict-free_replicated_data_type)
+- [Y.js](https://docs.yjs.dev), the library used as CRDT implementation.
 
 ## ⚖️ License
 
