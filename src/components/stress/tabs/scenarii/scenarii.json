@@ -18,7 +18,7 @@
     "maxTextLength": 1000,
     "shouldConverge": true,
     "documentType": "text",
-    "room": "insert_delete"
+    "room": "insert_delete_room"
   },
   {
     "id": 2,
@@ -39,6 +39,6 @@
     "maxTextLength": 1000,
     "shouldConverge": false,
     "documentType": "notebook",
-    "room": "set"
+    "room": "set_room"
   }
 ]

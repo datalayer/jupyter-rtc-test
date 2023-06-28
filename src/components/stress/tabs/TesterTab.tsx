@@ -104,11 +104,18 @@ const TesterTab = (): JSX.Element => {
           if (scenario?.documentType === 'notebook') {
             if (notebook.cells.length === 0) {
               const cell = {
-                id: 'id-1',
+                id: '',
                 cell_type: 'code',
-                nbformat: 4,
-                nbformat_minor: 4,
+                meta: {
+                  nbformat: 4,
+                  nbformat_minor: 4,
+                  jupyter: {
+                    rtc_test: true,
+                  }
+                },
                 metadata: {
+                  nbformat: 4,
+                  nbformat_minor: 4,
                   jupyter: {
                     rtc_test: true,
                   }

@@ -25,10 +25,11 @@ const run = () => {
 
   const infoWebSocket = new WebSocket('ws://127.0.0.1:8888/jupyter_rtc_test/stresser');
   infoWebSocket.onopen = () => {
+    /*
     setInterval(() => {
-      const info = { 
+      const info = {
         clientId,
-        clientType: 'nodejs',
+        clientType: 'browser',
         mutating: MUTATE_DOC,
         action: 'info',
         timestamp: Date.now(),
@@ -36,6 +37,7 @@ const run = () => {
       }
       infoWebSocket.send(JSON.stringify(info));
     }, WAIT_MS);
+    */
   };
   infoWebSocket.onmessage = (message) => {
     const data = JSON.parse(message.data.toString());
@@ -48,14 +50,26 @@ const run = () => {
   };
 
   wsProvider.on('status', event => {
-  //  console.log('Status', event);
     if (event.status === 'connected') {
+      notebook.changed.connect((_, notebookChange) => {
+        const cell = notebookChange.cellsChange[0].insert[0];
+        cell.changed.connect((_, __) => {
+          const info = {
+            clientId,
+            clientType: 'browser',
+            mutating: MUTATE_DOC,
+            action: 'info',
+            timestamp: Date.now(),
+            document: JSON.stringify(notebook.toJSON()),
+          }
+          infoWebSocket.send(JSON.stringify(info));    
+        });
+      });
       setInterval(() => {
         if (MUTATE_DOC) {
           if (notebook.cells.length === 1) {
             notebook.getCell(0).setSource("x=1")
           }
-  //        console.log('Nodejs client', clientId, t.toString());
         }
       }, WAIT_MS);
     }

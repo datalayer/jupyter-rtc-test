@@ -54,11 +54,14 @@ thread.start()
 
 
 async def main():
+
     global MUTATE_DOC 
+
     websocket = await connect(f"ws://127.0.01:8888/jupyter_rtc_test/room/{room_name}")
     websocket_provider = WebsocketProvider(doc, websocket)
-    while True:
-        curr_dt = datetime.now() 
+
+    def callback(e):
+        curr_dt = datetime.now()
         payload = json.dumps({
             "clientId": client_id,
             "clientType": "python",
@@ -68,6 +71,10 @@ async def main():
             "timestamp": int(round(curr_dt.timestamp())),
         })
         info_ws_client.send(payload)
+
+    obs = text.observe(callback)
+
+    while True:
         if MUTATE_DOC:
             with doc.begin_transaction() as txn:
                 length = len(str(text))

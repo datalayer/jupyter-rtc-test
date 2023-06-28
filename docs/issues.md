@@ -12,7 +12,7 @@ This page contains currently found issues so far.
 
 ## UI Tests Scenarii
 
-[Insert and delete characters](https://github.com/datalayer/jupyter-rtc-test/blob/c757790dd690748d1ea96c230c71c0f5360f38df/src/components/stress/tabs/scenarii/scenarii.json#L3) scenario: Node.js often do not converge.
+[Insert and delete random characters](https://github.com/datalayer/jupyter-rtc-test/blob/main/src/components/stress/tabs/scenarii/scenarii.json#L3) scenario: Node.js often do not converge.
 
 Occasional `Caught error while handling a Yjs update Error: Unexpected case`
 
@@ -32,3 +32,66 @@ e:///.../src/node_modules/yjs/dist/yjs.mjs:3275:5)
     at readUpdateV2 (file:///.../src/node_modules/yjs/dist/yjs.mjs:1598:3)
 Caught error while handling a Yjs update Error: Unexpected case
 ````
+
+[Set the content of a YNotebook cell](https://github.com/datalayer/jupyter-rtc-test/blob/main/src/components/stress/tabs/scenarii/scenarii.json#L24) scenario: python exception after some time KeyError: 'nbformat' 
+
+```
+KeyError: 'nbformat'
+Traceback (most recent call last):
+  File "/Users/echarles/private/datalayer-io/src/tech/jupyter/rtc-test/jupyter_rtc_test/stresser/../tests/clients/notebook_set.py", line 79, in <module>
+    asyncio.run(main())
+  File "/.../python3.11/asyncio/runners.py", line 190, in run
+    return runner.run(main)
+           ^^^^^^^^^^^^^^^^
+  File "/.../python3.11/asyncio/runners.py", line 118, in run
+    return self._loop.run_until_complete(task)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/.../python3.11/asyncio/base_events.py", line 650, in run_until_complete
+    return future.result()
+           ^^^^^^^^^^^^^^^
+  File "/Users/echarles/private/datalayer-io/src/tech/jupyter/rtc-test/jupyter_rtc_test/stresser/../tests/clients/notebook_set.py", line 64, in main
+    "document": json.dumps(notebook.source),
+                           ^^^^^^^^^^^^^^^
+  File "/.../python3.11/site-packages/jupyter_ydoc/ybasedoc.py", line 70, in source
+    return self.get()
+           ^^^^^^^^^^
+  File "/.../python3.11/site-packages/jupyter_ydoc/ynotebook.py", line 209, in get
+    cell = self.get_cell(i)
+           ^^^^^^^^^^^^^^^^
+  File "/.../python3.11/site-packages/jupyter_ydoc/ynotebook.py", line 104, in get_cell
+    if "id" in cell and meta["nbformat"] == 4 and meta["nbformat_minor"] <= 4:
+                        ~~~~^^^^^^^^^^^^
+KeyError: 'nbformat'
+Traceback (most recent call last):
+  File "/Users/echarles/private/datalayer-io/src/tech/jupyter/rtc-test/jupyter_rtc_test/stresser/../tests/clients/notebook_set.py", line 79, in <module>
+Traceback (most recent call last):
+  File "/Users/echarles/private/datalayer-io/src/tech/jupyter/rtc-test/jupyter_rtc_test/stresser/../tests/clients/notebook_set.py", line 79, in <module>
+    asyncio.run(main())
+  File "/.../python3.11/asyncio/runners.py", line 190, in run
+    asyncio.run(main())
+  File "/.../python3.11/asyncio/runners.py", line 190, in run
+    return runner.run(main)
+    return runner.run(main)
+           ^^^^^^^^^^^^^^^^
+  File "/.../python3.11/asyncio/runners.py", line 118, in run
+           ^^^^^^^^^^^^^^^^
+  File "/.../python3.11/asyncio/runners.py", line 118, in run
+    return self._loop.run_until_complete(task)
+    return self._loop.run_until_complete(task)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/.../python3.11/asyncio/base_events.py", line 650, in run_until_complete
+  File "/.../python3.11/asyncio/base_events.py", line 650, in run_until_complete
+    return future.result()
+           ^^^^^^^^^^^^^^^
+  File "/Users/echarles/private/datalayer-io/src/tech/jupyter/rtc-test/jupyter_rtc_test/stresser/../tests/clients/notebook_set.py", line 64, in main
+    return future.result()
+           ^^^^^^^^^^^^^^^
+  File "/Users/echarles/private/datalayer-io/src/tech/jupyter/rtc-test/jupyter_rtc_test/stresser/../tests/clients/notebook_set.py", line 64, in main
+    "document": json.dumps(notebook.source),
+                           ^^^^^^^^^^^^^^^
+  File "/.../python3.11/site-packages/jupyter_ydoc/ybasedoc.py", line 70, in source
+    "document": json.dumps(notebook.source),
+    return self.get()
+                           ^^^^^^^^^^^^^^^
+```

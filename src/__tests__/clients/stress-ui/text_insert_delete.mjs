@@ -37,8 +37,9 @@ function randomString(length) {
 
 const infoWebSocket = new WebSocket('ws://127.0.0.1:8888/jupyter_rtc_test/stresser');
 infoWebSocket.onopen = () => {
+  /*
   setInterval(() => {
-    const info = { 
+    const info = {
       clientId,
       clientType: 'nodejs',
       mutating: MUTATE_DOC,
@@ -48,6 +49,7 @@ infoWebSocket.onopen = () => {
     }
     infoWebSocket.send(JSON.stringify(info));
   }, WAIT_MS);
+  */
 };
 infoWebSocket.onmessage = (message) => {
   const data = JSON.parse(message.data.toString());
@@ -80,5 +82,13 @@ wsProvider.on('sync', isSynced => {
 });
 
 t.observe(event => {
-//  console.log('event', t.toString());
+  const info = {
+    clientId,
+    clientType: 'nodejs',
+    mutating: MUTATE_DOC,
+    action: 'info',
+    timestamp: Date.now(),
+    document: t.toString(),
+  }
+  infoWebSocket.send(JSON.stringify(info));
 });

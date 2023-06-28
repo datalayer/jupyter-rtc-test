@@ -51,11 +51,14 @@ thread.start()
 
 
 async def main():
+
     global MUTATE_DOC 
+
     websocket = await connect(f"ws://127.0.01:8888/jupyter_rtc_test/room/{room_name}")
     websocket_provider = WebsocketProvider(notebook.ydoc, websocket)
-    while True:
-        curr_dt = datetime.now() 
+
+    def callback(e):
+        curr_dt = datetime.now()
         payload = json.dumps({
             "clientId": client_id,
             "clientType": "python",
@@ -65,8 +68,34 @@ async def main():
             "timestamp": int(round(curr_dt.timestamp())),
         })
         info_ws_client.send(payload)
+
+    notebook.observe(callback)
+
+    while True:
         if MUTATE_DOC:
             with notebook.ydoc.begin_transaction() as txn:
+                if notebook.cell_number == 0:
+                    notebook.append_cell({
+                        'id': '',
+                        'cell_type': 'code',
+                        'meta': {
+                            'nbformat': 4,
+                            'nbformat_minor': 4,
+                            'jupyter': {
+                                'rtc_test': True,
+                            }
+                        },
+                        'metadata': {
+                        'nbformat': 4,
+                        'nbformat_minor': 4,
+                            'jupyter': {
+                                'rtc_test': True,
+                            }
+                        },
+                        'source': 'x=1',
+                        'outputs': [],
+                        'execution_count': 0,
+                    }, txn)
                 if notebook.cell_number == 1:
                     notebook.get_cell(0)["source"] = "x=1"
         await asyncio.sleep(WAIT_S)
