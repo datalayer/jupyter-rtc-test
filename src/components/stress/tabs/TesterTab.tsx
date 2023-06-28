@@ -319,8 +319,8 @@ const TesterTab = (): JSX.Element => {
                 </Grid>
               </Box>
               <Box>
-                <Heading sx={{fontSize: 2, mb: 2, mt:2}}><JupyterServerIcon colored style={{paddingRight: 3}}/>Server Document</Heading>
-                <CloseableFlash variant="warning" leadingIcon={AlertIcon}>The display of the Remote Server Document still needs to be implemented.</CloseableFlash>
+                <Heading sx={{fontSize: 2, mb: 2, mt:2}}><JupyterServerIcon colored style={{paddingRight: 3}}/>Jupyter Server Document</Heading>
+                <CloseableFlash variant="warning" leadingIcon={AlertIcon}>The display of the Jupyter Server Document still needs to be implemented.</CloseableFlash>
                 <Grid style={{ maxWidth: '100%', paddingLeft: 0, paddingRight: 0 }}>
                 </Grid>
               </Box>
