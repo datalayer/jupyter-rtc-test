@@ -11,9 +11,7 @@ const notebook = new YNotebook();
 
 const WAIT_MS = 5000;
 
-
 let MUTATE_DOC = true;
-
 
 let wsProvider = new WebsocketProvider(
   'ws://127.0.01:8888/jupyter_rtc_test/room',
