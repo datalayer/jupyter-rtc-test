@@ -4,7 +4,7 @@ import { WebsocketProvider } from 'y-websocket';
 
 const clientId = Number(process.argv[2])
 const textLength = Number(process.argv[3])
-const warmupPeriodSeconds = Number(process.argv[4])
+// const warmupPeriodSeconds = Number(process.argv[4])
 const roomName = process.argv[5]
 
 const doc = new Doc();
@@ -44,13 +44,13 @@ infoWebSocket.onopen = () => {
       mutating: MUTATE_DOC,
       action: 'info',
       timestamp: Date.now(),
-      text: t.toString(),
+      document: t.toString(),
     }
     infoWebSocket.send(JSON.stringify(info));
   }, WAIT_MS);
 };
 infoWebSocket.onmessage = (message) => {
-  const data = JSON.parse(message.data);
+  const data = JSON.parse(message.data.toString());
   if (data.action === 'pause') {
     MUTATE_DOC = false;
   }
@@ -78,8 +78,7 @@ wsProvider.on('status', event => {
 wsProvider.on('sync', isSynced => {
 //  console.log('Nodejs client is synced', isSynced, clientId, t.toString());
 });
-/*
+
 t.observe(event => {
-  console.log('event', t.toString());
+//  console.log('event', t.toString());
 });
-*/

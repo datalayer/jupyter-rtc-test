@@ -21,6 +21,8 @@ The current list of discovered issues is [maintained on this page](./docs/issues
 The tests aims to replicate real life cases, meaning that most of them are running in a distrbuted way. You can run the test on a standalone (local laptop or CI) machine, in which case the distributed behavior is simulated.
 
 You can also run the tests in a real a distributed environment like Kubernetes, this however requires you to setup additional infrastructure and configuration. Please note you can also run the Kubernetes flavored tests on a local Minikube instance.
+
+The RTC stress test are being discussed [in an issue in the official JupyterLab repository.](https://github.com/jupyterlab/jupyterlab/issues/14532)
 <!--
 ## Install
 

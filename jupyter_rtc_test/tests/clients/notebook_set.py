@@ -1,21 +1,17 @@
-import random
 import json
-import string
 import sys
 
-from datetime import datetime
+import asyncio
 
+from datetime import datetime
 from threading import Thread
 
 import websocket
 from websocket import WebSocket
-
-import asyncio
-
 from websockets import connect  # type: ignore
 
-from y_py import YDoc
 from ypy_websocket import WebsocketProvider
+from jupyter_ydoc import YNotebook
 
 
 WAIT_S = 5
@@ -26,8 +22,7 @@ text_length = int(sys.argv[2])
 warmup_period_seconds = int(sys.argv[3])
 room_name = sys.argv[4]
 
-doc = YDoc()
-text = doc.get_text('t')
+notebook = YNotebook()
 
 
 global MUTATE_DOC
@@ -58,7 +53,7 @@ thread.start()
 async def main():
     global MUTATE_DOC 
     websocket = await connect(f"ws://127.0.01:8888/jupyter_rtc_test/room/{room_name}")
-    websocket_provider = WebsocketProvider(doc, websocket)
+    websocket_provider = WebsocketProvider(notebook.ydoc, websocket)
     while True:
         curr_dt = datetime.now() 
         payload = json.dumps({
@@ -66,14 +61,14 @@ async def main():
             "clientType": "python",
             "mutating": MUTATE_DOC,
             "action": "info",
-            "text": str(text),
+            "document": json.dumps(notebook.source),
             "timestamp": int(round(curr_dt.timestamp())),
         })
         info_ws_client.send(payload)
         if MUTATE_DOC:
-            with doc.begin_transaction() as txn:
-                text.(txn, random.randint(0, int(length / 2)))
-#            print("Python client text", client_id, str(text))
+            with notebook.ydoc.begin_transaction() as txn:
+                if notebook.cell_number == 1:
+                    notebook.get_cell(0)["source"] = "x=1"
         await asyncio.sleep(WAIT_S)
 
 

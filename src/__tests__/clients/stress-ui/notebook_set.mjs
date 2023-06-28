@@ -3,8 +3,8 @@ import { YNotebook } from '@jupyter/ydoc';
 import { WebsocketProvider } from 'y-websocket';
 
 const clientId = Number(process.argv[2])
-const textLength = Number(process.argv[3])
-const warmupPeriodSeconds = Number(process.argv[4])
+// const textLength = Number(process.argv[3])
+// const warmupPeriodSeconds = Number(process.argv[4])
 const roomName = process.argv[5]
 
 const notebook = new YNotebook();
@@ -31,13 +31,13 @@ infoWebSocket.onopen = () => {
       mutating: MUTATE_DOC,
       action: 'info',
       timestamp: Date.now(),
-      text: notebook.getCell(0).getSource(),
+      document: JSON.stringify(notebook.toJSON()),
     }
     infoWebSocket.send(JSON.stringify(info));
   }, WAIT_MS);
 };
 infoWebSocket.onmessage = (message) => {
-  const data = JSON.parse(message.data);
+  const data = JSON.parse(message.data.toString());
   if (data.action === 'pause') {
     MUTATE_DOC = false;
   }
@@ -51,19 +51,9 @@ wsProvider.on('status', event => {
   if (event.status === 'connected') {
     setInterval(() => {
       if (MUTATE_DOC) {
-        if (notebook.cells.length === 0) {
-//          const codeCell = YCodeCell.create();
-//          codeCell.setSource('test');
-          const cell = {
-            id: "",
-            cell_type: 'code',
-            metadata: {},
-            outputs: [],
-            execution_count: 0,
-          };
-          notebook.insertCells(0, [cell]);
+        if (notebook.cells.length === 1) {
+          notebook.getCell(0).setSource("x=1")
         }
-        notebook.getCell(0).setSource("x=1")
 //        console.log('Nodejs client', clientId, t.toString());
       }
     }, WAIT_MS);

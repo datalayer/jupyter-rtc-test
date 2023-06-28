@@ -3,15 +3,13 @@ import json
 import string
 import sys
 
-from datetime import datetime
+import asyncio
 
+from datetime import datetime
 from threading import Thread
 
 import websocket
 from websocket import WebSocket
-
-import asyncio
-
 from websockets import connect  # type: ignore
 
 from y_py import YDoc
@@ -66,7 +64,7 @@ async def main():
             "clientType": "python",
             "mutating": MUTATE_DOC,
             "action": "info",
-            "text": str(text),
+            "document": str(text),
             "timestamp": int(round(curr_dt.timestamp())),
         })
         info_ws_client.send(payload)

@@ -1,8 +1,8 @@
 [
   {
     "id": 1,
-    "name": "Insert and delete characters",
-    "description": "Insert and delete characters randomly.",
+    "name": "Insert and delete random characters",
+    "description": "Insert and delete characters randomly in a Y.js text simple data structure.",
     "numberNodejsClients": 10,
     "maxNumberNodejsClients": 100,
     "nodejsScript": "text_insert_delete.mjs",
@@ -22,8 +22,8 @@
   },
   {
     "id": 2,
-    "name": "Set content on Jupyter YDoc",
-    "description": "Set the full text content on Jupyter YDoc.",
+    "name": "Set the content of a YNotebook cell",
+    "description": "Set the content of the source of the first cell of a Jupyter YNotebook.",
     "numberNodejsClients": 10,
     "maxNumberNodejsClients": 100,
     "nodejsScript": "notebook_set.mjs",
