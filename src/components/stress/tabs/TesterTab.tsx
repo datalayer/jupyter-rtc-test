@@ -72,9 +72,9 @@ const createMessage = (clientId: number, action: string, scenario?: Scenario): s
 const TesterTab = (): JSX.Element => {
   const { okColor, nokColor } = useColors();
   const [ scenarii, _ ] = useState<Scenario[]>(scenariiJson as Scenario[]);
-  const [ scenario, setScenario ] = useState<Scenario | undefined>(scenarii[1]);
+  const [ scenario, setScenario ] = useState<Scenario | undefined>(scenarii[0]);
   const [ pythonUsers, setPythonUsers ] = useState<Users>(new Map<number, User>());
-  const [ ___, setBrowserUsers ] = useState<Users>(new Map<number, User>());
+  const [ browserUsers, setBrowserUsers ] = useState<Users>(new Map<number, User>());
   const [ nodejsUsers, setNodejsUsers ] = useState<Users>(new Map<number, User>());
   const [ running, setRunning ] = useState(false);
   const [ paused, setPaused ] = useState(false);
@@ -145,6 +145,10 @@ const TesterTab = (): JSX.Element => {
         pythonUsers.set(Number(message.clientId), message);
         setPythonUsers(pythonUsers);
       }
+      else if (message.action === 'info' && message.clientType === 'browser') {
+        browserUsers.set(Number(message.clientId), message);
+        setBrowserUsers(browserUsers);
+      }
     }
   }, [lastMessage, setMessageHistory]);
   const resetScenarioData = () => {
@@ -194,6 +198,15 @@ const TesterTab = (): JSX.Element => {
       nokNodejsUsers++;
     }
   });
+  let okBrowserUsers = 0;
+  let nokBrowserUsers = 0;
+  Array.from(browserUsers.values()).map(user => {
+    if (user.document === browserDocument) {
+      okBrowserUsers++;
+    } else {
+      nokBrowserUsers++;
+    }
+  });
   return (
     <>
       <ActionMenu>
@@ -225,7 +238,7 @@ const TesterTab = (): JSX.Element => {
         <Pagehead><b>{scenario.name}</b></Pagehead>
       }
       <Grid style={{ maxWidth: '100%', paddingLeft: 0, paddingRight: 0 }}>
-        <Grid.Column span={6}>
+        <Grid.Column span={3}>
         { scenario &&
           <>
             <Box mt={3}>
@@ -241,25 +254,25 @@ const TesterTab = (): JSX.Element => {
               <Text><Label variant="accent">Python</Label> <code>{scenario.pythonScript}</code></Text>
             </Box>
             <Box mt={3}>
-              <Slider label="Number of remote Python users" min={0} max={scenario.maxNumberPythonClients} value={scenario.numberPythonClients} disabled={running} onChange={(numberPythonClients) => setScenario({...scenario, numberPythonClients})} />
+              <Slider label="Python users" min={0} max={scenario.maxNumberPythonClients} value={scenario.numberPythonClients} disabled={running} onChange={(numberPythonClients) => setScenario({...scenario, numberPythonClients})} />
             </Box>
             <Box mt={3}>
-              <Text><Label variant="primary">Node.js</Label> <code>{scenario.nodejsScript}</code></Text>
+              <Text><Label variant="accent">Node.js</Label> <code>{scenario.nodejsScript}</code></Text>
             </Box>
             <Box mt={3}>
-              <Slider label="Number of remote Node.js users" min={0} max={scenario.maxNumberNodejsClients} value={scenario.numberNodejsClients} disabled={running} onChange={(numberNodejsClients) => setScenario({...scenario, numberNodejsClients})} />
+              <Slider label="Node.js users" min={0} max={scenario.maxNumberNodejsClients} value={scenario.numberNodejsClients} disabled={running} onChange={(numberNodejsClients) => setScenario({...scenario, numberNodejsClients})} />
             </Box>
             <Box mt={3}>
-              <Text><Label variant="secondary">Browser</Label> <code>{scenario.browserScript}</code></Text>
+              <Text><Label variant="accent">Browser</Label> <code>{scenario.browserScript}</code></Text>
             </Box>
             <Box mt={3}>
-              <Slider label="Number of remote Browser users" min={0} max={scenario.maxNumberBrowserClients} value={scenario.numberBrowserClients} disabled={true} onChange={(numberBrowserClients) => setScenario({...scenario, numberBrowserClients})} />
+              <Slider label="Browser users" min={0} max={scenario.maxNumberBrowserClients} value={scenario.numberBrowserClients} disabled={running} onChange={(numberBrowserClients) => setScenario({...scenario, numberBrowserClients})} />
             </Box>
             <Box mt={3}>
-              <Slider label="Maximum text length (characters)" min={1} max={scenario.maxTextLength} disabled={running} value={scenario.textLength} onChange={(textLength) => setScenario({...scenario, textLength})} />
+              <Slider label="Text length" min={1} max={scenario.maxTextLength} disabled={running} value={scenario.textLength} onChange={(textLength) => setScenario({...scenario, textLength})} />
             </Box>
             <Box mt={3}>
-              <Slider label="Warmup period (seconds)" min={1} max={scenario.maxWarmupPeriodSeconds} value={scenario.warmupPeriodSeconds} disabled={running} onChange={(warmupPeriodSeconds) => setScenario({...scenario, warmupPeriodSeconds})} />
+              <Slider label="Warmup (seconds)" min={1} max={scenario.maxWarmupPeriodSeconds} value={scenario.warmupPeriodSeconds} disabled={running} onChange={(warmupPeriodSeconds) => setScenario({...scenario, warmupPeriodSeconds})} />
             </Box>
           </>
         }
@@ -293,10 +306,13 @@ const TesterTab = (): JSX.Element => {
       { scenario ?
         <>
           <Grid.Column span={3}>
-            <UsersGauge title="Synced Python Users" ok={okPythonUsers} nok={nokPythonUsers} />
+            <UsersGauge title="Python" ok={okPythonUsers} nok={nokPythonUsers} />
           </Grid.Column>
           <Grid.Column span={3}>
-            <UsersGauge title="Synced Node.js Users" ok={okNodejsUsers} nok={nokNodejsUsers} />
+            <UsersGauge title="Node.js" ok={okNodejsUsers} nok={nokNodejsUsers} />
+          </Grid.Column>
+          <Grid.Column span={3}>
+            <UsersGauge title="Browser" ok={okBrowserUsers} nok={nokBrowserUsers} />
           </Grid.Column>
         </>
       :
@@ -344,8 +360,16 @@ const TesterTab = (): JSX.Element => {
             </Box>
             <Box>
               <Heading sx={{fontSize: 2, mb: 2, mt:2}}><BrowserIcon colored style={{paddingRight: 3}}/>Remote Browser Documents</Heading>
-              <CloseableFlash variant="warning" leadingIcon={AlertIcon}>The display of the Remote Browser Documents still needs to be implemented.</CloseableFlash>
               <Grid style={{ maxWidth: '100%', paddingLeft: 0, paddingRight: 0 }}>
+              { running && Array.from(browserUsers.entries()).length === 0 ?
+                  <Spinner/>
+                :
+                  Array.from(browserUsers.values()).sort((a, b) => (a.clientId < b.clientId ? -1 : (a.clientId == b.clientId ? 0 : 1))).map(user => {
+                    return <Grid.Column span={3} key={user.clientId}>
+                      <Box key={user.clientId} style={{backgroundColor: getColor(browserDocument, user.document)}}><OverflowText>Browser {user.clientId}: {strip(user.document)}</OverflowText></Box>
+                    </Grid.Column>
+                })
+              }
               </Grid>
             </Box>
             <Box>

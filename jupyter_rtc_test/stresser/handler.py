@@ -36,11 +36,16 @@ def run_nodejs_client(id, script, textLength, warmupPeriodSeconds, room_name):
     nodejs_process = subprocess.Popen(["node", f"{HERE}/../../src/__tests__/clients/stress-ui/" + script, str(id), textLength, warmupPeriodSeconds, room_name])
     return nodejs_process
 
-
 def run_python_client(id, script, textLength, warmupPeriodSeconds, room_name):
     time.sleep(random.randint(0, int(warmupPeriodSeconds)))
     python_process = subprocess.Popen(["python", f"{HERE}/../tests/clients/" + script, str(id), textLength, warmupPeriodSeconds, room_name])
     return python_process
+
+
+def run_browser_client(id, script, textLength, warmupPeriodSeconds, room_name):
+    time.sleep(random.randint(0, int(warmupPeriodSeconds)))
+    browser_process = subprocess.Popen(["node", f"{HERE}/../../src/__tests__/clients/stress-ui/" + script, str(id), textLength, warmupPeriodSeconds, room_name])
+    return browser_process
 
 
 class WsStresserHandler(WebSocketMixin, WebSocketHandler, JupyterHandler):
@@ -53,6 +58,9 @@ class WsStresserHandler(WebSocketMixin, WebSocketHandler, JupyterHandler):
 
     python_pool = ThreadPool()
     python_processes = []
+
+    browser_pool = ThreadPool()
+    browser_processes = []
 
 
     @property
@@ -90,6 +98,9 @@ class WsStresserHandler(WebSocketMixin, WebSocketHandler, JupyterHandler):
         python_args = [(i, scenario['pythonScript'], str(scenario['textLength']), str(scenario['warmupPeriodSeconds']), scenario['room']) for i in range(scenario['numberPythonClients'])]
         python_result = WsStresserHandler.python_pool.starmap(run_python_client, python_args)
         WsStresserHandler.python_processes = python_result
+        browser_args = [(i, scenario['browserScript'], str(scenario['textLength']), str(scenario['warmupPeriodSeconds']), scenario['room']) for i in range(scenario['numberBrowserClients'])]
+        browser_result = WsStresserHandler.browser_pool.starmap(run_browser_client, browser_args)
+        WsStresserHandler.browser_processes = browser_result
 
     def _stop_stress(self):
         self.log.info('Stopping stress tests.')
@@ -103,6 +114,11 @@ class WsStresserHandler(WebSocketMixin, WebSocketHandler, JupyterHandler):
             python_process.kill()
         WsStresserHandler.python_processes = []
         WsStresserHandler.python_pool.close()
+        for browser_process in WsStresserHandler.browser_processes:
+            self.log.info("Killing browser process with pid %s " % browser_process.pid)
+            browser_process.kill()
+        WsStresserHandler.browser_processes = []
+        WsStresserHandler.browser_pool.close()
 
     def open(self, *args, **kwargs):
         """WsStresser handler open."""
