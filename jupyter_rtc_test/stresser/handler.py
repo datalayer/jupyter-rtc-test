@@ -33,7 +33,7 @@ threading.excepthook = custom_hook
 
 def run_nodejs_client(id, script, textLength, warmupPeriodSeconds, room_name):
     time.sleep(random.randint(0, int(warmupPeriodSeconds)))
-    nodejs_process = subprocess.Popen(["node", f"{HERE}/../../src/__tests__/clients/stress-ui/" + script, str(id), textLength, warmupPeriodSeconds, room_name])
+    nodejs_process = subprocess.Popen(["node", f"{HERE}/../../src/__tests__/clients/ui/" + script, str(id), textLength, warmupPeriodSeconds, room_name])
     return nodejs_process
 
 def run_python_client(id, script, textLength, warmupPeriodSeconds, room_name):
@@ -44,7 +44,7 @@ def run_python_client(id, script, textLength, warmupPeriodSeconds, room_name):
 
 def run_browser_client(id, script, textLength, warmupPeriodSeconds, room_name):
     time.sleep(random.randint(0, int(warmupPeriodSeconds)))
-    browser_process = subprocess.Popen(["node", f"{HERE}/../../src/__tests__/clients/stress-ui/" + script, str(id), textLength, warmupPeriodSeconds, room_name])
+    browser_process = subprocess.Popen(["node", f"{HERE}/../../src/__tests__/clients/ui/" + script, str(id), textLength, warmupPeriodSeconds, room_name])
     return browser_process
 
 

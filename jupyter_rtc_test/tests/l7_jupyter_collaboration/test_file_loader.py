@@ -8,7 +8,7 @@ import pytest
 
 from jupyter_collaboration.loaders import FileLoader, FileLoaderMapping
 
-from .utils import TestContentsManager, TestFileIDManager
+from .testers import TestContentsManager, TestFileIDManager
 
 
 @pytest.mark.asyncio

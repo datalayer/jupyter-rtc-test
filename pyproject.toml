@@ -22,7 +22,7 @@ classifiers = [
 ]
 dependencies = [
     "jupyter_server>=2.0,<3",
-    "ypy",
+    "y_py",
     "ypy_websocket",
     "jupyter_ydoc",
     "jupyterlab>=4.0.0",

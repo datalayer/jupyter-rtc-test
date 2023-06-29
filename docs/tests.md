@@ -21,16 +21,16 @@ yarn kill && \
 
 The following subsections narrow down the tests, starting from the lower technical layers to the higher ones.
 
-## 0. Y.js
+## 0. Yjs
 
-`Y.js` delivers the JavaScript shared data types for building collaborative software and is developed in https://github.com/yjs/yjs
+`Yjs` delivers the JavaScript shared data types for building collaborative software and is developed in https://github.com/yjs/yjs
 
 ```bash
 yarn test:js:0
 yarn test:py:0
 ```
 
-**♪ Note** `Y.js` should be replaced by `Ywasm`.
+**♪ Note** `Yjs` should be replaced by `Ywasm`.
 
 ## 1. Y Rust - Yrs
 

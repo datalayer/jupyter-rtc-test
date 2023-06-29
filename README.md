@@ -14,7 +14,7 @@ You can run the stress tests from the CLI (Command Line Interface) or from a UI 
   <img alt="Jupyter RTC Test" src="https://datalayer-jupyter-examples.s3.amazonaws.com/jupyter-rtc-test.gif" />
 </div>
 
-## Distributed
+## Distributed Actors
 
 The tests aims to replicate real life cases, meaning that most of them are running in a distrbuted way.
 
@@ -44,6 +44,7 @@ The Jupyter RTC Stack is spread across various repositories
 <div align="center" style="text-align: center">
   <img alt="Jupyter RTC Stack" src="https://raw.githubusercontent.com/datalayer/jupyter-rtc-test/main/style/svg/jupyter-rtc-stack.image.svg" />
 </div>
+
 ## Community
 
 The RTC stress test are being discussed [in an issue on the official JupyterLab repository](https://github.com/jupyterlab/jupyterlab/issues/14532).
@@ -65,7 +66,7 @@ You can read more about the Conflict free Replicated Data Types (CRDT).
 - [CRDT.tech](https://crdt.tech)
 - [Jupyter Real Time Collaboration | JupyterCon 2020](https://www.youtube.com/watch?v=G5CVtJIBE5I)
 - [Wikipedia](https://en.wikipedia.org/wiki/Conflict-free_replicated_data_type)
-- [Y.js](https://docs.yjs.dev), the library used as CRDT implementation.
+- [Y.js](https://docs.yjs.dev) used as CRDT implementation.
 
 ## ⚖️ License
 

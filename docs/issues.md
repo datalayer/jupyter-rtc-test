@@ -8,11 +8,11 @@ This page contains encountered issues while running the tests. [Potential soluti
 
 ## Insert and Delete random characters
 
-[Insert and delete random characters](https://github.com/datalayer/jupyter-rtc-test/blob/main/src/components/stress-cli/tabs/scenarii/scenarii.json#L3) scenario: Node.js often do not converge, Python and Browser sometimes do not converge.
+[Insert and delete random characters](https://github.com/datalayer/jupyter-rtc-test/blob/main/src/components/cli/tabs/scenarii/scenarii.json#L3) scenario: Node.js often do not converge, Python and Browser sometimes do not converge.
 
 ## YNotebook Update Source
 
-[test_jupyter_ydoc_update_source](https://github.com/datalayer/jupyter-rtc-test/blob/main/jupyter_rtc_test/tests/l6_jupyter_ydoc/stress-cli/test_jupyter_ydoc_update_source.py) -  Fails to append instead of replacing the text content.
+[test_jupyter_ydoc_update_source](https://github.com/datalayer/jupyter-rtc-test/blob/main/jupyter_rtc_test/tests/l6_jupyter_ydoc/cli/test_jupyter_ydoc_update_source.py) -  Fails to append instead of replacing the text content.
 
 ## Caught error while handling a Yjs update Error
 
@@ -37,11 +37,11 @@ Caught error while handling a Yjs update Error: Unexpected case
 
 ## Set the content of a YNotebook cell
 
-[Set the content of a YNotebook cell](https://github.com/datalayer/jupyter-rtc-test/blob/main/src/components/stress-cli/tabs/scenarii/scenarii.json#L24) scenario: the source sometimes is appended instead of being set.
+[Set the content of a YNotebook cell](https://github.com/datalayer/jupyter-rtc-test/blob/main/src/components/cli/tabs/scenarii/scenarii.json#L24) scenario: the source sometimes is appended instead of being set.
 
 ## KeyError: nbformat
 
-[Set the content of a YNotebook cell](https://github.com/datalayer/jupyter-rtc-test/blob/main/src/components/stress-cli/tabs/scenarii/scenarii.json#L24) scenario: python exception after some time KeyError: 'nbformat' 
+[Set the content of a YNotebook cell](https://github.com/datalayer/jupyter-rtc-test/blob/main/src/components/cli/tabs/scenarii/scenarii.json#L24) scenario: python exception after some time KeyError: 'nbformat' 
 
 ```
 KeyError: 'nbformat'

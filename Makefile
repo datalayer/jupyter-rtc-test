@@ -8,7 +8,7 @@ CONDA_ACTIVATE=source $$(conda info --base)/etc/profile.d/conda.sh ; conda activ
 CONDA_DEACTIVATE=source $$(conda info --base)/etc/profile.d/conda.sh ; conda deactivate
 CONDA_REMOVE=source $$(conda info --base)/etc/profile.d/conda.sh ; conda remove -y --all -n
 
-ENV_NAME=datalayer
+ENV_NAME=jupyter-rtc-test
 
 .DEFAULT_GOAL := default
 
@@ -23,9 +23,9 @@ default: help ## default target is help
 
 env: warning ## env
 	($(CONDA); \
-		SLUGIFY_USES_TEXT_UNIDECODE=yes conda env create -n ${ENV_NAME] -f ${DATALAYER_HOME}/src/environment.yml )
+		SLUGIFY_USES_TEXT_UNIDECODE=yes conda env create -n ${ENV_NAME} -f ${DATALAYER_HOME}/src/environment.yml )
 	@exec echo "-------------------------------------------------------"
-	@exec echo "conda activate ${ENV_NAME]"
+	@exec echo "conda activate ${ENV_NAME}"
 	@exec echo "-------------------------------------------------------"
 
 env-rm: warning ## env-rm

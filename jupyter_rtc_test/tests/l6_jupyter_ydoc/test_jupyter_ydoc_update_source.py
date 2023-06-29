@@ -31,7 +31,7 @@ threading.excepthook = custom_hook
 
 def run_client(value):
     time.sleep(random.randint(0, 2)) # Randomly sleep between 0 second and 2 seconds.
-    p = subprocess.Popen(["node", f"{HERE}/../../../../src/__tests__/clients/stress-cli/ynotebook-update-source.mjs"])
+    p = subprocess.Popen(["node", f"{HERE}/../../../src/__tests__/clients/cli/ynotebook-update-source.mjs"])
     return 0
 
 

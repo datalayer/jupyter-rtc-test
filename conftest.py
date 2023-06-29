@@ -2,19 +2,14 @@ import json
 import subprocess
 
 import pytest
-import pytest_asyncio
 
 from pathlib import Path
-from websockets import serve
+from websockets import serve  # type: ignore
 
 from y_py import encode_state_as_update, encode_state_vector, YDoc
+
 from ypy_websocket import WebsocketServer
 
-
-pytest_plugins = [
-#    "jupyter_server.pytest_plugin",
-#    "jupyter_rtc_test.tests.jupyter_server_fixtures",
-]
 
 HERE = Path(__file__).parent
 
@@ -36,11 +31,6 @@ update_json_file(HERE / "node_modules/y-websocket/package.json", d)
 # update_json_file(HERE / "node_modules/@jupyterlab/nbformat/package.json", d)
 
 
-@pytest.fixture
-def jp_server_config(jp_server_config):
-    return {"ServerApp": {"jpserver_extensions": {"jupyter_rtc_test": True}}}
-
-
 class TestYDoc:
     def __init__(self):
         self.ydoc = YDoc()
@@ -58,24 +48,32 @@ class TestYDoc:
 
 
 @pytest.fixture
-def test_ydoc():
-    return TestYDoc()
-
-
-@pytest_asyncio.fixture
-async def y_websocket_client(request):
-    client_id = request.param
-    p = subprocess.Popen(["node", f"{HERE / 'src/__tests__/clients/client-'}{client_id}.mjs"])
-    yield p
-    p.kill()
-
-
-@pytest_asyncio.fixture
 async def y_websocket_server(request):
     try:
         kwargs = request.param
     except Exception:
         kwargs = {}
     websocket_server = WebsocketServer(**kwargs)
-    async with serve(websocket_server.serve, "127.0.0.1", 1234):
-        yield websocket_server
+    try:
+        async with websocket_server, serve(websocket_server.serve, "127.0.0.1", 1234):
+            yield websocket_server
+    except Exception:
+        pass
+
+
+@pytest.fixture
+def y_websocket_client(request):
+    client_id = request.param
+    p = subprocess.Popen(["node", f"{HERE / 'src/__tests__/clients/client-'}{client_id}.mjs"])
+    yield p
+    p.kill()
+
+
+@pytest.fixture
+def test_ydoc():
+    return TestYDoc()
+
+
+@pytest.fixture
+def anyio_backend():
+    return "asyncio"
