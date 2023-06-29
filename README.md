@@ -16,7 +16,7 @@ You can run the stress tests from the CLI (Command Line Interface) or from a UI 
 
 ## Distributed Actors
 
-The tests aims to replicate real life cases, meaning that most of them are running in a distrbuted way.
+The tests aims to replicate real life cases, meaning that most of them are running in a distributed way.
 
 You can run the tests on a standalone (local laptop or CI) machine, in which case the distributed behavior is simulated. You can also run the tests in a real a distributed environment like Kubernetes, this however requires you to setup additional infrastructure and configuration. Please note you can also run the Kubernetes flavored tests on a local Minikube instance.
 
@@ -30,7 +30,7 @@ We maintain [a list of discovered issues](./docs/issues.md) as well a [explored 
 
 ## Jupyter RTC Stack
 
-The Jupyter RTC Stack is spread across various repositories
+The Jupyter RTC Stack is spread across various repositories listed here (if you want to learn more, read the [architecture document](./docs/architecture.md))
 
 - Yjs https://github.com/yjs/yjs
 - Yrs https://github.com/y-crdt/y-crdt/tree/main/yrs
