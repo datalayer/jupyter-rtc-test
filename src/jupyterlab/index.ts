@@ -5,7 +5,7 @@ import { ILauncher } from '@jupyterlab/launcher';
 import { LabIcon } from '@jupyterlab/ui-components';
 import { requestAPI } from './handler';
 import { JupyterRTCTestWidget } from './widget';
-import jupyterRtcTestSvg from '../../style/svg/jupyter-rtc-test.svg';
+import jupyterRtcTestSvg from '../../style/svg/jupyter-rtc-test.icon.svg';
 
 import './../../style/index.css';
 

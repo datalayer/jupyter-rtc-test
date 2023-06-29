@@ -1,10 +1,10 @@
 import React from 'react'
 import styled from 'styled-components'
 import * as styledSystem from 'styled-system'
-import {themeGet} from '@styled-system/theme-get'
+import { themeGet } from '@styled-system/theme-get'
 import  { theme, Button, Box, Link } from '@primer/react'
 
-const {get: getKey, compose, system} = styledSystem
+const { get: getKey } = styledSystem
 
 export const get = (key: string) => themeGet(key, getKey(theme, key))
 

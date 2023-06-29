@@ -1,6 +1,7 @@
 import { useState, useEffect, useCallback } from 'react';
 import { Doc } from 'yjs';
 import { WebsocketProvider } from 'y-websocket';
+import { ICodeCell } from '@jupyterlab/nbformat';
 import { YNotebook } from '@jupyter/ydoc';
 import useWebSocket, { ReadyState } from 'react-use-websocket';
 import styled from 'styled-components';
@@ -103,16 +104,9 @@ const TesterTab = (): JSX.Element => {
           console.debug('WS Provider is connected.');
           if (scenario?.documentType === 'notebook') {
             if (notebook.cells.length === 0) {
-              const cell = {
+              const cell: ICodeCell = {
                 id: '',
                 cell_type: 'code',
-                meta: {
-                  nbformat: 4,
-                  nbformat_minor: 4,
-                  jupyter: {
-                    rtc_test: true,
-                  }
-                },
                 metadata: {
                   nbformat: 4,
                   nbformat_minor: 4,

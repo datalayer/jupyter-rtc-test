@@ -6,29 +6,47 @@
 
 > 📶 Stress tests for 🪐 Jupyter 🔌 Real Time Collaboration (RTC).
 
+The goal of this repository is to stress test the Real Time Collaboration (RTC) feature of JupyterLab and Jupyter Server and is a needed requirement [to avoid users having issues when they enable RTC](./docs/why.md).
+
+You can run the stress tests from the CLI (Command Line Interface) or from a UI (User Interface).
+
 <div align="center" style="text-align: center">
   <img alt="Jupyter RTC Test" src="https://datalayer-jupyter-examples.s3.amazonaws.com/jupyter-rtc-test.gif" />
 </div>
 
-The goal of this repository is to stress test the Real Time Collaboration (RTC) feature of JupyterLab and Jupyter Server and is a needed requirement [to avoid users having issues when they enable RTC](./docs/why.md).
-
-<div align="center" style="text-align: center">
-  <img alt="Jupyter RTC Test" src="https://raw.githubusercontent.com/datalayer/jupyter-rtc-test/main/style/svg/architecture.image.svg" />
-</div>
-
-## Real life
+## Distributed
 
 The tests aims to replicate real life cases, meaning that most of them are running in a distrbuted way.
 
 You can run the tests on a standalone (local laptop or CI) machine, in which case the distributed behavior is simulated. You can also run the tests in a real a distributed environment like Kubernetes, this however requires you to setup additional infrastructure and configuration. Please note you can also run the Kubernetes flavored tests on a local Minikube instance.
 
-## Discoveries
+<div align="center" style="text-align: center">
+  <img alt="Jupyter RTC Test Actors" src="https://raw.githubusercontent.com/datalayer/jupyter-rtc-test/main/style/svg/jupyter-rtc-test-actors.image.svg" />
+</div>
 
-We maintain [a list of discovered issues](./docs/issues.md) as well a [potential solutions](./docs/solutions.md).
+## Discovered issues and Explored solutions
 
-## JupyterLab
+We maintain [a list of discovered issues](./docs/issues.md) as well a [explored solutions](./docs/solutions.md).
 
-The RTC stress test are being discussed [in an issue in the official JupyterLab repository.](https://github.com/jupyterlab/jupyterlab/issues/14532)
+## Jupyter RTC Stack
+
+The Jupyter RTC Stack is spread across various repositories
+
+- Yjs https://github.com/yjs/yjs
+- Yrs https://github.com/y-crdt/y-crdt/tree/main/yrs
+- Ywasm https://github.com/y-crdt/y-crdt/tree/main/ywasm
+- Ypy https://github.com/y-crdt/ypy
+- Ystore see https://github.com/y-crdt/ypy-websocket/issues/19
+- Ypy Websocket https://github.com/y-crdt/ypy-websocket
+- Jupyter YDoc https://github.com/jupyter-server/jupyter_ydoc
+- Jupyter Collaboration https://github.com/jupyterlab/jupyter_collaboration
+
+<div align="center" style="text-align: center">
+  <img alt="Jupyter RTC Stack" src="https://raw.githubusercontent.com/datalayer/jupyter-rtc-test/main/style/svg/jupyter-rtc-stack.image.svg" />
+</div>
+## Community
+
+The RTC stress test are being discussed [in an issue on the official JupyterLab repository](https://github.com/jupyterlab/jupyterlab/issues/14532).
 <!--
 ## Install
 
@@ -38,7 +56,7 @@ The RTC stress test are being discussed [in an issue in the official JupyterLab 
 
 Setup your [environment](./docs/environment.md) to run the [tests](./docs/tests.md).
 
-You can also use the [user interfaces](./docs/ui.md) if you prefer.
+You can also use the [user interface](./docs/ui.md) if you prefer.
 
 ## About CRDT
 

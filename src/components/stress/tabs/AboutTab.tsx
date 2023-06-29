@@ -4,7 +4,7 @@ import { FAQ, InlineLink, Text, River, Link, Heading, ThemeProvider } from "@pri
 import styled from 'styled-components';
 import appState from "../../../state";
 
-import ArchitectureSvg from "./../../../../style/svg/architecture.image.svg";
+import ArchitectureSvg from "./../../../../style/svg/jupyter-rtc-test-actors.image.svg";
 
 const By = () => (
   <AvatarPair>

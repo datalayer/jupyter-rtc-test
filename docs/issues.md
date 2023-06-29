@@ -1,18 +1,20 @@
 # Issues
 
-This page contains currently found issues so far.
+This page contains encountered issues while running the tests. [Potential solutions](./solutions.md) are being explored.
 
-## Unit Tests
+## Ypy Array Deep Observe
 
 [test_ypy_array:test_deep_observe](https://github.com/datalayer/jupyter-rtc-test/blob/main/jupyter_rtc_test/tests/l3_ypy/test_ypy_array.py#L241): Failing with `Fatal Python error: Segmentation fault` coming from `python3.11/multiprocessing/pool.py`.
 
-## Integration Tests
+## Insert and Delete random characters
 
-[test_jupyter_ydoc_update_source](https://github.com/datalayer/jupyter-rtc-test/blob/main/jupyter_rtc_test/tests/l6_jupyter_ydoc/stress/test_jupyter_ydoc_update_source.py)-  Fails to append instead of replacing the text content.
+[Insert and delete random characters](https://github.com/datalayer/jupyter-rtc-test/blob/main/src/components/stress-cli/tabs/scenarii/scenarii.json#L3) scenario: Node.js often do not converge, Python and Browser sometimes do not converge.
 
-## UI Tests Scenarii
+## YNotebook Update Source
 
-[Insert and delete random characters](https://github.com/datalayer/jupyter-rtc-test/blob/main/src/components/stress/tabs/scenarii/scenarii.json#L3) scenario: Node.js often do not converge.
+[test_jupyter_ydoc_update_source](https://github.com/datalayer/jupyter-rtc-test/blob/main/jupyter_rtc_test/tests/l6_jupyter_ydoc/stress-cli/test_jupyter_ydoc_update_source.py) -  Fails to append instead of replacing the text content.
+
+## Caught error while handling a Yjs update Error
 
 Occasional `Caught error while handling a Yjs update Error: Unexpected case`
 
@@ -31,14 +33,20 @@ Caught error while handling a Yjs update Error: Unexpected case
 e:///.../src/node_modules/yjs/dist/yjs.mjs:3275:5)
     at readUpdateV2 (file:///.../src/node_modules/yjs/dist/yjs.mjs:1598:3)
 Caught error while handling a Yjs update Error: Unexpected case
-````
+```
 
-[Set the content of a YNotebook cell](https://github.com/datalayer/jupyter-rtc-test/blob/main/src/components/stress/tabs/scenarii/scenarii.json#L24) scenario: python exception after some time KeyError: 'nbformat' 
+## Set the content of a YNotebook cell
+
+[Set the content of a YNotebook cell](https://github.com/datalayer/jupyter-rtc-test/blob/main/src/components/stress-cli/tabs/scenarii/scenarii.json#L24) scenario: the source sometimes is appended instead of being set.
+
+## KeyError: nbformat
+
+[Set the content of a YNotebook cell](https://github.com/datalayer/jupyter-rtc-test/blob/main/src/components/stress-cli/tabs/scenarii/scenarii.json#L24) scenario: python exception after some time KeyError: 'nbformat' 
 
 ```
 KeyError: 'nbformat'
 Traceback (most recent call last):
-  File "/Users/echarles/private/datalayer-io/src/tech/jupyter/rtc-test/jupyter_rtc_test/stresser/../tests/clients/notebook_set.py", line 79, in <module>
+  File "/.../../tests/clients/notebook_set.py", line 79, in <module>
     asyncio.run(main())
   File "/.../python3.11/asyncio/runners.py", line 190, in run
     return runner.run(main)
@@ -61,37 +69,12 @@ Traceback (most recent call last):
   File "/.../python3.11/site-packages/jupyter_ydoc/ynotebook.py", line 104, in get_cell
     if "id" in cell and meta["nbformat"] == 4 and meta["nbformat_minor"] <= 4:
                         ~~~~^^^^^^^^^^^^
-KeyError: 'nbformat'
-Traceback (most recent call last):
-  File "/Users/echarles/private/datalayer-io/src/tech/jupyter/rtc-test/jupyter_rtc_test/stresser/../tests/clients/notebook_set.py", line 79, in <module>
-Traceback (most recent call last):
-  File "/Users/echarles/private/datalayer-io/src/tech/jupyter/rtc-test/jupyter_rtc_test/stresser/../tests/clients/notebook_set.py", line 79, in <module>
-    asyncio.run(main())
-  File "/.../python3.11/asyncio/runners.py", line 190, in run
-    asyncio.run(main())
-  File "/.../python3.11/asyncio/runners.py", line 190, in run
-    return runner.run(main)
-    return runner.run(main)
-           ^^^^^^^^^^^^^^^^
-  File "/.../python3.11/asyncio/runners.py", line 118, in run
-           ^^^^^^^^^^^^^^^^
-  File "/.../python3.11/asyncio/runners.py", line 118, in run
-    return self._loop.run_until_complete(task)
-    return self._loop.run_until_complete(task)
-           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/.../python3.11/asyncio/base_events.py", line 650, in run_until_complete
-  File "/.../python3.11/asyncio/base_events.py", line 650, in run_until_complete
-    return future.result()
-           ^^^^^^^^^^^^^^^
-  File "/Users/echarles/private/datalayer-io/src/tech/jupyter/rtc-test/jupyter_rtc_test/stresser/../tests/clients/notebook_set.py", line 64, in main
-    return future.result()
-           ^^^^^^^^^^^^^^^
-  File "/Users/echarles/private/datalayer-io/src/tech/jupyter/rtc-test/jupyter_rtc_test/stresser/../tests/clients/notebook_set.py", line 64, in main
-    "document": json.dumps(notebook.source),
-                           ^^^^^^^^^^^^^^^
-  File "/.../python3.11/site-packages/jupyter_ydoc/ybasedoc.py", line 70, in source
-    "document": json.dumps(notebook.source),
-    return self.get()
-                           ^^^^^^^^^^^^^^^
 ```
+
+## Silent failure WebSocket failures
+
+The listeners processing the WebSocket messages may silently fail and the user may not be informed of such failures.
+
+## Ypy does not support Python threads
+
+See Can not access YDoc object created in another thread #113 https://github.com/y-crdt/ypy/issues/113

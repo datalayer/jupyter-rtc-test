@@ -11,7 +11,6 @@ import '@primer/react-brand/lib/css/main.css';
 
 import appState from "../../state";
 
-
 const Stresser = observer((): JSX.Element => {
   return (
     <>

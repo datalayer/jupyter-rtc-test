@@ -1,6 +1,10 @@
 # User Interfaces
 
-Upon running the RTC tests from the CLI, you can also run them from various user interfaces.
+Upon running the RTC tests from the CLI, you can also run them from various user interfaces as:
+
+- A Web Application.
+- A Jupyter Server Application.
+- A JupyterLab Extension.
 
 ## Web Application
 

@@ -23,11 +23,9 @@ default: help ## default target is help
 
 env: warning ## env
 	($(CONDA); \
-		SLUGIFY_USES_TEXT_UNIDECODE=yes conda env create -n datalayer -f ${DATALAYER_HOME}/src/environment.yml )
-	@exec echo "You can now populate the datalayer environment."
+		SLUGIFY_USES_TEXT_UNIDECODE=yes conda env create -n ${ENV_NAME] -f ${DATALAYER_HOME}/src/environment.yml )
 	@exec echo "-------------------------------------------------------"
-	@exec echo "conda activate datalayer"
-	@exec echo "make env-dev"
+	@exec echo "conda activate ${ENV_NAME]"
 	@exec echo "-------------------------------------------------------"
 
 env-rm: warning ## env-rm

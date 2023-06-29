@@ -20,7 +20,7 @@ Create a new conda environment.
 
 ```bash
 make env && \
-  conda activate datalayer
+  conda activate jupyter-rtc-test
 ```
 
 **⚡ Watch out ⚡** The tests will not work with the `pytest-tornasync` or the `pytest-jupyter` plugins install. To avoid issues, run the following commands.
