@@ -84,6 +84,7 @@ const run = () => {
       action: 'info',
       timestamp: Date.now(),
       document: t.toString(),
+      room: roomName,
     }
     infoWebSocket.send(JSON.stringify(info));
   });

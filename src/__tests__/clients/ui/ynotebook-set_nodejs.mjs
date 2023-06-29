@@ -58,6 +58,7 @@ wsProvider.on('status', event => {
           action: 'info',
           timestamp: Date.now(),
           document: JSON.stringify(notebook.toJSON()),
+          room: roomName,
         }
         infoWebSocket.send(JSON.stringify(info));    
       });

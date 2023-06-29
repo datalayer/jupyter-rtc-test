@@ -4,6 +4,7 @@ import { WebsocketProvider } from 'y-websocket';
 import { ICodeCell } from '@jupyterlab/nbformat';
 import { YNotebook } from '@jupyter/ydoc';
 import useWebSocket, { ReadyState } from 'react-use-websocket';
+import { useInterval } from 'usehooks-ts';
 import styled from 'styled-components';
 import { Button, Box, Heading, ActionMenu, ActionList, Text, Spinner, Label, Pagehead, Timeline, Octicon } from '@primer/react';
 import { Slider, CloseableFlash } from "@datalayer/primer-addons";
@@ -79,6 +80,7 @@ const TesterTab = (): JSX.Element => {
   const [ nodejsUsers, setNodejsUsers ] = useState<Users>(new Map<number, User>());
   const [ running, setRunning ] = useState(false);
   const [ paused, setPaused ] = useState(false);
+  const [ refreshToggle, setRefreshToggle ] = useState(false);
   const [ doc, setDoc ] = useState(new Doc());
   const [ notebook, setNotebook ] = useState(new YNotebook());
   const [ socketUrl, __ ] = useState('ws://localhost:8888/jupyter_rtc_test/stresser');
@@ -91,6 +93,10 @@ const TesterTab = (): JSX.Element => {
   const getColor = (a: string, b: string) => {
     return a === b ? okColor : nokColor;
   }
+  useInterval(() => {
+    setRefreshToggle(!refreshToggle);
+    console.log('---', refreshToggle);
+  }, 3000);
   useEffect(() => {
     const providedDoc = scenario?.documentType === 'text' ? doc : notebook.ydoc;
     if (scenario) {
@@ -226,6 +232,8 @@ const TesterTab = (): JSX.Element => {
               </ActionList.Item>)
             )}
             { scenario && <>
+              <ActionList.Divider />
+              <ActionList.Item onSelect={() => setRefreshToggle(!refreshToggle)}>Force refresh [{refreshToggle.toString()}]</ActionList.Item>
               <ActionList.Divider />
               <ActionList.Item variant="danger" onSelect={resetScenarioData}>Reset scenario data</ActionList.Item>
               <ActionList.Divider />
@@ -380,7 +388,7 @@ const TesterTab = (): JSX.Element => {
               </Grid>
             </Box>
             <Box>
-              <Heading sx={{fontSize: 2, mb: 2, mt:2}}>Infos History (latest 5)</Heading>
+              <Heading sx={{fontSize: 2, mb: 2, mt:2}}>Infos History (latest 5 on {messageHistory.length})</Heading>
               { running && messageHistory.length === 0 ?
                   <Spinner/>
                 :

@@ -21,7 +21,7 @@ from .relay.handler import WsRelayHandler
 from .rtc.handlers import DocSessionHandler, YDocWebSocketHandler
 from .rtc.loaders import FileLoaderMapping
 from .rtc.stores import SQLiteYStore
-from .rtc.server import JupyterWebsocketServer
+from .rtc.websocketserver import JupyterWebsocketServer
 
 
 DEFAULT_STATIC_FILES_PATH = os.path.join(os.path.dirname(__file__), "./static")

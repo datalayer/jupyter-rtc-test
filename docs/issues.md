@@ -78,3 +78,11 @@ The listeners processing the WebSocket messages may silently fail and the user m
 ## Ypy does not support Python threads
 
 See Can not access YDoc object created in another thread #113 https://github.com/y-crdt/ypy/issues/113
+
+## Self Mutation
+
+Even without updates, documents are sometimes self mutating.
+
+## Failure isoltion
+
+Ypy failure impacts nodejs and browser and they are not functinal anymore.

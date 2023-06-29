@@ -57,34 +57,38 @@ async def main():
 
     global MUTATE_DOC 
 
-    websocket = await connect(f"ws://127.0.01:8888/jupyter_rtc_test/room/{room_name}")
-    websocket_provider = WebsocketProvider(doc, websocket)
+#    websocket = await connect(f"ws://127.0.01:8888/jupyter_rtc_test/room/{room_name}")
+#    websocket_provider = WebsocketProvider(doc, websocket)
+    async with connect(f"ws://127.0.01:8888/jupyter_rtc_test/room/{room_name}") as websocket, WebsocketProvider(
+        doc, websocket
+    ):
 
-    def callback(e):
-        curr_dt = datetime.now()
-        payload = json.dumps({
-            "clientId": client_id,
-            "clientType": "python",
-            "mutating": MUTATE_DOC,
-            "action": "info",
-            "document": str(text),
-            "timestamp": int(round(curr_dt.timestamp())),
-        })
-        info_ws_client.send(payload)
+        def callback(e):
+            curr_dt = datetime.now()
+            payload = json.dumps({
+                "clientId": client_id,
+                "clientType": "python",
+                "mutating": MUTATE_DOC,
+                "action": "info",
+                "document": str(text),
+                "timestamp": int(round(curr_dt.timestamp())),
+                "room": room_name
+            })
+            info_ws_client.send(payload)
 
-    obs = text.observe(callback)
+        obs = text.observe(callback)
 
-    while True:
-        if MUTATE_DOC:
-            with doc.begin_transaction() as txn:
-                length = len(str(text))
-                if length < text_length:
-                    random_string = ''.join(random.choices(string.ascii_uppercase + string.digits, k=3))
-                    text.insert(txn, random.randint(0, length), random_string)
-                else:
-                    text.delete(txn, random.randint(0, int(length / 2)))
-#            print("Python client text", client_id, str(text))
-        await asyncio.sleep(WAIT_S)
+        while True:
+            if MUTATE_DOC:
+                with doc.begin_transaction() as txn:
+                    length = len(str(text))
+                    if length < text_length:
+                        random_string = ''.join(random.choices(string.ascii_uppercase + string.digits, k=3))
+                        text.insert(txn, random.randint(0, length), random_string)
+                    else:
+                        text.delete(txn, random.randint(0, int(length / 2)))
+    #            print("Python client text", client_id, str(text))
+            await asyncio.sleep(WAIT_S)
 
 
 if __name__ == '__main__':

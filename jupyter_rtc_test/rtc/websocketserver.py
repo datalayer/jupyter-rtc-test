@@ -8,17 +8,16 @@ from logging import Logger
 from typing import Any
 
 from tornado.websocket import WebSocketHandler
-
+from ypy_websocket.websocket_server import WebsocketServer, YRoom
 from ypy_websocket.ystore import BaseYStore
-from ypy_websocket.websocket_server import WebsocketServer as YpyWebsocketServer, YRoom
 
 
 class RoomNotFound(LookupError):
     pass
 
 
-class JupyterWebsocketServer(YpyWebsocketServer):
-    """Jupyter Ypy websocket server.
+class JupyterWebsocketServer(WebsocketServer):
+    """Ypy websocket server.
 
     It communicates the document updates to all clients for each room.
     """
@@ -59,21 +58,11 @@ class JupyterWebsocketServer(YpyWebsocketServer):
         #         self.log.warning(msg)
         #         self.log.debug("Pending tasks: %r", pending)
 
+        self.stop()
         tasks = []
-        for name, room in list(self.rooms.items()):
-            try:
-                self.delete_room(name=name)
-            except Exception as e:  # Capture exception as room may be auto clean
-                msg = f"Failed to delete room {name}"
-                self.log.debug(msg, exc_info=e)
-            else:
-                tasks.append(room._broadcast_task)  # FIXME should be upstreamed
         if self.monitor_task is not None:
             self.monitor_task.cancel()
             tasks.append(self.monitor_task)
-        for task in self.background_tasks:
-            task.cancel()  # FIXME should be upstreamed
-            tasks.append(task)
 
         if tasks:
             _, pending = await asyncio.wait(tasks, timeout=3)
@@ -104,7 +93,7 @@ class JupyterWebsocketServer(YpyWebsocketServer):
         """
         self.rooms[path] = room
 
-    def get_room(self, path: str) -> YRoom:
+    async def get_room(self, path: str) -> YRoom:
         """
         Returns the room for the specified room ID or raises a RoomNotFound
         error if the room doesn't exist.
@@ -122,7 +111,9 @@ class JupyterWebsocketServer(YpyWebsocketServer):
             # Document rooms need a file
             raise RoomNotFound
 
-        return self.rooms[path]
+        room = self.rooms[path]
+        await self.start_room(room)
+        return room
 
     async def serve(self, websocket: WebSocketHandler) -> None:
         # start monitoring here as the event loop is not yet available when initializing the object

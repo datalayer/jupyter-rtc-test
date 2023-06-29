@@ -9,20 +9,24 @@ import uuid
 from pathlib import Path
 from typing import Any
 
-# from jupyter_server.auth import authorized
+from jupyter_server.auth import authorized
 from jupyter_server.base.handlers import APIHandler, JupyterHandler
 from jupyter_ydoc import ydocs as YDOCS
 from tornado import web
 from tornado.websocket import WebSocketHandler
 from ypy_websocket.websocket_server import YRoom
 from ypy_websocket.ystore import BaseYStore
-from ypy_websocket.yutils import YMessageType
+from ypy_websocket.yutils import YMessageType, write_var_uint
 
 from .loaders import FileLoaderMapping
 from .rooms import DocumentRoom, TransientRoom
-from .utils import JUPYTER_COLLABORATION_EVENTS_URI, LogLevel, decode_file_path
-from .server import JupyterWebsocketServer
-
+from .utils import (
+    JUPYTER_COLLABORATION_EVENTS_URI,
+    LogLevel,
+    MessageType,
+    decode_file_path,
+)
+from .websocketserver import JupyterWebsocketServer
 
 YFILE = YDOCS["file"]
 
@@ -50,28 +54,23 @@ class YDocWebSocketHandler(WebSocketHandler, JupyterHandler):
     """
 
     _message_queue: asyncio.Queue[Any]
+    _background_tasks: set[asyncio.Task]
 
-    def initialize(
-        self,
-        ywebsocket_server: JupyterWebsocketServer,
-        file_loaders: FileLoaderMapping,
-        ystore_class: type[BaseYStore],
-        document_cleanup_delay: float | None = 60.0,
-        document_save_delay: float | None = 1.0,
-    ) -> None:
-        # File ID manager cannot be passed as argument as the extension may load after this one
-        self._file_id_manager = self.settings["file_id_manager"]
-        self._file_loaders = file_loaders
-        self._cleanup_delay = document_cleanup_delay
-        self._websocket_server = ywebsocket_server
+    def create_task(self, aw):
+        task = asyncio.create_task(aw)
+        self._background_tasks.add(task)
+        task.add_done_callback(self._background_tasks.discard)
 
-        self._message_queue = asyncio.Queue()
+    async def prepare(self):
+        if not self._websocket_server.started.is_set():
+            self.create_task(self._websocket_server.start())
+            await self._websocket_server.started.wait()
 
         # Get room
         self._room_id: str = self.request.path.split("/")[-1]
 
         if self._websocket_server.room_exists(self._room_id):
-            self.room: YRoom = self._websocket_server.get_room(self._room_id)
+            self.room: YRoom = await self._websocket_server.get_room(self._room_id)
 
         else:
             if self._room_id.count(":") >= 2:
@@ -88,7 +87,7 @@ class YDocWebSocketHandler(WebSocketHandler, JupyterHandler):
                 path = self._file_id_manager.get_path(file_id)
                 path = Path(path)
                 updates_file_path = str(path.parent / f".{file_type}:{path.name}.y")
-                ystore = ystore_class(path=updates_file_path, log=self.log)
+                ystore = self._ystore_class(path=updates_file_path, log=self.log)
                 self.room = DocumentRoom(
                     self._room_id,
                     file_format,
@@ -97,7 +96,7 @@ class YDocWebSocketHandler(WebSocketHandler, JupyterHandler):
                     self.event_logger,
                     ystore,
                     self.log,
-                    document_save_delay,
+                    self._document_save_delay,
                 )
 
             else:
@@ -105,7 +104,28 @@ class YDocWebSocketHandler(WebSocketHandler, JupyterHandler):
                 # it is a transient document (e.g. awareness)
                 self.room = TransientRoom(self._room_id, self.log)
 
+            await self._websocket_server.start_room(self.room)
             self._websocket_server.add_room(self._room_id, self.room)
+
+        return await super().prepare()
+
+    def initialize(
+        self,
+        ywebsocket_server: JupyterWebsocketServer,
+        file_loaders: FileLoaderMapping,
+        ystore_class: type[BaseYStore],
+        document_cleanup_delay: float | None = 60.0,
+        document_save_delay: float | None = 1.0,
+    ) -> None:
+        self._background_tasks = set()
+        # File ID manager cannot be passed as argument as the extension may load after this one
+        self._file_id_manager = self.settings["file_id_manager"]
+        self._file_loaders = file_loaders
+        self._ystore_class = ystore_class
+        self._cleanup_delay = document_cleanup_delay
+        self._document_save_delay = document_save_delay
+        self._websocket_server = ywebsocket_server
+        self._message_queue = asyncio.Queue()
 
     @property
     def path(self):
@@ -137,18 +157,16 @@ class YDocWebSocketHandler(WebSocketHandler, JupyterHandler):
         """
         Overrides default behavior to check whether the client is authenticated or not.
         """
-#        if self.get_current_user() is None:
-#            self.log.warning("Couldn't authenticate WebSocket connection")
-#            raise web.HTTPError(403)
+        if self.get_current_user() is None:
+            self.log.warning("Couldn't authenticate WebSocket connection")
+            raise web.HTTPError(403)
         return await super().get(*args, **kwargs)
 
     async def open(self, room_id):
         """
         On connection open.
         """
-        task = asyncio.create_task(self._websocket_server.serve(self))
-        self._websocket_server.background_tasks.add(task)
-        task.add_done_callback(self._websocket_server.background_tasks.discard)
+        self.create_task(self._websocket_server.serve(self))
 
         if isinstance(self.room, DocumentRoom):
             # Close the connection if the document session expired
@@ -198,6 +216,8 @@ class YDocWebSocketHandler(WebSocketHandler, JupyterHandler):
         On message receive.
         """
         message_type = message[0]
+#        print("message type:", message_type)
+
         if message_type == YMessageType.AWARENESS:
             # awareness
             skip = False
@@ -222,6 +242,18 @@ class YDocWebSocketHandler(WebSocketHandler, JupyterHandler):
                     YMessageType(message_type).name,
                 )
                 return skip
+
+        if message_type == MessageType.CHAT:
+            msg = message[2:].decode("utf-8")
+            user = self.get_current_user()
+            data = json.dumps({"username": user.username, "msg": msg}).encode("utf8")
+            for client in self.room.clients:
+                if client != self:
+                    task = asyncio.create_task(
+                        client.send(bytes([MessageType.CHAT]) + write_var_uint(len(data)) + data)
+                    )
+                    self._websocket_server.background_tasks.add(task)
+                    task.add_done_callback(self._websocket_server.background_tasks.discard)
 
         self._message_queue.put_nowait(message)
         self._websocket_server.ypatch_nb += 1
@@ -286,17 +318,14 @@ class YDocWebSocketHandler(WebSocketHandler, JupyterHandler):
             del self._file_loaders[file_id]
             self._emit(LogLevel.INFO, "clean", "Loader deleted.")
 
-    def check_origin(self, origin):
-        """
-        Check origin
-        """
-        return True
-
     # CORS
+
+    def check_origin(self, origin):
+        return True
 
     def set_default_headers(self):
         self.set_header("Access-Control-Allow-Origin", "*")
-        self.set_header('Access-Control-Allow-Methods', 'POST, PUT, DELETE, GET, OPTIONS')
+        self.set_header('Access-Control-Allow-Methods', "POST, PUT, DELETE, GET, OPTIONS")
         self.set_header("Access-Control-Allow-Credentials", "true")
         self.set_header("Access-Control-Allow-Headers", "Authorization, Content-Type, Depth, User-Agent, X-File-Size, X-Requested-With, X-Requested-By, If-Modified-Since, X-File-Name, Cache-Control")
 
@@ -349,9 +378,12 @@ class DocSessionHandler(APIHandler):
 
     # CORS
 
+    def check_origin(self, origin):
+        return True
+
     def set_default_headers(self):
         self.set_header("Access-Control-Allow-Origin", "*")
-        self.set_header('Access-Control-Allow-Methods', 'POST, PUT, DELETE, GET, OPTIONS')
+        self.set_header('Access-Control-Allow-Methods', "POST, PUT, DELETE, GET, OPTIONS")
         self.set_header("Access-Control-Allow-Credentials", "true")
         self.set_header("Access-Control-Allow-Headers", "Authorization, Content-Type, Depth, User-Agent, X-File-Size, X-Requested-With, X-Requested-By, If-Modified-Since, X-File-Name, Cache-Control")
 

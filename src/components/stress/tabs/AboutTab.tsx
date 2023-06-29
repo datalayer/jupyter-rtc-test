@@ -4,7 +4,8 @@ import { FAQ, InlineLink, Text, River, Link, Heading, ThemeProvider } from "@pri
 import styled from 'styled-components';
 import appState from "../../../state";
 
-import ArchitectureSvg from "./../../../../style/svg/jupyter-rtc-test-actors.image.svg";
+import ActorsImage from "./../../../../style/svg/jupyter-rtc-test-actors.image.svg";
+import StackImage from "./../../../../style/svg/jupyter-rtc-stack.image.svg";
 
 const By = () => (
   <AvatarPair>
@@ -33,12 +34,12 @@ const AboutTab = (): JSX.Element => {
   return (
     <>
       <Box sx={{margin: "auto", maxWidth: 'var(--brand-breakpoint-xlarge)'}}>
-        <River align="end">
+      <River>
           <River.Visual>
-            <ArchitectureSvg/>
+            <ActorsImage/>
           </River.Visual>
           <River.Content>
-            <Heading>Architecture</Heading>
+            <Heading>Actors</Heading>
             <Text>
               You can run the tests via CLI (64 python unit tests with pytest and 76 javascript unit tests with jest). These tests ensure that the environment and basic functionality are available.
               <br/>
@@ -46,14 +47,24 @@ const AboutTab = (): JSX.Element => {
               You can configure and run stress tests via CLI or via UI.
               <br/>
               <br/>            
-              See the left diagram to know more about the stress tests architecture, 
-              see also this <InlineLink href="https://github.com/datalayer/jupyter-rtc-test/blob/main/docs/why.md">this document</InlineLink> to know more about the technical stack.
+              See the left diagram to know more about the stress tests architecture.
               <br/>
               <br/>            
               The unit and stress tests are good ways to learn about then Jupyter RTC internals and how to develop on top of it.
               <br/>
               <br/>
               <Link onClick={() => appState.setTab(2)}>Run the tests</Link>
+            </Text>
+          </River.Content>
+        </River>
+        <River align="end">
+          <River.Visual>
+            <StackImage/>
+          </River.Visual>
+          <River.Content>
+            <Heading>Architecture</Heading>
+            <Text>
+              See also this <InlineLink href="https://github.com/datalayer/jupyter-rtc-test/blob/main/docs/tests.md">this document</InlineLink> to know more about the technical stack.
             </Text>
           </River.Content>
         </River>
