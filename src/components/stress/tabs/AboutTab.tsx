@@ -41,18 +41,18 @@ const AboutTab = (): JSX.Element => {
           <River.Content>
             <Heading>Actors</Heading>
             <Text>
-              You can run the tests via CLI (64 python unit tests with pytest and 76 javascript unit tests with jest). These tests ensure that the environment and basic functionality are available.
+              You can run unit tests (64 python pytest and 76 jest javascript) via CLI. These unit tests ensure that both the environment and basic features are functional.
               <br/>
               <br/>
-              You can configure and run stress tests via CLI or via UI.
-              <br/>
-              <br/>            
-              See the left diagram to know more about the stress tests architecture.
+              We add to the unit tests a suite of stress tests you can run via CLI or via UI base on pre-defined scenarii. You can configure the scenarii and see how the system behaves.
               <br/>
               <br/>            
-              The unit and stress tests are good ways to learn about then Jupyter RTC internals and how to develop on top of it.
+              The diagram at the right represents the various actors of the tests architecture.
               <br/>
               <br/>
+              Bot unit and stress tests are good ways to learn about then Jupyter RTC internals and how to develop on top of it.
+              <br/>
+              <br/>            
               <Link onClick={() => appState.setTab(2)}>Run the tests</Link>
             </Text>
           </River.Content>
@@ -64,7 +64,10 @@ const AboutTab = (): JSX.Element => {
           <River.Content>
             <Heading>Architecture</Heading>
             <Text>
-              See also this <InlineLink href="https://github.com/datalayer/jupyter-rtc-test/blob/main/docs/tests.md">this document</InlineLink> to know more about the technical stack.
+              The diagram at the left represents the various technical software building blocks.
+              <br/>
+              <br/>
+              See also this <InlineLink href="https://github.com/datalayer/jupyter-rtc-test/blob/main/docs/architecture.md">this document</InlineLink> to know more about the technical stack.
             </Text>
           </River.Content>
         </River>
@@ -90,7 +93,7 @@ const AboutTab = (): JSX.Element => {
                   </FAQ.Answer>
                 </FAQ.Item>
                 <FAQ.Item>
-                  <FAQ.Question>Who is developing this?</FAQ.Question>
+                  <FAQ.Question>Who is developing this tool?</FAQ.Question>
                   <FAQ.Answer>
                     <p>
                       This is done with <HeartOutlineIcon/> by <By/>.
