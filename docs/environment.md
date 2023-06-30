@@ -23,13 +23,6 @@ make env && \
   conda activate jupyter-rtc-test
 ```
 
-**⚡ Watch out ⚡** The tests will not work with the `pytest-tornasync` or the `pytest-jupyter` plugins install. To avoid issues, run the following commands.
-
-```bash
-pip uninstall -y pytest-tornasync
-pip uninstall -y pytest-jupyter
-```
-
 ## Install and Build
 
 Install the JavaScript dependencies.
@@ -51,6 +44,13 @@ pip install -e .[test]
 # Double check
 pip list | grep rtc_test
 # jupyter_rtc_test ...
+```
+
+**⚡ Watch out ⚡** The tests will not work with the `pytest-tornasync` or the `pytest-jupyter` plugins install. To avoid issues, run the following commands.
+
+```bash
+pip uninstall -y pytest-tornasync
+pip uninstall -y pytest-jupyter
 ```
 
 Link the JupyterLab extension for development.
