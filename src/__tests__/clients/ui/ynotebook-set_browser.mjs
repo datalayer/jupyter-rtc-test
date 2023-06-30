@@ -15,6 +15,7 @@ const run = () => {
   const WAIT_MS = 5000;
 
   let MUTATE_DOC = true;
+  let INFO_INIT = false;
 
   let wsProvider = new WebsocketProvider(
     'ws://127.0.01:8888/jupyter_rtc_test/room',
@@ -51,24 +52,25 @@ const run = () => {
 
   wsProvider.on('status', event => {
     if (event.status === 'connected') {
-      notebook.changed.connect((_, notebookChange) => {
-        const cell = notebookChange.cellsChange[0].insert[0];
-        cell.changed.connect((_, __) => {
-          const info = {
-            clientId,
-            clientType: 'browser',
-            mutating: MUTATE_DOC,
-            action: 'info',
-            timestamp: Date.now(),
-            document: JSON.stringify(notebook.toJSON()),
-            room: roomName,
-          }
-          infoWebSocket.send(JSON.stringify(info));    
-        });
-      });
       setInterval(() => {
         if (MUTATE_DOC) {
-          if (notebook.cells.length === 1) {
+          if (notebook.cells.length > 0) {
+            if (!INFO_INIT) {
+              const cell = notebook.getCell(0);
+              cell.changed.connect((_, __) => {
+                const info = {
+                  clientId,
+                  clientType: 'browser',
+                  mutating: MUTATE_DOC,
+                  action: 'info',
+                  timestamp: Date.now(),
+                  document: JSON.stringify(notebook.toJSON()),
+                  room: roomName,
+                }
+                infoWebSocket.send(JSON.stringify(info));
+              });
+              INFO_INIT = true;
+            }
             notebook.getCell(0).setSource("x=1")
           }
         }

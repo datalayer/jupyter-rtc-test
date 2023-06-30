@@ -95,7 +95,6 @@ const TesterTab = (): JSX.Element => {
   }
   useInterval(() => {
     setRefreshToggle(!refreshToggle);
-    console.log('---', refreshToggle);
   }, 3000);
   useEffect(() => {
     const providedDoc = scenario?.documentType === 'text' ? doc : notebook.ydoc;

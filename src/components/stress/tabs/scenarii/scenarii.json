@@ -44,7 +44,7 @@
   {
     "id": 3,
     "name": "Insert and delete cells in a notebook",
-    "description": "Insert and delete cells randomly in a Jupyter YNptebook data structure.",
+    "description": "Insert and delete cells randomly in a Jupyter YNotebook data structure.",
     "numberNodejsClients": 10,
     "maxNumberNodejsClients": 100,
     "nodejsScript": "ynotebook-cells-insert-delete_nodejs.mjs",
