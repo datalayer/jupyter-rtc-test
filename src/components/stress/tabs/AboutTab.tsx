@@ -64,7 +64,7 @@ const AboutTab = (): JSX.Element => {
           <River.Content>
             <Heading>Architecture</Heading>
             <Text>
-              The diagram at the left represents the various technical software building blocks.
+              The diagram at the left represents the various technical software building blocks. Those building are spread in 7 various GitHub repositories.
               <br/>
               <br/>
               See also this <InlineLink href="https://github.com/datalayer/jupyter-rtc-test/blob/main/docs/architecture.md">this document</InlineLink> to know more about the technical stack.

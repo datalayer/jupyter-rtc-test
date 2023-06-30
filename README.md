@@ -64,7 +64,7 @@ You can also use the [user interface](./docs/ui.md) if you prefer.
 You can read more about the Conflict free Replicated Data Types (CRDT).
 
 - [CRDT.tech](https://crdt.tech)
-- [Jupyter Real Time Collaboration | JupyterCon 2020](https://www.youtube.com/watch?v=G5CVtJIBE5I)
+- [JupyterCon 2020 - Jupyter Realtime Collaboration](https://www.youtube.com/watch?v=mUGUxWZjR7E)
 - [Wikipedia](https://en.wikipedia.org/wiki/Conflict-free_replicated_data_type)
 - [Y.js](https://docs.yjs.dev) used as CRDT implementation.
 
