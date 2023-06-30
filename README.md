@@ -4,7 +4,7 @@
 
 # Jupyter RTC Test
 
-> 📣 Stress tests for 🪐 Jupyter 🧑‍🤝‍🧑 Real Time Collaboration (RTC).
+> 🏋️ Stress tests for 🪐 Jupyter 🧑‍🤝‍🧑 Real Time Collaboration (RTC).
 
 The goal of this repository is to stress test the Real Time Collaboration (RTC) feature of JupyterLab and Jupyter Server and is a needed requirement to avoid [users having issues when they enable RTC](./docs/why.md).
 

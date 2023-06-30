@@ -83,6 +83,6 @@ See Can not access YDoc object created in another thread #113 https://github.com
 
 Even without updates, documents are sometimes self mutating.
 
-## Failure isoltion
+## Failure Isolation
 
-Ypy failure impacts nodejs and browser and they are not functinal anymore.
+Ypy failure can impacts nodejs and browser clients and make them non-functional (exit xith exception?).
