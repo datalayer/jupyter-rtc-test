@@ -1,6 +1,6 @@
 # Tests
 
-Run the following commans to launch all the Python or JavaScript tests on a local machine.
+Run the following commands to launch the Python or JavaScript tests on a local machine.
 
 ```bash
 # Run the python tests.

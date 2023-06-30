@@ -4,9 +4,9 @@
 
 # Jupyter RTC Test
 
-> Δ Stress tests for 🪐 Jupyter 🔌 Real Time Collaboration (RTC).
+> 📣 Stress tests for 🪐 Jupyter 🔌 Real Time Collaboration (RTC).
 
-The goal of this repository is to stress test the Real Time Collaboration (RTC) feature of JupyterLab and Jupyter Server and is a needed requirement [to avoid users having issues when they enable RTC](./docs/why.md).
+The goal of this repository is to stress test the Real Time Collaboration (RTC) feature of JupyterLab and Jupyter Server and is a needed requirement to avoid [users having issues when they enable RTC](./docs/why.md).
 
 You can run the stress tests from the CLI (Command Line Interface) or from a UI (User Interface).
 
@@ -28,9 +28,9 @@ You can run the tests on a standalone (local laptop or CI) machine, in which cas
 
 We maintain [a list of discovered issues](./docs/issues.md) as well a [explored solutions](./docs/solutions.md).
 
-## Jupyter RTC Stack
+## Technical Stack
 
-The Jupyter RTC Stack is spread across various repositories listed here (if you want to learn more, read the [architecture document](./docs/architecture.md))
+The Jupyter RTC technical stack is spread across various repositories listed here (if you want to learn more, read the [architecture document](./docs/architecture.md))
 
 - Yjs https://github.com/yjs/yjs
 - Yrs https://github.com/y-crdt/y-crdt/tree/main/yrs

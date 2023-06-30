@@ -6,6 +6,16 @@ Upon running the RTC tests from the CLI, you can also run them from various user
 - A Jupyter Server Application.
 - A JupyterLab Extension.
 
+<div align="center" style="text-align: center">
+  <img alt="Jupyter RTC Test" src="https://datalayer-jupyter-examples.s3.amazonaws.com/jupyter-rtc-test.gif" />
+</div>
+
+You can choose a test scenario that will spins remote users.
+
+<div align="center" style="text-align: center">
+  <img alt="Jupyter RTC Test Actors" src="https://raw.githubusercontent.com/datalayer/jupyter-rtc-test/main/style/svg/jupyter-rtc-test-actors.image.svg" />
+</div>
+
 ## Web Application
 
 ```bash

@@ -41,7 +41,7 @@ const AboutTab = (): JSX.Element => {
           <River.Content>
             <Heading>Actors</Heading>
             <Text>
-              You can run unit tests (64 python pytest and 76 jest javascript) via CLI. These unit tests ensure that both the environment and basic features are functional.
+              You can run unit tests (64 python and 76 javascript unit tests) via CLI. These unit tests ensure that both the environment and basic features are functional.
               <br/>
               <br/>
               We add to the unit tests a suite of stress tests you can run via CLI or via UI base on pre-defined scenarii. You can configure the scenarii and see how the system behaves.

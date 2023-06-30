@@ -14,15 +14,15 @@
     "pythonScript": "text_insert_delete.py",
     "warmupPeriodSeconds": 3,
     "maxWarmupPeriodSeconds": 10,
-    "textLength": 100,
-    "maxTextLength": 1000,
+    "documentLength": 100,
+    "documentTextLength": 1000,
     "shouldConverge": true,
     "documentType": "text",
-    "room": "insert_delete_room"
+    "room": "insert_delete_text_room"
   },
   {
     "id": 2,
-    "name": "Set the content of a YNotebook cell",
+    "name": "Set the content of a notebook cell",
     "description": "Set the content of the source of the first cell of a Jupyter YNotebook.",
     "numberNodejsClients": 10,
     "maxNumberNodejsClients": 100,
@@ -32,13 +32,34 @@
     "browserScript": "ynotebook-set_browser.mjs",
     "numberPythonClients": 0,
     "maxNumberPythonClients": 100,
-    "pythonScript": "notebook_set.py",
+    "pythonScript": "ynotebook_set.py",
     "warmupPeriodSeconds": 3,
     "maxWarmupPeriodSeconds": 10,
-    "textLength": 100,
-    "maxTextLength": 1000,
+    "documentLength": 100,
+    "documentTextLength": 1000,
     "shouldConverge": false,
     "documentType": "notebook",
-    "room": "set_room"
+    "room": "set_notebook_room"
+  },
+  {
+    "id": 3,
+    "name": "Insert and delete cells in a notebook",
+    "description": "Insert and delete cells randomly in a Jupyter YNptebook data structure.",
+    "numberNodejsClients": 10,
+    "maxNumberNodejsClients": 100,
+    "nodejsScript": "ynotebook-cells-insert-delete_nodejs.mjs",
+    "numberBrowserClients": 10,
+    "maxNumberBrowserClients": 100,
+    "browserScript": "ynotebook-cells-insert-delete_browser.mjs",
+    "numberPythonClients": 0,
+    "maxNumberPythonClients": 100,
+    "pythonScript": "ynotebook_cells_insert_delete.py",
+    "warmupPeriodSeconds": 3,
+    "maxWarmupPeriodSeconds": 10,
+    "documentLength": 10,
+    "documentTextLength": 100,
+    "shouldConverge": true,
+    "documentType": "notebook",
+    "room": "insert_delete_cells_room"
   }
 ]

@@ -31,20 +31,20 @@ def custom_hook(args):
 threading.excepthook = custom_hook
 
 
-def run_nodejs_client(id, script, textLength, warmupPeriodSeconds, room_name):
+def run_nodejs_client(id, script, documentLength, warmupPeriodSeconds, room_name):
     time.sleep(random.randint(0, int(warmupPeriodSeconds)))
-    nodejs_process = subprocess.Popen(["node", f"{HERE}/../../src/__tests__/clients/ui/" + script, str(id), textLength, warmupPeriodSeconds, room_name])
+    nodejs_process = subprocess.Popen(["node", f"{HERE}/../../src/__tests__/clients/ui/" + script, str(id), documentLength, warmupPeriodSeconds, room_name])
     return nodejs_process
 
-def run_python_client(id, script, textLength, warmupPeriodSeconds, room_name):
+def run_python_client(id, script, documentLength, warmupPeriodSeconds, room_name):
     time.sleep(random.randint(0, int(warmupPeriodSeconds)))
-    python_process = subprocess.Popen(["python", f"{HERE}/../tests/clients/" + script, str(id), textLength, warmupPeriodSeconds, room_name])
+    python_process = subprocess.Popen(["python", f"{HERE}/../tests/clients/" + script, str(id), documentLength, warmupPeriodSeconds, room_name])
     return python_process
 
 
-def run_browser_client(id, script, textLength, warmupPeriodSeconds, room_name):
+def run_browser_client(id, script, documentLength, warmupPeriodSeconds, room_name):
     time.sleep(random.randint(0, int(warmupPeriodSeconds)))
-    browser_process = subprocess.Popen(["node", f"{HERE}/../../src/__tests__/clients/ui/" + script, str(id), textLength, warmupPeriodSeconds, room_name])
+    browser_process = subprocess.Popen(["node", f"{HERE}/../../src/__tests__/clients/ui/" + script, str(id), documentLength, warmupPeriodSeconds, room_name])
     return browser_process
 
 
@@ -92,13 +92,13 @@ class WsStresserHandler(WebSocketMixin, WebSocketHandler, JupyterHandler):
 #        with WsStresserHandler.doc.begin_transaction() as txn:
 #            text = WsStresserHandler.doc.get_text("t")
 #            text.insert(txn, 0, "S")
-        nodejs_args = [(i, scenario['nodejsScript'], str(scenario['textLength']), str(scenario['warmupPeriodSeconds']), scenario['room']) for i in range(scenario['numberNodejsClients'])]
+        nodejs_args = [(i, scenario['nodejsScript'], str(scenario['documentLength']), str(scenario['warmupPeriodSeconds']), scenario['room']) for i in range(scenario['numberNodejsClients'])]
         nodejs_result = WsStresserHandler.nodejs_pool.starmap(run_nodejs_client, nodejs_args)
         WsStresserHandler.nodejs_processes = nodejs_result
-        python_args = [(i, scenario['pythonScript'], str(scenario['textLength']), str(scenario['warmupPeriodSeconds']), scenario['room']) for i in range(scenario['numberPythonClients'])]
+        python_args = [(i, scenario['pythonScript'], str(scenario['documentLength']), str(scenario['warmupPeriodSeconds']), scenario['room']) for i in range(scenario['numberPythonClients'])]
         python_result = WsStresserHandler.python_pool.starmap(run_python_client, python_args)
         WsStresserHandler.python_processes = python_result
-        browser_args = [(i, scenario['browserScript'], str(scenario['textLength']), str(scenario['warmupPeriodSeconds']), scenario['room']) for i in range(scenario['numberBrowserClients'])]
+        browser_args = [(i, scenario['browserScript'], str(scenario['documentLength']), str(scenario['warmupPeriodSeconds']), scenario['room']) for i in range(scenario['numberBrowserClients'])]
         browser_result = WsStresserHandler.browser_pool.starmap(run_browser_client, browser_args)
         WsStresserHandler.browser_processes = browser_result
 

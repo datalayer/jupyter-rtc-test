@@ -3,7 +3,7 @@ import { Doc } from 'yjs';
 import { WebsocketProvider } from 'y-websocket';
 
 const clientId = Number(process.argv[2])
-const textLength = Number(process.argv[3])
+const documentLength = Number(process.argv[3])
 // const warmupPeriodSeconds = Number(process.argv[4])
 const roomName = process.argv[5]
 
@@ -62,16 +62,14 @@ infoWebSocket.onmessage = (message) => {
 };
 
 wsProvider.on('status', event => {
-//  console.log('Status', event);
   if (event.status === 'connected') {
     setInterval(() => {
       if (MUTATE_DOC) {
-        if (t.length < textLength) {
-          t.insert(0, randomString(4));
+        if (t.length < documentLength) {
+          t.insert(0, randomString(5));
         } else {
           t.delete(0, t.length / 2);
         }
-//        console.log('Nodejs client', clientId, t.toString());
       }
     }, WAIT_MS);
   }

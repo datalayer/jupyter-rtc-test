@@ -4,7 +4,6 @@
   <img alt="Jupyter RTC Stack" src="https://raw.githubusercontent.com/datalayer/jupyter-rtc-test/main/style/svg/jupyter-rtc-stack.image.svg" />
 </div>
 
-
 ## 0. Yjs
 
 `Yjs` delivers the JavaScript shared data types for building collaborative software and is developed in https://github.com/yjs/yjs

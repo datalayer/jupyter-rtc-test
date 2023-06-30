@@ -4,7 +4,7 @@ import { WebsocketProvider } from 'y-websocket';
 import { YNotebook } from '@jupyter/ydoc';
 
 const clientId = Number(process.argv[2])
-const textLength = Number(process.argv[3])
+const documentLength = Number(process.argv[3])
 // const warmupPeriodSeconds = Number(process.argv[4])
 const roomName = process.argv[5]
 

@@ -14,7 +14,7 @@ import { Grid } from '@primer/react-brand';
 import useColors from './../../../hooks/ColorsHook';
 import Blankslate from '../blankslate/Blankslate';
 import UsersGauge from './charts/UsersGauge';
-import { strip } from './../../../utils/utils';
+import { strip, reverseArray } from './../../../utils/utils';
 
 import scenariiJson from './scenarii/scenarii.json';
 
@@ -37,8 +37,8 @@ type Scenario = {
   pythonScript: string;
   warmupPeriodSeconds: number;
   maxWarmupPeriodSeconds: number;
-  textLength: number;
-  maxTextLength: number;
+  documentLength: number;
+  documentTextLength: number;
   shouldConverge: boolean;
   documentType: 'text' | 'notebook';
   room: string;
@@ -278,7 +278,7 @@ const TesterTab = (): JSX.Element => {
               <Slider label="Browser users" min={0} max={scenario.maxNumberBrowserClients} value={scenario.numberBrowserClients} disabled={running} onChange={(numberBrowserClients) => setScenario({...scenario, numberBrowserClients})} />
             </Box>
             <Box mt={3}>
-              <Slider label="Text length" min={1} max={scenario.maxTextLength} disabled={running} value={scenario.textLength} onChange={(textLength) => setScenario({...scenario, textLength})} />
+              <Slider label="Document length" min={1} max={scenario.documentTextLength} disabled={running} value={scenario.documentLength} onChange={(documentLength) => setScenario({...scenario, documentLength})} />
             </Box>
             <Box mt={3}>
               <Slider label="Warmup (seconds)" min={1} max={scenario.maxWarmupPeriodSeconds} value={scenario.warmupPeriodSeconds} disabled={running} onChange={(warmupPeriodSeconds) => setScenario({...scenario, warmupPeriodSeconds})} />
@@ -393,7 +393,7 @@ const TesterTab = (): JSX.Element => {
                   <Spinner/>
                 :
                   <Timeline>
-                    { messageHistory.reverse().slice(0, 5).map((value, index) => {
+                    { reverseArray(messageHistory).slice(0, 5).map((value, index) => {
                       const data = (value as any).data;
                       return (
                         <Timeline.Item key={index}>
