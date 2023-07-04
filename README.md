@@ -2,9 +2,9 @@
 
 [![Become a Sponsor](https://img.shields.io/static/v1?label=Become%20a%20Sponsor&message=%E2%9D%A4&logo=GitHub&style=flat&color=1ABC9C)](https://github.com/sponsors/datalayer)
 
-# Jupyter RTC Test
+# 🪐 🧑‍🤝‍🧑 💪 Jupyter RTC Test
 
-> 🙇🏻‍ Stress tests for 🪐 Jupyter 🧑‍🤝‍🧑 Real Time Collaboration (RTC).
+> Stress tests for Jupyter Real Time Collaboration (RTC).
 
 The goal of this repository is to stress test the Real Time Collaboration (RTC) feature of JupyterLab and Jupyter Server and is a needed requirement to avoid [users having issues when they enable RTC](./docs/why.md).
 
