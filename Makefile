@@ -3,11 +3,6 @@
 
 SHELL=/bin/bash
 
-CONDA=source $$(conda info --base)/etc/profile.d/conda.sh
-CONDA_ACTIVATE=source $$(conda info --base)/etc/profile.d/conda.sh ; conda activate
-CONDA_DEACTIVATE=source $$(conda info --base)/etc/profile.d/conda.sh ; conda deactivate
-CONDA_REMOVE=source $$(conda info --base)/etc/profile.d/conda.sh ; conda remove -y --all -n
-
 ENV_NAME=jupyter-rtc-test
 
 .DEFAULT_GOAL := default
@@ -22,19 +17,17 @@ help: ## display this help
 default: help ## default target is help
 
 env: warning ## env
-	($(CONDA); \
-		SLUGIFY_USES_TEXT_UNIDECODE=yes conda env create -n ${ENV_NAME} -f ${DATALAYER_HOME}/src/environment.yml )
+	micromamba env create -y -n ${ENV_NAME} -f environment.yml
 	@exec echo "-------------------------------------------------------"
-	@exec echo "conda activate ${ENV_NAME}"
+	@exec echo "micromamba activate ${ENV_NAME}"
 	@exec echo "-------------------------------------------------------"
 
 env-rm: warning ## env-rm
-	($(CONDA); \
-		conda deactivate && \
-		conda remove -y --name ${ENV_NAME} --all || true )
+	micromamba deactivate && \
+	micromamba remove -y --name ${ENV_NAME} --all || true
 
 kill:
 	./dev/sh/kill.sh
 
 warning:
-	echo "\x1b[34m\x1b[43mEnsure you have run \x1b[1;37m\x1b[41m conda deactivate \x1b[22m\x1b[34m\x1b[43m before invoking this.\x1b[0m"
+	echo "\x1b[34m\x1b[43mEnsure you have run \x1b[1;37m\x1b[41m micromamba deactivate \x1b[22m\x1b[34m\x1b[43m before invoking this.\x1b[0m"

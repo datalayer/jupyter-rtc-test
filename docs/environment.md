@@ -9,10 +9,10 @@ git clone https://github.com/datalayer/jupyter-rtc-test.git && \
   cd jupyter-rtc-test
 ```
 
-If you already have created a conda environment with name `jupyter-rtc-test`, please remove it.
+If you already have created a conda/mamba environment with name `jupyter-rtc-test`, please remove it.
 
 ```bash
-conda deactivate && \
+micromamba deactivate && \
   make env-rm
 ```
 
@@ -20,7 +20,7 @@ Create a new conda environment.
 
 ```bash
 make env && \
-  conda activate jupyter-rtc-test
+  micromamba activate jupyter-rtc-test
 ```
 
 ## Install and Build
