@@ -1,4 +1,4 @@
-import { HeartOutlineIcon } from "@datalayer/icons-react";
+import { HeartNoopIcon } from "@datalayer/icons-react";
 import { Avatar, AvatarPair, Box } from "@primer/react";
 import { FAQ, InlineLink, Text, River, Link, Heading, ThemeProvider } from "@primer/react-brand";
 import styled from 'styled-components';
@@ -96,7 +96,7 @@ const AboutTab = (): JSX.Element => {
                   <FAQ.Question>Who is developing this tool?</FAQ.Question>
                   <FAQ.Answer>
                     <p>
-                      This is done with <HeartOutlineIcon/> by <By/>.
+                      This is done with <HeartNoopIcon/> by <By/>.
                     </p>
                   </FAQ.Answer>
                 </FAQ.Item>
