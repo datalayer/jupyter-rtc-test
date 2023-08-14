@@ -32,7 +32,7 @@ c.ServerApp.terminals_enabled = True
 # Authentication
 #################
 
-c.ServerApp.token = ''
+c.IdentityProvider.token = ''
 
 #################
 # Security
@@ -57,7 +57,7 @@ c.ServerApp.tornado_settings = {
     'Secure': True
   }
 }
-c.ServerApp.cookie_options = {
+c.IdentityProvider.cookie_options = {
   "SameSite": "None",
   "Secure": True,
 }
@@ -93,7 +93,7 @@ c.ServerApp.preferred_dir = content_dir
 # See
 # https://github.com/jupyterlab/jupyterlab/pull/11841
 # https://github.com/jupyter-server/jupyter_server/pull/657
-c.ServerApp.kernel_ws_protocol = None # None or ''
+c.ZMQChannelsWebsocketConnection.kernel_ws_protocol = None # None or ''
 
 #################
 # JupyterLab
