@@ -38,4 +38,4 @@ The WebSocket connector for `Ypy` is developed in https://github.com/y-crdt/ypy-
 
 ## 7. Jupyter Collaboration
 
-The JupyterLab extension that delivers the RTC functionality to the end-user is developed in https://github.com/jupyterlab/jupyter_collaboration.
+The `JupyterLab Collaboration` extension that delivers the RTC functionality to the end-user is developed in https://github.com/jupyterlab/jupyter_collaboration.

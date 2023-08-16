@@ -23,11 +23,12 @@ classifiers = [
 ]
 dependencies = [
     "jupyter_server>=2.0,<3",
-    "y_py",
-    "ypy_websocket",
-    "jupyter_ydoc",
+    "y_py==0.6.0",
+    "ypy_websocket===0.12.1",
+    "jupyter_ydoc==1.1.0a0",
     "jupyterlab==4.0.3",
-    "jupyter_collaboration",
+    "jupyter_collaboration==1.1.0",
+    "websockets",
     "uvicorn",
 ]
 dynamic = ["version", "description", "authors", "urls", "keywords"]
@@ -41,8 +42,6 @@ test = [
     "pytest",
     "pytest-asyncio",
     "pytest-cov",
-    "ypy-websocket",
-    "websockets",
 ]
 
 [tool.hatch.version]

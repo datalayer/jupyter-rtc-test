@@ -1,72 +1,27 @@
 import ReactEChartsCore from 'echarts-for-react/lib/core';
 import * as echarts from 'echarts/core';
-import {
-  // LineChart,
-  BarChart,
-  // PieChart,
-  // ScatterChart,
-  // RadarChart,
-  // MapChart,
-  // TreeChart,
-  // TreemapChart,
-  // GraphChart,
-  GaugeChart,
-  // FunnelChart,
-  // ParallelChart,
-  // SankeyChart,
-  // BoxplotChart,
-  // CandlestickChart,
-  // EffectScatterChart,
-  // LinesChart,
-  // HeatmapChart,
-  // PictorialBarChart,
-  // ThemeRiverChart,
-  // SunburstChart,
-  // CustomChart,
-} from 'echarts/charts';
-// import components, all suffixed with Component
-import {
-  // GridSimpleComponent,
-  GridComponent,
-  // PolarComponent,
-  // RadarComponent,
-  // GeoComponent,
-  // SingleAxisComponent,
-  // ParallelComponent,
-  // CalendarComponent,
-  // GraphicComponent,
-  // ToolboxComponent,
-  TooltipComponent,
-  // AxisPointerComponent,
-  // BrushComponent,
-  TitleComponent,
-  // TimelineComponent,
-  // MarkPointComponent,
-  // MarkLineComponent,
-  // MarkAreaComponent,
-  // LegendComponent,
-  // LegendScrollComponent,
-  // LegendPlainComponent,
-  // DataZoomComponent,
-  // DataZoomInsideComponent,
-  // DataZoomSliderComponent,
-  // VisualMapComponent,
-  // VisualMapContinuousComponent,
-  // VisualMapPiecewiseComponent,
-  // AriaComponent,
-  // TransformComponent,
-  // DatasetComponent,
-} from 'echarts/components';
-import {
-  CanvasRenderer,
-  // SVGRenderer,
-} from 'echarts/renderers';
+import { BarChart, GaugeChart } from 'echarts/charts';
+import { GridComponent, TooltipComponent, TitleComponent } from 'echarts/components';
+import { CanvasRenderer } from 'echarts/renderers';
 
 echarts.use(
-  [TitleComponent, TooltipComponent, GridComponent, BarChart, CanvasRenderer, GaugeChart]
+  [
+    BarChart,
+    CanvasRenderer,
+    GaugeChart,
+    GridComponent,
+    TitleComponent,
+    TooltipComponent,
+  ]
 );
 
-const StackedGauge = (props: { title: string, ok: number, nok: number }) => {
+type Props = {
+  title: string,
+  ok: number,
+  nok: number,
+}
+
+const StackedGauge = (props: Props) => {
   const { title, ok, nok } = props;
   const total = ok + nok;
   const option = {
@@ -101,14 +56,11 @@ const StackedGauge = (props: { title: string, ok: number, nok: number }) => {
       style={{ height: 400 }}
       notMerge={true}
       lazyUpdate={true}
-//      theme={"theme_name"}
-//      onChartReady={this.onChartReadyCallback}
-//      onEvents={EventsDict}
-/>
+    />
   );
-};
+}
 
-const UsersGauge = (props: { title: string, ok: number, nok: number }) => {
+const UsersGauge = (props: Props) => {
   const { title, ok, nok } = props;
   return (
     <>
@@ -118,7 +70,7 @@ const UsersGauge = (props: { title: string, ok: number, nok: number }) => {
          <></>
       }
     </>
-  )
+  );
 }
 
 export default UsersGauge;

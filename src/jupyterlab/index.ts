@@ -2,10 +2,9 @@ import { JupyterFrontEnd, JupyterFrontEndPlugin } from '@jupyterlab/application'
 import { ISettingRegistry } from '@jupyterlab/settingregistry';
 import { MainAreaWidget, ICommandPalette } from '@jupyterlab/apputils';
 import { ILauncher } from '@jupyterlab/launcher';
-import { LabIcon } from '@jupyterlab/ui-components';
 import { requestAPI } from './handler';
 import { JupyterRTCTestWidget } from './widget';
-import jupyterRtcTestSvg from '../../style/svg/jupyter-rtc-test.icon.svg';
+import icon from '@datalayer/icons-react/data1/MobileSignalIconLabIcon';
 
 import './../../style/index.css';
 
@@ -32,19 +31,15 @@ const plugin: JupyterFrontEndPlugin<void> = {
   ) => {
     const { commands } = app;
     const command = CommandIDs.create;
-    const jupyterRtcTestIcon = new LabIcon({
-      name: 'jupyter-rtc-test:icon',
-      svgstr: jupyterRtcTestSvg,
-    });
     commands.addCommand(command, {
       caption: 'Show Jupyter RTC Test',
       label: 'Jupyter RTC Test',
-      icon: (args: any) => jupyterRtcTestIcon,
+      icon,
       execute: () => {
         const content = new JupyterRTCTestWidget();
         const widget = new MainAreaWidget<JupyterRTCTestWidget>({ content });
         widget.title.label = 'Jupyter RTC Test';
-        widget.title.icon = jupyterRtcTestIcon;
+        widget.title.icon = icon;
         app.shell.add(widget, 'main');
       }
     });
