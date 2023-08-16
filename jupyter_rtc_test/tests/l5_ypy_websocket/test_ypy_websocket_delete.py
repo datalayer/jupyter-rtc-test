@@ -16,7 +16,7 @@ from y_py import YDoc
 from ypy_websocket import WebsocketProvider
 
 
-doc = YDoc()
+ydoc = YDoc()
 lock = Lock()
 
 HERE = Path(__file__).parent
@@ -37,18 +37,21 @@ def run_client(value):
 
 @pytest.mark.asyncio
 async def test_ypy_websocket_delete(y_websocket_server):
-    websocket = await connect("ws://127.0.0.1:1234/jupyter_rtc_test")
-    with doc.begin_transaction() as txn:
-        text = doc.get_text("t")
-        text.insert(txn, 0, "S")
-    websocket_provider = WebsocketProvider(doc, websocket)
-    with ThreadPool() as pool:
-        result = pool.map(run_client, range(NUMBER_OF_CLIENTS))
-        assert (1 in result) is False
-    await asyncio.sleep(10)
-    text = str(doc.get_text("t"))
-    print(text)
-    clients_count = text.count('C')
-    assert clients_count == NUMBER_OF_CLIENTS
-    server_count = text.count('S')
-    assert server_count == 1
+#    websocket = await connect("ws://127.0.0.1:1234/jupyter_rtc_test")
+    async with connect("ws://127.0.0.1:1234/room-0") as websocket, WebsocketProvider(
+        ydoc, websocket
+    ):
+        with ydoc.begin_transaction() as txn:
+            text = ydoc.get_text("t")
+            text.insert(txn, 0, "S")
+        websocket_provider = WebsocketProvider(ydoc, websocket)
+        with ThreadPool() as pool:
+            result = pool.map(run_client, range(NUMBER_OF_CLIENTS))
+            assert (1 in result) is False
+        await asyncio.sleep(10)
+        text = str(ydoc.get_text("t"))
+        print(text)
+        clients_count = text.count('C')
+        assert clients_count == NUMBER_OF_CLIENTS
+        server_count = text.count('S')
+        assert server_count == 1

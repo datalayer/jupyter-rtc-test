@@ -2,11 +2,13 @@ import ws from "ws";
 import { Doc } from 'yjs';
 import { WebsocketProvider } from 'y-websocket';
 
+const EXPECTED = 10;
+
 const doc = new Doc();
 
 let wsProvider = new WebsocketProvider(
   'ws://127.0.0.1:1234',
-  'jupyter_rtc_test',
+  'room_insert',
   doc,
   { WebSocketPolyfill: ws }
 );
@@ -24,9 +26,8 @@ wsProvider.on('status', event => {
       wsProvider.disconnect();
       wsProvider.awareness.destroy();
       wsProvider.destroy();
-      const expected = 10;
-      if (numberOfClient !== expected) {
-        throw new Error(`Found ${numberOfClient}, should be ${expected}.`);
+      if (numberOfClient !== EXPECTED) {
+        throw new Error(`Found ${numberOfClient}, should be ${EXPECTED}.`);
       }
     });
   }
