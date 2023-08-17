@@ -22,14 +22,14 @@ classifiers = [
     "Programming Language :: Python :: 3.11",
 ]
 dependencies = [
+    "jupyter_collaboration==1.1.0",
     "jupyter_server>=2.0,<3",
-    "y_py==0.6.0",
-    "ypy_websocket===0.12.1",
     "jupyter_ydoc==1.1.0a0",
     "jupyterlab==4.0.3",
-    "jupyter_collaboration==1.1.0",
-    "websockets",
     "uvicorn",
+    "websockets",
+    "y_py==0.6.0",
+    "ypy_websocket===0.12.1",
 ]
 dynamic = ["version", "description", "authors", "urls", "keywords"]
 

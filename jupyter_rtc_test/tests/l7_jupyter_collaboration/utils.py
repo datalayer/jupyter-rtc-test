@@ -1,3 +1,6 @@
+# Copyright (c) Jupyter Development Team.
+# Distributed under the terms of the Modified BSD License.
+
 from __future__ import annotations
 
 from datetime import datetime
@@ -6,15 +9,15 @@ from typing import Any
 from jupyter_server import _tz as tz
 
 
-class TestFileIDManager:
-    def __init__(self, mapping: dict[str, str]):
+class FakeFileIDManager:
+    def __init__(self, mapping: dict):
         self.mapping = mapping
 
     def get_path(self, id: str) -> str:
         return self.mapping[id]
 
 
-class TestContentsManager:
+class FakeContentsManager:
     def __init__(self, model: dict):
         self.model = {
             "name": "",
@@ -29,11 +32,23 @@ class TestContentsManager:
         }
         self.model.update(model)
 
+        self.actions: list[str] = []
+
     def get(
         self, path: str, content: bool = True, format: str | None = None, type: str | None = None
     ) -> dict:
+        self.actions.append("get")
+        return self.model
+
+    def save(self, model: dict[str, Any], path: str) -> dict:
+        self.actions.append("save")
         return self.model
 
     def save_content(self, model: dict[str, Any], path: str) -> dict:
+        self.actions.append("save_content")
         return self.model
 
+
+class FakeEventLogger:
+    def emit(self, schema_id: str, data: dict) -> None:
+        print(data)

@@ -1,14 +1,14 @@
-import { YNotebook } from '@jupyter/ydoc';
 import ws from "ws";
+import { YNotebook } from '@jupyter/ydoc';
 import { WebsocketProvider } from 'y-websocket';
 
-const notebook = new YNotebook();
-const test = notebook.ydoc.getMap('_test');
+const ynotebook = new YNotebook();
+const test = ynotebook.ydoc.getMap('_test');
 
 const wsProvider = new WebsocketProvider(
   'ws://127.0.0.1:1234',
-  'room-2',
-  notebook.ydoc,
+  'room_2',
+  ynotebook.ydoc,
   { WebSocketPolyfill: ws }
 );
 
@@ -22,12 +22,12 @@ test.observe(event => {
       const clock = test.get('clock');
       if (clock === 0) {
         const cells = []
-        for (let cell of notebook.cells) {
+        for (let cell of ynotebook.cells) {
           cells.push(cell.toJSON());
         }
-        const metadata = notebook.getMetadata();
-        const nbformat = notebook.nbformat;
-        const nbformat_minor = notebook.nbformat_minor;
+        const metadata = ynotebook.getMetadata();
+        const nbformat = ynotebook.nbformat;
+        const nbformat_minor = ynotebook.nbformat_minor;
         const source = {
           cells,
           metadata,

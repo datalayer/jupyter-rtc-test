@@ -4,7 +4,7 @@ from y_py import YDoc
 from jupyter_ydoc.utils import cast_all
 
 
-class Tester:
+class YTester:
     def __init__(self, ydoc: YDoc, timeout: float = 1.0):
         self.timeout = timeout
         self.ytest = ydoc.get_map("_test")

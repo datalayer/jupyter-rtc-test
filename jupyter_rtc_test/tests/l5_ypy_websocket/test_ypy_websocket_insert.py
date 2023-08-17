@@ -16,11 +16,12 @@ from y_py import YDoc
 from ypy_websocket import WebsocketProvider
 
 
+HERE = Path(__file__).parent
+
+NUMBER_OF_CLIENTS = 10
+
 ydoc = YDoc()
 lock = Lock()
-
-HERE = Path(__file__).parent
-NUMBER_OF_CLIENTS = 10
 
 
 def custom_hook(args):
@@ -31,13 +32,12 @@ threading.excepthook = custom_hook
 
 def run_client(value):
     time.sleep(random.randint(0, 2)) # Randomly sleep between 0 second and 2 seconds.
-    p = subprocess.Popen(["node", f"{HERE}/../../../src/__tests__/clients/cli/text-insert.mjs"])
+    p = subprocess.Popen(["node", f"{HERE}/../../../src/__tests__/clients/test/text-insert.mjs"])
     return 0
 
 
 @pytest.mark.asyncio
 async def test_ypy_websocket_insert(y_websocket_server):
-#    websocket = await connect("ws://127.0.0.1:1234/jupyter_rtc_test")
     async with connect("ws://127.0.0.1:1234/room_insert") as websocket, WebsocketProvider(
         ydoc, websocket
     ):

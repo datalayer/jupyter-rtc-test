@@ -1,5 +1,5 @@
-import { Doc, Map, Text } from 'yjs';
 import ws from "ws";
+import { Doc, Map, Text } from 'yjs';
 import { WebsocketProvider } from 'y-websocket';
 
 const doc = new Doc();
@@ -9,7 +9,7 @@ const state = doc.getMap("state");
 
 const wsProvider = new WebsocketProvider(
   'ws://127.0.0.1:1234',
-  'room-1',
+  'room_1',
   doc,
   { WebSocketPolyfill: ws }
 );

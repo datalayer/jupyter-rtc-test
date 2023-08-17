@@ -64,7 +64,7 @@ async def y_websocket_server(request):
 @pytest.fixture
 def y_websocket_client(request):
     client_id = request.param
-    p = subprocess.Popen(["node", f"{HERE / 'src/__tests__/clients/client-'}{client_id}.mjs"])
+    p = subprocess.Popen(["node", f"{HERE / 'src/__tests__/clients/fixture/client-'}{client_id}.mjs"])
     yield p
     p.kill()
 

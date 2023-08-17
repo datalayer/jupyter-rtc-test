@@ -17,7 +17,7 @@ wsProvider.destroy();
 
 let wsProvider = new WebsocketProvider(
   'ws://127.0.0.1:1234',
-  'jupyter_rtc_test',
+  'set_source',
   notebook.ydoc,
   { WebSocketPolyfill: ws }
 );
@@ -36,10 +36,12 @@ wsProvider.on('status', event => {
       };
       notebook.setMetadata(metadata);
       notebook.getCell(0).setSource("x=1")
-      wsProvider.disconnect();
-      wsProvider.awareness.destroy();
-      wsProvider.destroy();
-      notebook.dispose();  
+      sleep(3000).then( () => {
+        wsProvider.disconnect();
+        wsProvider.awareness.destroy();
+        wsProvider.destroy();
+        notebook.dispose();    
+      });
     });
   }
 });

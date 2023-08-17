@@ -2,7 +2,8 @@ import y_py as Y
 
 from anyio import Event, create_task_group, move_on_after
 
-class Tester:
+
+class YTester:
     def __init__(self, ydoc: Y.YDoc, timeout: float = 1.0):
         self.ydoc = ydoc
         self.timeout = timeout

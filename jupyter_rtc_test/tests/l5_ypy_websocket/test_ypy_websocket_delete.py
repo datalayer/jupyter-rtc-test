@@ -16,11 +16,12 @@ from y_py import YDoc
 from ypy_websocket import WebsocketProvider
 
 
+HERE = Path(__file__).parent
+
+NUMBER_OF_CLIENTS = 20
+
 ydoc = YDoc()
 lock = Lock()
-
-HERE = Path(__file__).parent
-NUMBER_OF_CLIENTS = 20
 
 
 def custom_hook(args):
@@ -31,14 +32,13 @@ threading.excepthook = custom_hook
 
 def run_client(value):
     time.sleep(random.randint(0, 2)) # Randomly sleep between 0 second and 2 seconds.
-    p = subprocess.Popen(["node", f"{HERE}/../../../src/__tests__/clients/cli/text-delete.mjs"])
+    p = subprocess.Popen(["node", f"{HERE}/../../../src/__tests__/clients/test/text-delete.mjs"])
     return 0
 
 
 @pytest.mark.asyncio
 async def test_ypy_websocket_delete(y_websocket_server):
-#    websocket = await connect("ws://127.0.0.1:1234/jupyter_rtc_test")
-    async with connect("ws://127.0.0.1:1234/room-0") as websocket, WebsocketProvider(
+    async with connect("ws://127.0.0.1:1234/room_delete") as websocket, WebsocketProvider(
         ydoc, websocket
     ):
         with ydoc.begin_transaction() as txn:
