@@ -71,7 +71,7 @@ const plugin: JupyterFrontEndPlugin<void> = {
           );
         });
     }
-    requestAPI<any>('get_config')
+    requestAPI<any>('config')
       .then(data => {
         console.log(data);
       })
