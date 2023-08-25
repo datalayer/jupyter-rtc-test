@@ -77,7 +77,7 @@ const plugin: JupyterFrontEndPlugin<void> = {
       })
       .catch(reason => {
         console.error(
-          `The jupyter_rtc_test server extension appears to be missing.\n${reason}`
+          `The jupyter_rtc_test server extension extension.\n${reason}`
         );
       });
   }
