@@ -6,10 +6,9 @@ import { DatalayerGreenIcon, JupyterBaseIcon } from '@datalayer/icons-react';
 import WelcomeTab from './tabs/WelcomeTab';
 import TestTab from './tabs/TesterTab';
 import AboutTab from './tabs/AboutTab';
+import appState from "../../state";
 
 import '@primer/react-brand/lib/css/main.css';
-
-import appState from "../../state";
 
 const Stresser = observer((): JSX.Element => {
   return (
