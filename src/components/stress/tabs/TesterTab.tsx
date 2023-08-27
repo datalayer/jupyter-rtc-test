@@ -1,4 +1,5 @@
 import { useState, useEffect, useCallback } from 'react';
+import { Blankslate } from '@primer/react/drafts';    
 import { Doc } from 'yjs';
 import { WebsocketProvider } from 'y-websocket';
 import { ICodeCell } from '@jupyterlab/nbformat';
@@ -12,7 +13,6 @@ import { AlertIcon, BookIcon, GitCommitIcon } from '@primer/octicons-react';
 import { PauseIcon, RestartIcon, PythonIcon, NodeJsIcon, JupyterServerIcon, BrowserIcon, JupyterIcon } from "@datalayer/icons-react";
 import { Grid } from '@primer/react-brand';
 import useColors from './../../../hooks/ColorsHook';
-import Blankslate from '../blankslate/Blankslate';
 import UsersGauge from './charts/UsersGauge';
 import { strip, reverseArray } from './../../../utils/utils';
 
