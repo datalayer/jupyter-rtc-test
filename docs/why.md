@@ -16,5 +16,6 @@ Historically, there have been a few RTC failures reported, with quite low user t
 - [OPEN] Collaboration rolls back progress https://github.com/jupyterlab/jupyterlab/issues/14278
 - [OPEN] Collaboration breaks notebooks https://github.com/jupyterlab/jupyterlab/issues/14343
 - [OPEN] Trusting notebook in RTC mode leads to File Changed dialog  https://github.com/jupyterlab/jupyterlab/issues/14347
+- [OPEN] Inconsistent readonly status detection on RTC and after file status changes https://github.com/jupyterlab/jupyterlab/issues/15040
 
 We need now to make sure the system is robust enough at scale, and also identify their limits.
