@@ -1,6 +1,6 @@
 import { observer } from 'mobx-react';
 import { ThemeProvider, BaseStyles, Box } from '@primer/react';
-import { UnderlineNav } from '@primer/react';
+import { UnderlineNav } from '@primer/react/drafts';
 import { HomeIcon } from '@primer/octicons-react';
 import { DatalayerGreenIcon, JupyterBaseIcon } from '@datalayer/icons-react';
 import WelcomeTab from './tabs/WelcomeTab';
