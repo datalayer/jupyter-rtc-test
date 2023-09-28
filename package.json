@@ -105,7 +105,7 @@
     "watch:src": "tsc -w"
   },
   "dependencies": {
-    "@datalayer/primer-addons": "0.1.4",
+    "@datalayer/primer-addons": "0.1.5",
     "@jupyterlab/application": "4.0.3",
     "@jupyterlab/coreutils": "6.0.3",
     "@jupyterlab/services": "7.0.3",
