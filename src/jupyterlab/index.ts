@@ -4,7 +4,7 @@ import { MainAreaWidget, ICommandPalette } from '@jupyterlab/apputils';
 import { ILauncher } from '@jupyterlab/launcher';
 import { requestAPI } from './handler';
 import { JupyterRTCTestWidget } from './widget';
-import icon from '@datalayer/icons-react/data1/MobileSignalIconLabIcon';
+import icon from '@datalayer/icons-react/data1/MobileSignalIconJupyterLab';
 
 import './../../style/index.css';
 
@@ -53,7 +53,7 @@ const plugin: JupyterFrontEndPlugin<void> = {
       });
     }
     console.log(
-      'JupyterLab extension @datalayer/jupyter-rtc-test is activated!'
+      'JupyterLab extension @datalayer/jupyter-rtc-test:plugin is activated.'
     );
     if (settingRegistry) {
       settingRegistry
