@@ -105,11 +105,7 @@
     "watch:src": "tsc -w"
   },
   "dependencies": {
-    "@datalayer/primer-addons": "0.1.9",
-    "@jupyterlab/application": "4.0.3",
-    "@jupyterlab/coreutils": "6.0.3",
-    "@jupyterlab/services": "7.0.3",
-    "@jupyterlab/settingregistry": "4.0.3",
+    "@datalayer/jupyter-react": "0.7.14",
     "echarts": "5.4.2",
     "echarts-for-react": "3.0.2",
     "lodash.debounce": "4.0.8",
