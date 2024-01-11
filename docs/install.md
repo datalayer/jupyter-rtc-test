@@ -3,7 +3,7 @@
 > Running the tests with `jupyter_rtc_test` package installed from `PyPI` is not working for now.
 
 ```bash
-pip install jupyterlab==4.0.3 jupyter_rtc_test --upgrade
+pip install jupyterlab==4.0.10 jupyter_rtc_test --upgrade
 ```
 
 Launch with any of these commands.

@@ -1,5 +1,5 @@
 [build-system]
-requires = ["hatchling>=1.4.0", "jupyterlab==4.0.3", "hatch-nodejs-version"]
+requires = ["hatchling>=1.4.0", "jupyterlab==4.0.10", "hatch-nodejs-version"]
 build-backend = "hatchling.build"
 
 [project]
@@ -27,7 +27,7 @@ dependencies = [
     "jupyter_collaboration==1.1.0",
     "jupyter_server>=2.0,<3",
     "jupyter_ydoc==1.1.0a0",
-    "jupyterlab==4.0.3",
+    "jupyterlab==4.0.10",
     "uvicorn",
     "websockets",
     "y_py==0.6.0",
