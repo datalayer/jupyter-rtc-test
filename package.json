@@ -106,7 +106,7 @@
   },
   "dependencies": {
     "@datalayer/icons-react": "0.3.0",
-    "@datalayer/jupyter-react": "0.9.7",
+    "@datalayer/jupyter-react": "0.9.8",
     "@datalayer/primer-addons": "0.3.0",
     "echarts": "5.4.2",
     "echarts-for-react": "3.0.2",
