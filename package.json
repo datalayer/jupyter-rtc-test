@@ -168,7 +168,7 @@
     "webpack-bundle-analyzer": "4.5.0",
     "webpack-cli": "4.10.0",
     "webpack-dev-server": "4.9.3",
-    "ws": "8.12.1",
+    "ws": "8.17.1",
     "y-codemirror": "3.0.1",
     "y-indexeddb": "9.0.9",
     "y-leveldb": "0.1.2",
